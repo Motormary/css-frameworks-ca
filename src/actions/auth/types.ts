@@ -1,5 +1,7 @@
 export type ErrorMessage = {
-    message: string
+  code?: string
+  message: string
+  path?: string[]
 }
 
 export type Fetch<T> = {

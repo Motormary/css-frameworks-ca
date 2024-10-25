@@ -25,7 +25,7 @@ type SuperFetch<T> = {
  * @param tags - Optional array of cache tags for targeted invalidation
  *
  * @returns A promise of type `SuperFetch<T>` containing the response data
- * 
+ *
  */
 export default async function superFetch<T>({
   method,
@@ -84,10 +84,18 @@ export default async function superFetch<T>({
       }
     } else {
       const data = await response.json()
-      console.error({
-        messages: data.errors
-          .map((error: ErrorMessage) => error.message)
-          .join(", "),
+      console.error("Something went wrong:", {
+        error: data.errors.map(
+          (error: ErrorMessage & { code?: string; path?: string[] }) => {
+            return {
+              code: error?.code ?? undefined, // e.g "invalid type"
+              message: error.message, // e.g "required"
+              path: error?.path
+                ? error?.path.map((path) => path).join(", ")
+                : undefined, // Property
+            }
+          }
+        ),
         status: data.status,
         statusCode: data.statusCode,
       })
