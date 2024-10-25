@@ -25,10 +25,11 @@ import { useForm } from "react-hook-form"
 import Image from "next/image"
 import logo from "../../assets/images/logo.png"
 import Link from "next/link"
+import Login from "@/src/actions/auth/login"
 
 const FormSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  email: z.string().min(2, {
+    message: "email must be at least 2 characters.",
   }),
   password: z.string().min(8, {
     message: "Password must be at least 8 characters.",
@@ -39,16 +40,17 @@ export default function LoginCard() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   })
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const today = new Date()
+    const response = await Login(data)
+ /*    const today = new Date()
     toast.success("Login success", {
       description: today.toLocaleString(),
-    })
+    }) */
   }
   return (
     <Card>
@@ -62,10 +64,10 @@ export default function LoginCard() {
           <CardContent>
             <FormField
               control={form.control}
-              name="username"
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>email</FormLabel>
                   <FormControl>
                     <Input placeholder="Kari Traa" {...field} />
                   </FormControl>
