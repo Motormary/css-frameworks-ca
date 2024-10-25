@@ -24,37 +24,47 @@ import { toast } from "sonner"
 import { useForm } from "react-hook-form"
 import Image from "next/image"
 import logo from "../../assets/images/logo.png"
+import Link from "next/link"
 
-const FormSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  password: z.string().min(8, {
-    message: "Password must be at least 8 characters.",
-  }),
-  confirm: z.string().min(8, {
-    message: "Password must be at least 8 characters.",
-  }),
-})
+const FormSchema = z
+  .object({
+    username: z.string().min(2, {
+      message: "Username must be at least 2 characters.",
+    }),
+    password: z.string().min(8, {
+      message: "Password must be at least 8 characters.",
+    }),
+    confirm: z.string().min(8, {
+      message: "Password must be at least 8 characters.",
+    }),
+  })
+  .refine((data) => data.password === data.confirm, {
+    message: "Passwords must match.",
+    path: ["confirm"],
+  })
 
 export default function RegisterCard() {
   const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema), defaultValues: {
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
       username: "",
       password: "",
-    }
+      confirm: "",
+    },
   })
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const today = new Date()
-    toast.success("Login success", {
+    toast.success("Register success", {
       description: today.toLocaleString(),
     })
   }
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Register <Image src={logo} alt="Logo" height="50" /></CardTitle>
+        <CardTitle>
+          Register <Image src={logo} alt="Logo" height="50" />
+        </CardTitle>
       </CardHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -79,7 +89,20 @@ export default function RegisterCard() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input type="password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="confirm"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -87,6 +110,7 @@ export default function RegisterCard() {
             />
           </CardContent>
           <CardFooter>
+            <Link href="/">Login</Link>
             <Button type="submit">Submit</Button>
           </CardFooter>
         </form>

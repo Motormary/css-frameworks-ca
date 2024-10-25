@@ -24,6 +24,7 @@ import { toast } from "sonner"
 import { useForm } from "react-hook-form"
 import Image from "next/image"
 import logo from "../../assets/images/logo.png"
+import Link from "next/link"
 
 const FormSchema = z.object({
   username: z.string().min(2, {
@@ -36,10 +37,11 @@ const FormSchema = z.object({
 
 export default function LoginCard() {
   const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema), defaultValues: {
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
       username: "",
       password: "",
-    }
+    },
   })
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -51,7 +53,9 @@ export default function LoginCard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Log in <Image src={logo} alt="Logo" height="50" /></CardTitle>
+        <CardTitle>
+          Log in <Image src={logo} alt="Logo" height="50" />
+        </CardTitle>
       </CardHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -76,7 +80,7 @@ export default function LoginCard() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input type="password" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -84,6 +88,7 @@ export default function LoginCard() {
             />
           </CardContent>
           <CardFooter>
+            <Link href="/register">Register</Link>
             <Button type="submit">Submit</Button>
           </CardFooter>
         </form>
