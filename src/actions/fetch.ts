@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers"
 import { ErrorMessage } from "./auth/types"
+import { translateErrors } from "@/lib/api-error"
 
 type SuperFetch<T> = {
   accessToken: string
@@ -85,17 +86,7 @@ export default async function superFetch<T>({
     } else {
       const data = await response.json()
       console.error("Something went wrong:", {
-        error: data.errors.map(
-          (error: ErrorMessage & { code?: string; path?: string[] }) => {
-            return {
-              code: error?.code ?? undefined, // e.g "invalid type"
-              message: error.message, // e.g "required"
-              path: error?.path
-                ? error?.path.map((path) => path).join(", ")
-                : undefined, // Property
-            }
-          }
-        ),
+        error: translateErrors(data.errors),
         status: data.status,
         statusCode: data.statusCode,
       })

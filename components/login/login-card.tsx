@@ -5,7 +5,6 @@ import { Button } from "../ui/button"
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -13,7 +12,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,10 +24,12 @@ import Image from "next/image"
 import logo from "../../assets/images/logo.png"
 import Link from "next/link"
 import Login from "@/src/actions/auth/login"
+import { printErrors, translateErrors } from "@/lib/api-error"
+import { ErrorMessage } from "@/src/actions/auth/types"
 
 const FormSchema = z.object({
-  email: z.string().min(2, {
-    message: "email must be at least 2 characters.",
+  email: z.string().refine((val) => val.includes("@stud.noroff.no"), {
+    message: "Email must be a valid Noroff email.",
   }),
   password: z.string().min(8, {
     message: "Password must be at least 8 characters.",
@@ -47,10 +47,20 @@ export default function LoginCard() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const response = await Login(data)
- /*    const today = new Date()
-    toast.success("Login success", {
-      description: today.toLocaleString(),
-    }) */
+    if (response.success) {
+      toast.success("Login success")
+    } else {
+      const errors = translateErrors(response.data as ErrorMessage[])
+      errors.forEach((error) => {
+        if (error.path && error.message) {
+          form.setError(error.path as any, {
+            message: error.message,
+          })
+        } else {
+          printErrors(error as ErrorMessage)
+        }
+      })
+    }
   }
   return (
     <Card>
