@@ -2,6 +2,7 @@ import { ErrorMessage } from "@/src/actions/auth/types"
 import { toast } from "sonner"
 
 export function translateErrors(errors: ErrorMessage[]) {
+  // Map out errors given by Backend response
   const translatedErrors = errors.map(
     (error: ErrorMessage & { code?: string; path?: string[] }) => {
       return {
@@ -9,7 +10,7 @@ export function translateErrors(errors: ErrorMessage[]) {
         message: error.message, // e.g "required"
         path: error?.path
           ? error?.path.map((path) => path).join(", ")
-          : undefined, // Property
+          : undefined, // Property target
       }
     }
   )
@@ -17,7 +18,12 @@ export function translateErrors(errors: ErrorMessage[]) {
   return translatedErrors
 }
 
-export function printErrors(error: ErrorMessage, action?: () => void) {
+// If error or interface doesnt have a path to display error in, show a toast with error data
+export function printErrors(
+  error: ErrorMessage,
+  label: string = "OK",
+  action?: () => void
+) {
   toast.error(error.message, {
     description: (
       <div>
@@ -36,7 +42,7 @@ export function printErrors(error: ErrorMessage, action?: () => void) {
       </div>
     ),
     action: {
-      label: "Ok",
+      label: label,
       onClick: () => action,
     },
   })

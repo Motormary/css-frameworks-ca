@@ -23,9 +23,10 @@ import { useForm } from "react-hook-form"
 import Image from "next/image"
 import logo from "../../assets/images/logo.png"
 import Link from "next/link"
-import Login from "@/src/actions/auth/login"
 import { printErrors, translateErrors } from "@/lib/api-error"
 import { ErrorMessage } from "@/src/actions/auth/types"
+import { redirect, useRouter } from "next/navigation"
+import { Login } from "@/src/actions/auth/auth"
 
 const FormSchema = z.object({
   email: z.string().refine((val) => val.includes("@stud.noroff.no"), {
@@ -37,6 +38,7 @@ const FormSchema = z.object({
 })
 
 export default function LoginCard() {
+  const router = useRouter()
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -49,6 +51,7 @@ export default function LoginCard() {
     const response = await Login(data)
     if (response.success) {
       toast.success("Login success")
+      router.push("/feed")
     } else {
       const errors = translateErrors(response.data as ErrorMessage[])
       errors.forEach((error) => {

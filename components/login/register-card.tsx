@@ -25,11 +25,17 @@ import { useForm } from "react-hook-form"
 import Image from "next/image"
 import logo from "../../assets/images/logo.png"
 import Link from "next/link"
+import { Register } from "@/src/actions/auth/auth"
+import { printErrors, translateErrors } from "@/lib/api-error"
+import { ErrorMessage } from "@/src/actions/auth/types"
 
 const FormSchema = z
   .object({
-    username: z.string().min(2, {
-      message: "Username must be at least 2 characters.",
+    name: z.string().min(2, {
+      message: "name must be at least 2 characters.",
+    }),
+    email: z.string().refine((val) => val.includes("@stud.noroff.no"), {
+      message: "Email must be a valid Noroff email.",
     }),
     password: z.string().min(8, {
       message: "Password must be at least 8 characters.",
@@ -47,18 +53,33 @@ export default function RegisterCard() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: "",
+      name: "",
+      email: "",
       password: "",
       confirm: "",
     },
   })
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const today = new Date()
-    toast.success("Register success", {
-      description: today.toLocaleString(),
-    })
+    const response = await Register(data)
+    if (response.success) {
+      toast.success("Success!", {
+        description: "You have been registered.",
+      })
+    } else {
+      const errors = translateErrors(response.data as ErrorMessage[])
+      errors.forEach((error) => {
+        if (error.path && error.message) {
+          form.setError(error.path as any, {
+            message: error.message,
+          })
+        } else {
+          printErrors(error as ErrorMessage)
+        }
+      })
+    }
   }
+  
   return (
     <Card>
       <CardHeader>
@@ -71,10 +92,23 @@ export default function RegisterCard() {
           <CardContent>
             <FormField
               control={form.control}
-              name="username"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Kari Traa" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input placeholder="Kari Traa" {...field} />
                   </FormControl>

@@ -1,6 +1,6 @@
 import LoginCard from "@/components/login/login-card"
 
-export default function AuthPage() {
+export default async function AuthPage() {
   return (
     <div>
       <LoginCard />

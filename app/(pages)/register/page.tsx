@@ -1,6 +1,6 @@
-import RegisterCard from "@/components/login/register.card"
+import RegisterCard from "@/components/login/register-card"
 
-export default function RegisterPage() {
+export default async function RegisterPage() {
   return (
     <div>
       <RegisterCard />

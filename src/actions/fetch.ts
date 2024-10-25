@@ -30,20 +30,20 @@ type SuperFetch<T> = {
  */
 export default async function superFetch<T>({
   method,
-  path,
+  url,
   body,
   disableCache = true,
   revalidate,
   tags,
 }: {
   method: string
-  path: string
+  url: string
   body?: any
   disableCache?: boolean
   revalidate?: number
   tags?: string[]
 }): Promise<SuperFetch<T>> {
-  if (!method || !path) throw new Error("Missing params")
+  if (!method || !url) throw new Error("Missing params")
   const cookie = await cookies()
   const headers = new Headers()
   headers.append("Content-Type", "application/json")
@@ -76,7 +76,7 @@ export default async function superFetch<T>({
   let responseData
 
   try {
-    const response = await fetch(path, requestOptions)
+    const response = await fetch(url, requestOptions)
     if (response.ok) {
       const data = await response.json()
       responseData = {
