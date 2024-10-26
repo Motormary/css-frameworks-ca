@@ -1,3 +1,10 @@
+export type ResponseType = {
+  accessToken: string
+  meta: any
+  status: string
+  statusCode: number
+}
+
 export type ErrorMessage = {
   code?: string
   message: string
@@ -6,7 +13,7 @@ export type ErrorMessage = {
 
 export type Fetch<T> = {
   success: boolean
-  data: T | ErrorMessage[]
+  data: ResponseType & (T | ErrorMessage[])
 }
 
 export type Media = {

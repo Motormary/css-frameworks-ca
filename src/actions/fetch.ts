@@ -1,18 +1,8 @@
 "use server"
 
 import { cookies } from "next/headers"
-import { ErrorMessage } from "./auth/types"
 import { translateErrors } from "@/lib/api-error"
 
-type SuperFetch<T> = {
-  accessToken: string
-  success: boolean
-  data: T
-  meta: any
-  errors: ErrorMessage[]
-  status: string
-  statusCode: number
-}
 
 /**
  * A helper function for making server-side API calls with headers, token handling,
@@ -28,7 +18,7 @@ type SuperFetch<T> = {
  * @returns A promise of type `SuperFetch<T>` containing the response data
  *
  */
-export default async function superFetch<T>({
+export default async function superFetch({
   method,
   url,
   body,
@@ -42,7 +32,7 @@ export default async function superFetch<T>({
   disableCache?: boolean
   revalidate?: number
   tags?: string[]
-}): Promise<SuperFetch<T>> {
+}) {
   if (!method || !url) throw new Error("Missing params")
   const cookie = await cookies()
   const headers = new Headers()
@@ -81,7 +71,7 @@ export default async function superFetch<T>({
       const data = await response.json()
       responseData = {
         success: true,
-        ...data,
+        data: data,
       }
     } else {
       const data = await response.json()
@@ -92,7 +82,7 @@ export default async function superFetch<T>({
       })
       responseData = {
         success: false,
-        ...data,
+        data: data,
       }
     }
   } catch (e) {

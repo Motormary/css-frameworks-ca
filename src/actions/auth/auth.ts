@@ -19,15 +19,15 @@ async function authRequest<T>(login: boolean, data: object): Promise<Fetch<T>> {
     body: data,
   }
 
-  const response = await superFetch<T>(request)
+  const response = await superFetch(request)
   if (response.success && login) {
     const cookie = await cookies()
-    cookie.set("token", response.accessToken)
+    cookie.set("token", response.data.accessToken)
   }
 
   return {
     success: response.success,
-    data: response.success ? response.data : response.errors,
+    data: response.success ? response.data : response.data.errors,
   }
 }
 

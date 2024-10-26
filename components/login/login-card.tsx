@@ -50,7 +50,6 @@ export default function LoginCard() {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const response = await Login(data)
     if (response.success) {
-      toast.success("Login success")
       router.push("/feed")
     } else {
       const errors = translateErrors(response.data as ErrorMessage[])
