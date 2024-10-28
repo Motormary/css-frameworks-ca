@@ -4,9 +4,13 @@ import { apiPath } from "@/lib/consts"
 import superFetch from "@/src/actions/fetch"
 import { PostType } from "./types"
 
-export async function getPosts(limit = 20, offset = 0): Promise<PostType[]> {
+export async function getPosts({limit = 20, offset = 0, query}: {
+  limit?: number
+  offset?: number
+  query: string
+}): Promise<PostType[]> {
   const method = "GET"
-  const url = `${apiPath}/social/posts?limit=${limit}&offset=${offset}&_reactions=true&_author=true&_comments=true`
+  const url = `${apiPath}/social/posts?limit=${limit}&offset=${offset}&_reactions=true&_author=true&_comments=true/search?q=${query}` // search not working?
   const request = {
     method: method,
     url: url,
