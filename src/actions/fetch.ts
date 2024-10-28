@@ -36,7 +36,6 @@ export default async function superFetch({
   if (!method || !url) throw new Error("Missing params")
   const cookie = await cookies()
   const headers = new Headers()
-  headers.append("Content-Type", "application/json")
 
   // Check for token cookie
   const hasToken = cookie.has("token")
@@ -60,6 +59,7 @@ export default async function superFetch({
 
   /* If there is a body, add it to the request */
   if (body) {
+    headers.append("Content-Type", "application/json")
     requestOptions.body = JSON.stringify(body)
   }
 

@@ -22,6 +22,7 @@ export type PostType = {
   reactions: {
     symbol: string
     count: number
+    postId: number
     reactors: string[]
   }[]
   comments: {

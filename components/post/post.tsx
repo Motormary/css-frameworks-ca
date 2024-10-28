@@ -20,6 +20,8 @@ import EmojiCount from "./emoji-count"
             
  */
 export default function Post({ post }: { post: PostType }) {
+  const sortedReactions = [...post.reactions].sort((a, b) => a.symbol.localeCompare(b.symbol));
+
   return (
     <Card>
       <CardHeader>
@@ -41,7 +43,7 @@ export default function Post({ post }: { post: PostType }) {
       </CardContent>
       <CardFooter>
         <span>Comments: {post._count.comments}</span>
-        {post.reactions.map((int, index) => <EmojiCount key={int.symbol} reaction={int} />)}
+        {sortedReactions.map((int, index) => <EmojiCount key={int.symbol} reaction={int} />)}
       </CardFooter>
     </Card>
   )
