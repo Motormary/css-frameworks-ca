@@ -1,12 +1,9 @@
-export type Post = {
+export type PostType = {
   id: number
   title: string
   body: string
   tags: string[]
-  media: {
-    url: string
-    alt: string
-  }
+  media: string
   created: string // ISO date string
   updated: string // ISO date string
   author: {
