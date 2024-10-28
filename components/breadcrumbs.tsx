@@ -32,9 +32,9 @@ export default function Breadcrumbs() {
                 <BreadcrumbPage>{name}</BreadcrumbPage>
               ) : (
                 <>
-                  <BreadcrumbLink className="z-0" href={href}>
+                  <Link className="z-0" href={href}>
                     {name}
-                  </BreadcrumbLink>
+                  </Link>
                   <BreadcrumbSeparator>
                     <ChevronRight className="h-4 w-4" />
                   </BreadcrumbSeparator>

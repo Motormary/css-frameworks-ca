@@ -14,7 +14,7 @@ export default async function FeedPage() {
       {posts?.length ? (
         posts.map((post: any) => {
           return (
-            <Link href={`/${post.author.name}`} key={post.id}>
+            <Link href={`/profile/${post.author.name}`} key={post.id}>
               {post.title}
             </Link>
           )
