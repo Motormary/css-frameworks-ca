@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { PostType } from "@/src/actions/posts/types"
 import {
   Card,
@@ -8,15 +9,18 @@ import {
   CardTitle,
 } from "../ui/card"
 import { AspectRatio } from "../ui/aspect-ratio"
-import Image from "next/image"
 import Link from "next/link"
+import logo from "assets/images/logo.png"
 
+/* 
+    <Card className="max-w-[800px] hover:bg-muted">
+    img
+              className="w-full h-full rounded-md object-cover"
+            
+ */
 export default function Post({ post }: { post: PostType }) {
-
-  // TODO: Fix the image component
-  
   return (
-    <Card className="hover:bg-muted">
+    <Card>
       <Link href={`/feed/${post.id}`}>
         <CardHeader>
           <CardTitle>{post.title}</CardTitle>
@@ -24,11 +28,9 @@ export default function Post({ post }: { post: PostType }) {
         </CardHeader>
         <CardContent>
           <AspectRatio ratio={16 / 9}>
-            <Image
-              src={post.media}
+            <img
+              src={post?.media !== "" ? post.media : logo.src}
               alt="Post Image"
-              fill
-              className="h-full w-full rounded-md object-cover"
             />
           </AspectRatio>
         </CardContent>
