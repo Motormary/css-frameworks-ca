@@ -5,6 +5,7 @@ import { Button } from "../ui/button"
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -37,7 +38,11 @@ const FormSchema = z.object({
   }),
 })
 
-export default function LoginCard() {
+export default function LoginCard({
+  setState,
+}: {
+  setState: (state: boolean) => void
+}) {
   const router = useRouter()
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -70,6 +75,16 @@ export default function LoginCard() {
         <CardTitle>
           Log in <Image src={logo} alt="Logo" height="50" />
         </CardTitle>
+        <CardDescription>
+          <Button
+          variant="link"
+            onClick={(e) => {
+              e.preventDefault()
+              setState(false)
+            }}>
+            Register
+          </Button>
+        </CardDescription>
       </CardHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -102,7 +117,6 @@ export default function LoginCard() {
             />
           </CardContent>
           <CardFooter>
-            <Link href="/register">Register</Link>
             <Button type="submit">Submit</Button>
           </CardFooter>
         </form>

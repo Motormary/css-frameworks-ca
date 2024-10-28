@@ -1,7 +1,5 @@
 import Link from "next/link"
 import { Avatar, AvatarImage } from "../ui/avatar"
-import { SidebarMenuButton } from "../ui/sidebar"
-import { KeyRound } from "lucide-react"
 import { cookies } from "next/headers"
 
 export default async function SidebarProfile() {
@@ -15,15 +13,7 @@ export default async function SidebarProfile() {
     profile = JSON.parse(cookie.get("profile")?.value as string)
   }
 
-  if (!profile)
-    return (
-      <SidebarMenuButton asChild>
-        <Link href="/">
-          <KeyRound className="size-4" />
-          Login
-        </Link>
-      </SidebarMenuButton>
-    )
+  if (!profile) return <>{"( ╯°□° )╯︵ ⛔"}</>
 
   return (
     <Link

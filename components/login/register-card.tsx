@@ -49,7 +49,11 @@ const FormSchema = z
     path: ["confirm"],
   })
 
-export default function RegisterCard() {
+export default function RegisterCard({
+  setState,
+}: {
+  setState: (state: boolean) => void
+}) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -79,13 +83,23 @@ export default function RegisterCard() {
       })
     }
   }
-  
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>
           Register <Image src={logo} alt="Logo" height="50" />
         </CardTitle>
+        <CardDescription>
+          <Button
+            variant="link"
+            onClick={(e) => {
+              e.preventDefault()
+              setState(true)
+            }}>
+            Login
+          </Button>
+        </CardDescription>
       </CardHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -144,7 +158,6 @@ export default function RegisterCard() {
             />
           </CardContent>
           <CardFooter>
-            <Link href="/">Login</Link>
             <Button type="submit">Submit</Button>
           </CardFooter>
         </form>

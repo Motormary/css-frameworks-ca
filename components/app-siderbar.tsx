@@ -1,4 +1,4 @@
-import { UserPen, Activity, Users } from "lucide-react"
+import { Activity, Users } from "lucide-react"
 
 import {
   Sidebar,
@@ -23,11 +23,6 @@ const items = [
     title: "People",
     url: "/profile",
     icon: Users,
-  },
-  {
-    title: "Register",
-    url: "/register",
-    icon: UserPen,
   },
 ]
 
