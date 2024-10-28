@@ -53,9 +53,9 @@ export default function LoginCard({
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const response = await Login(data)
     if (response.success) {
-      router.push("/feed")
+      router.push(`/profile/${response.data.name}`)
     } else {
-      const errors = translateErrors(response.data as ErrorMessage[])
+      const errors = translateErrors(response.data)
       errors.forEach((error) => {
         if (error.path && error.message) {
           form.setError(error.path as any, {

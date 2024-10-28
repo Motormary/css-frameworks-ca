@@ -5,7 +5,7 @@ import superFetch from "../fetch"
 import { Fetch, UserData } from "./types"
 import { apiPath } from "@/lib/consts"
 
-async function authRequest<T>(login: boolean, data: object): Promise<Fetch<T>> {
+async function authRequest<T>(login: boolean, data: object) {
   if (Object.values(data).some((val) => !val)) {
     throw Error("One or more required parameters are missing.")
   }
@@ -37,7 +37,7 @@ export async function Login(data: {
   email: string
   password: string
 }): Promise<Fetch<UserData>> {
-  return authRequest<UserData>(true, data)
+  return authRequest(true, data)
 }
 
 export async function Register(data: {
@@ -45,5 +45,5 @@ export async function Register(data: {
   email: string
   password: string
 }): Promise<Fetch<UserData>> {
-  return authRequest<UserData>(false, data)
+  return authRequest(false, data)
 }
