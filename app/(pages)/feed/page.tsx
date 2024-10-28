@@ -1,3 +1,4 @@
+import { Skeleton } from "@/components/ui/skeleton"
 import checkUser from "@/src/actions/auth/check-cookie"
 import { getPosts } from "@/src/actions/posts/get-all"
 import Link from "next/link"
@@ -13,9 +14,9 @@ export default async function FeedPage() {
       {posts?.length ? (
         posts.map((post: any) => {
           return (
-            <a href={`/profile/${post.author.name}`} key={post.id}>
+            <Link href={`/${post.author.name}`} key={post.id}>
               {post.title}
-            </a>
+            </Link>
           )
         })
       ) : (

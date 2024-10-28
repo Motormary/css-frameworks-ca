@@ -16,7 +16,6 @@ export default async function ProfilePage(props: {
   const searchParams = await props.searchParams
 
   const profile = await getProfile(params.name)
-  console.log(profile)
 
   return (
     <div>

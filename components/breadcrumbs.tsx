@@ -12,17 +12,18 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import { cn } from "@/lib/utils"
 
 export default function Breadcrumbs() {
   const segments = useSelectedLayoutSegments()
+  const filteredSegments = segments.filter(segment => !/\(.*\)/.test(segment));
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        {segments.map((segment, index) => {
-          if (segment === "(pages)") return
-          const href = `/${segments.slice(0, index + 1).join("/")}`
-          const isLast = index === segments.length - 1
+        {filteredSegments.map((segment, index) => {
+          const href = `/${filteredSegments.slice(0, index + 1).join("/")}`
+          const isLast = index === filteredSegments.length - 1
           const name = segment.charAt(0).toUpperCase() + segment.slice(1)
 
           return (
@@ -31,7 +32,9 @@ export default function Breadcrumbs() {
                 <BreadcrumbPage>{name}</BreadcrumbPage>
               ) : (
                 <>
-                  <BreadcrumbLink href={href}>{name}</BreadcrumbLink>
+                  <BreadcrumbLink className="z-0" href={href}>
+                    {name}
+                  </BreadcrumbLink>
                   <BreadcrumbSeparator>
                     <ChevronRight className="h-4 w-4" />
                   </BreadcrumbSeparator>

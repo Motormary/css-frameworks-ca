@@ -6,10 +6,7 @@ type Profile = {
     url: string
     alt: string
   }
-  avatar: {
-    url: string
-    alt: string
-  }
+  avatar: string
   _count: {
     posts: number
     followers: number

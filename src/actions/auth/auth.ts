@@ -23,6 +23,8 @@ async function authRequest<T>(login: boolean, data: object): Promise<Fetch<T>> {
   if (response.success && login) {
     const cookie = await cookies()
     cookie.set("token", response.data.accessToken)
+    delete response.data.accessToken
+    cookie.set("profile", JSON.stringify(response.data))
   }
 
   return {

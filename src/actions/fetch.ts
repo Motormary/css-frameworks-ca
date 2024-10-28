@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers"
 import { translateErrors } from "@/lib/api-error"
-
+import { CacheOptions } from "./types"
 
 /**
  * A helper function for making server-side API calls with headers, token handling,
@@ -22,14 +22,14 @@ export default async function superFetch({
   method,
   url,
   body,
-  disableCache = true,
+  cache,
   revalidate,
   tags,
 }: {
   method: string
   url: string
   body?: any
-  disableCache?: boolean
+  cache?: CacheOptions
   revalidate?: number
   tags?: string[]
 }) {
@@ -47,11 +47,11 @@ export default async function superFetch({
   }
 
   /* Initial a next request */
-  const cacheOption = disableCache ? "no-store" : "force-cache"
+  const cacheOption = cache ?? "no-store"
   const requestOptions: RequestInit = {
     method: method,
     headers,
-    cache: cacheOption,
+    cache: !revalidate ? cacheOption : undefined,
     next: {
       revalidate: revalidate, // Time to revalidate fetch request - SECONDS (3600 = 1 hour)
       tags: tags, // Add tags to the fetch request for targeted invalidation
