@@ -1,5 +1,5 @@
-import AuthForms from "@/components/login/auth-forms"
-import LoginCard from "@/components/login/login-card"
+import AuthForms from "@/components/auth/auth-forms"
+import LoginCard from "@/components/auth/login-card"
 import checkUser from "@/src/actions/auth/check-cookie"
 import { redirect } from "next/navigation"
 
