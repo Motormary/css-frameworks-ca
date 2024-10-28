@@ -95,8 +95,7 @@ export default async function SidebarProfile() {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
+            <DropdownMenuItem className="py-0" >
               <Logout />
             </DropdownMenuItem>
           </DropdownMenuContent>
