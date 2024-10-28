@@ -3,6 +3,7 @@ import { Activity, Users } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
@@ -12,6 +13,7 @@ import {
 } from "@/components/ui/sidebar"
 import Link from "next/link"
 import SidebarProfile from "./sidebar/sidebar-avatar"
+import Logout from "./auth/logout"
 
 const items = [
   {
@@ -50,6 +52,9 @@ export async function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <Logout />
+      </SidebarFooter>
     </Sidebar>
   )
 }
