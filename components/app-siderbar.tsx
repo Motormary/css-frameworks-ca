@@ -1,4 +1,4 @@
-import { UserPen, KeyRound, Activity } from "lucide-react"
+import { UserPen, Activity, Users } from "lucide-react"
 
 import {
   Sidebar,
@@ -11,8 +11,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
-import { cookies } from "next/headers"
-import { getProfile } from "@/src/actions/profile/get-profile"
 import SidebarProfile from "./sidebar/sidebar-avatar"
 
 const items = [
@@ -20,6 +18,11 @@ const items = [
     title: "Feed",
     url: "/feed",
     icon: Activity,
+  },
+  {
+    title: "People",
+    url: "/profile",
+    icon: Users,
   },
   {
     title: "Register",
