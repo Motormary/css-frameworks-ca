@@ -12,7 +12,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
-import SidebarProfile from "./sidebar/sidebar-avatar"
+import SidebarProfile from "./sidebar/user-menu"
 import Logout from "./auth/logout"
 
 const items = [
@@ -53,7 +53,6 @@ export async function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <Logout />
       </SidebarFooter>
     </Sidebar>
   )

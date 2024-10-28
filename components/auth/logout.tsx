@@ -1,13 +1,14 @@
-import { cookies } from "next/headers"
-import Form from 'next/form'
+import Form from "next/form"
 import { logout } from "@/src/actions/auth/logout"
 import { Button } from "../ui/button"
 
-export default async function Logout() {
-  const cookie = await cookies()
-  const hasToken = cookie.has("token")
+export default async function LogoutBtn() {
 
-  if (!hasToken) return null
-
-  return <Form action={logout}><Button>Logout</Button></Form>
+  return (
+    <Form action={logout} className="flex gap-1 items-center">
+      <Button variant="ghost" type="submit" className="p-0 h-fit">
+        Logout
+      </Button>
+    </Form>
+  )
 }
