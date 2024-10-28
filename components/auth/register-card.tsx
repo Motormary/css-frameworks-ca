@@ -12,19 +12,16 @@ import {
 } from "../ui/card"
 import {
   Form,
-  FormControl,
-  FormDescription,
-  FormField,
+  FormControl, FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "../ui/form"
 import { Input } from "../ui/input"
 import { toast } from "sonner"
 import { useForm } from "react-hook-form"
 import Image from "next/image"
-import logo from "../../assets/images/bio.png"
-import Link from "next/link"
+import logo from "../../assets/images/logo.png"
 import { Register } from "@/src/actions/auth/auth"
 import { printErrors, translateErrors } from "@/lib/api-error"
 import { ErrorMessage } from "@/src/actions/auth/types"

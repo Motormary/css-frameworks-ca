@@ -10,8 +10,7 @@ import {
 import { AppSidebar } from "@/components/app-siderbar"
 import { Separator } from "@/components/ui/separator"
 import Breadcrumbs from "@/components/breadcrumbs"
-import favicon from "../assets/images/bio.png"
-import favlight from "../assets/images/bio-light.png"
+import favicon from "../assets/images/logo.png"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,20 +24,8 @@ const geistMono = localFont({
 })
 
 export const metadata: Metadata = {
-  title: "The Dump",
+  title: "Y",
   description: "Media for the people",
-  icons: {
-    icon: [
-      {
-        media: "(prefers-color-scheme: light)",
-        url: favicon.src,
-      },
-      {
-        media: "(prefers-color-scheme: dark)",
-        url: favlight.src,
-      },
-    ],
-  },
 }
 
 export default function RootLayout({

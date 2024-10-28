@@ -3,16 +3,13 @@
 import Link from "next/link"
 import { useSelectedLayoutSegments } from "next/navigation"
 
-import { ChevronRight, Home } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 import {
   Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
+  BreadcrumbItem, BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
+  BreadcrumbSeparator
 } from "@/components/ui/breadcrumb"
-import { cn } from "@/lib/utils"
 
 export default function Breadcrumbs() {
   const segments = useSelectedLayoutSegments()
@@ -32,7 +29,7 @@ export default function Breadcrumbs() {
                 <BreadcrumbPage>{name}</BreadcrumbPage>
               ) : (
                 <>
-                  <Link className="z-0" href={href}>
+                  <Link href={href}>
                     {name}
                   </Link>
                   <BreadcrumbSeparator>

@@ -19,14 +19,12 @@ import {
   FormMessage,
 } from "../ui/form"
 import { Input } from "../ui/input"
-import { toast } from "sonner"
 import { useForm } from "react-hook-form"
 import Image from "next/image"
-import logo from "../../assets/images/bio.png"
-import Link from "next/link"
+import logo from "../../assets/images/logo.png"
 import { printErrors, translateErrors } from "@/lib/api-error"
 import { ErrorMessage } from "@/src/actions/auth/types"
-import { redirect, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { Login } from "@/src/actions/auth/auth"
 
 const FormSchema = z.object({
