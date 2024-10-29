@@ -1,15 +1,27 @@
+"use client"
 import Form from "next/form"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
-import { SearchIcon } from "lucide-react"
+import { SearchIcon, X } from "lucide-react"
+import { useState } from "react"
+import Link from "next/link"
 
-export default async function SearchPosts() {
-
+export default function SearchPosts() {
+  const [value, setValue] = useState("")
   return (
     <Form action="/feed">
-      <Input name="query" />
+      <Input
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        name="query"
+      />
       <Button type="submit">
         <SearchIcon />
+      </Button>
+      <Button onClick={() => setValue("")} type="reset" asChild>
+        <Link href="/feed">
+          <X />
+        </Link>
       </Button>
     </Form>
   )
