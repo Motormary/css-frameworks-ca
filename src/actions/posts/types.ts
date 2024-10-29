@@ -1,4 +1,5 @@
 export type PostType = {
+  owner: string
   id: number
   title: string
   body: string

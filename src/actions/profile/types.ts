@@ -1,7 +1,12 @@
-type Profile = {
+import { PostType } from "../posts/types"
+
+export type Profile = {
   name: string
   email: string
   bio: string
+  followers: string[]
+  following: string[]
+  posts: PostType[]
   banner: {
     url: string
     alt: string

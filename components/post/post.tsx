@@ -20,14 +20,15 @@ import EmojiCount from "./emoji-count"
             
  */
 export default function Post({ post }: { post: PostType }) {
-  const sortedReactions = [...post.reactions].sort((a, b) => a.symbol.localeCompare(b.symbol));
+  const sortedReactions = post.reactions ? [...post.reactions].sort((a, b) => a.symbol.localeCompare(b.symbol)) : []
 
+  const name = post?.author?.name ?? post.owner
   return (
     <Card>
       <CardHeader>
         <CardTitle>
           {post.title}
-          <Link href={`/profile/${post.author.name}`}>{post.author.name}</Link>
+          <Link href={`/profile/${name}`}>{name}</Link>
         </CardTitle>
         <CardDescription></CardDescription>
       </CardHeader>
@@ -42,7 +43,7 @@ export default function Post({ post }: { post: PostType }) {
         </Link>
       </CardContent>
       <CardFooter>
-        <span>Comments: {post._count.comments}</span>
+        {post._count?.comments ? <span>Comments: {post._count.comments}</span> : null}
         {sortedReactions.map((int, index) => <EmojiCount key={int.symbol} reaction={int} />)}
       </CardFooter>
     </Card>

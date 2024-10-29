@@ -1,6 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 import checkUser from "@/src/actions/auth/check-cookie"
 import { getProfile } from "@/src/actions/profile/get-profile"
 import { redirect } from "next/navigation"
+import avatar from "assets/images/avatar.jpg"
+import { Button } from "@/components/ui/button"
+import Post from "@/components/post/post"
 
 type Params = Promise<{ name: string }>
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
@@ -13,13 +17,25 @@ export default async function ProfilePage(props: {
   if (!auth) redirect("/")
 
   const params = await props.params
-  const searchParams = await props.searchParams
 
   const profile = await getProfile(params.name)
 
   return (
     <div>
-      <p>Profile</p>
+      <img
+        src={profile.avatar !== "" ? profile.avatar : avatar.src}
+        alt="Profile Image"
+      />
+      <div>
+        <p>{profile.name}</p>
+        <p>Followers: {profile.followers.length}</p>
+        <p>Following: {profile.following.length}</p>
+        <p>Posts: {profile.posts.length}</p>
+      </div>
+      <Button>Follow</Button>
+      {profile.posts.map((post) => (
+        <Post key={post.id} post={post} />
+      ))}
     </div>
   )
 }
