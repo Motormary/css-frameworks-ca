@@ -5,6 +5,8 @@ import { redirect } from "next/navigation"
 import avatar from "assets/images/avatar.jpg"
 import { Button } from "@/components/ui/button"
 import Post from "@/components/post/post"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { User } from "lucide-react"
 
 type Params = Promise<{ name: string }>
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
@@ -22,10 +24,15 @@ export default async function ProfilePage(props: {
 
   return (
     <div>
-      <img
-        src={profile.avatar !== "" ? profile.avatar : avatar.src}
-        alt="Profile Image"
-      />
+      <Avatar>
+        <AvatarImage
+          src={profile.avatar !== "" ? profile.avatar : "null"}
+          alt="Avatar"
+        />
+        <AvatarFallback>
+          <User />
+        </AvatarFallback>
+      </Avatar>
       <div>
         <p>{profile.name}</p>
         <p>Followers: {profile.followers.length}</p>
