@@ -5,7 +5,7 @@ import { useState } from "react"
 import SearchPosts from "./search"
 import { Button } from "../ui/button"
 import { SearchIcon } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import {
   Select,
   SelectContent,
@@ -14,10 +14,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import SortPosts from "./sort"
 
-export default function PostToolbar({ defaultSort }: { defaultSort: string }) {
-  const [sort, setSort] = useState<string | undefined>("")
-  const [search, setSearch] = useState<string | undefined>("")
+type props = {
+  defaultSort?: string
+  defaultSearch?: string
+}
+
+export default function PostToolbar(props: props) {
+  const [sort, setSort] = useState<string | undefined>(props.defaultSort)
+  const [search, setSearch] = useState<string | undefined>(props.defaultSearch)
   const router = useRouter()
 
   function resetFilters() {
@@ -29,17 +35,7 @@ export default function PostToolbar({ defaultSort }: { defaultSort: string }) {
   return (
     <Form action="/feed">
       <SearchPosts value={search} setValue={setSearch} />
-      <Select defaultValue={defaultSort} onValueChange={setSort} name="sort">
-        <SelectTrigger type="submit">
-          <SelectValue placeholder="Sort by" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectItem value="newest">Newest</SelectItem>
-            <SelectItem value="oldest">Oldest</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+      <SortPosts value={sort} setValue={setSort} />
       <Button type="submit">
         <SearchIcon />
       </Button>
