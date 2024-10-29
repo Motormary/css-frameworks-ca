@@ -49,7 +49,7 @@ export function PostDialog(props: postDialogProps) {
         <DialogTrigger asChild>
           <Button variant="outline">{title}</Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] lg:max-w-[700]">
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>{description}</DialogDescription>
@@ -61,7 +61,7 @@ export function PostDialog(props: postDialogProps) {
             footer={
               <DialogFooter className="pt-2">
                 <DialogTrigger asChild>
-                  <Button disabled={isLoading} type="submit">Cancel</Button>
+                  <Button disabled={isLoading}>Cancel</Button>
                 </DialogTrigger>
                 <Button disabled={isLoading} type="submit">Submit</Button>
               </DialogFooter>

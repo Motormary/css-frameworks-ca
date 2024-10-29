@@ -59,7 +59,6 @@ export function PostForm(props: postFormProps) {
     if (response.success) {
       props.setOpen(false)
       redirect(`/feed/${response.data.id}`)
-      
     } else {
       handleApiErrors(response.data, form)
     }
