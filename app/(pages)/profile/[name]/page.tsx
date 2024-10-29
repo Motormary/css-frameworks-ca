@@ -26,7 +26,7 @@ export default async function ProfilePage(props: {
     <div>
       <Avatar>
         <AvatarImage
-          src={profile.avatar !== "" ? profile.avatar : "null"}
+          src={profile?.avatar !== "" ? profile?.avatar : "null"}
           alt="Avatar"
         />
         <AvatarFallback>
