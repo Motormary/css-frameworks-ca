@@ -7,6 +7,7 @@ import { Button } from "../ui/button"
 import { SearchIcon } from "lucide-react"
 import { useRouter } from "next/navigation"
 import SortPosts from "./sort"
+import { PostDialog } from "./create-post-dialog"
 
 type props = {
   defaultSort?: string
@@ -25,6 +26,8 @@ export default function PostToolbar(props: props) {
   }
 
   return (
+    <div>
+
     <Form action="/feed">
       <SearchPosts value={search} setValue={setSearch} />
       <SortPosts value={sort} setValue={setSort} />
@@ -37,5 +40,7 @@ export default function PostToolbar(props: props) {
         </Button>
       ) : null}
     </Form>
+    <PostDialog />
+    </div>
   )
 }
