@@ -5,15 +5,7 @@ import { useState } from "react"
 import SearchPosts from "./search"
 import { Button } from "../ui/button"
 import { SearchIcon } from "lucide-react"
-import { useRouter, useSearchParams } from "next/navigation"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { useRouter } from "next/navigation"
 import SortPosts from "./sort"
 
 type props = {
@@ -39,9 +31,11 @@ export default function PostToolbar(props: props) {
       <Button type="submit">
         <SearchIcon />
       </Button>
-      <Button type="reset" onClick={resetFilters}>
-        Reset filters
-      </Button>
+      {sort || search ? (
+        <Button type="reset" onClick={resetFilters}>
+          Reset filters
+        </Button>
+      ) : null}
     </Form>
   )
 }

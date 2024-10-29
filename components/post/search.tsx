@@ -1,9 +1,6 @@
-"use client"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import { X } from "lucide-react"
-import { useState } from "react"
-import Link from "next/link"
 
 export default function SearchPosts({
   value,
@@ -19,9 +16,11 @@ export default function SearchPosts({
         onChange={(e) => setValue(e.target.value)}
         name="query"
       />
-      <Button onClick={() => setValue("")}>
-        <X />
-      </Button>
+      {value ? (
+        <Button onClick={() => setValue("")}>
+          <X />
+        </Button>
+      ) : null}
     </>
   )
 }
