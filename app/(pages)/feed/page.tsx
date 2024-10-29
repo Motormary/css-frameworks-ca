@@ -27,7 +27,7 @@ export default async function FeedPage(props: {
   const sortedPosts = sortPostByDate(filteredPosts, sortValue)
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-fit">
       <PostToolbar defaultSort={sortValue} defaultSearch={searchValue} />
       {sortedPosts?.length ? (
         sortedPosts.map((post: any) => {
