@@ -1,5 +1,6 @@
 import Post from "@/components/post/post"
 import PostToolbar from "@/components/post/toolbar"
+import { Separator } from "@/components/ui/separator"
 import checkUser from "@/src/actions/auth/check-cookie"
 import { getPosts } from "@/src/actions/posts/get-all"
 import filterPosts from "@/src/functions/posts/filter-by-value"
@@ -27,11 +28,16 @@ export default async function FeedPage(props: {
   const sortedPosts = sortPostByDate(filteredPosts, sortValue)
 
   return (
-    <div className="flex flex-col w-fit">
+    <div className="flex flex-col w-fit gap-2">
       <PostToolbar defaultSort={sortValue} defaultSearch={searchValue} />
       {sortedPosts?.length ? (
         sortedPosts.map((post: any) => {
-          return <Post post={post} key={post.id} />
+          return (
+            <div className="space-y-2" key={post.id}>
+              <Separator />
+              <Post post={post} />
+            </div>
+          )
         })
       ) : (
         <p>No posts</p>

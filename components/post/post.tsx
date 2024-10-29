@@ -20,24 +20,23 @@ export default function Post({ post }: { post: PostType }) {
 
   const name = post?.author?.name ?? post.owner
   return (
-    <Card className="max-w-[800px]">
+    <Card className="relative max-w-[800px] border-none hover:bg-muted/80">
+      <Link className="absolute z-10 inset-0" href={`/feed/${post.id}`}></Link>
       <CardHeader>
-        <CardTitle>
+        <CardTitle className="relative flex justify-between">
           {post.title}
-          <Link href={`/profile/${name}`}>{name}</Link>
+          <Link className="relative z-50 inset-0 text-sm font-normal hover:text-muted-foreground" href={`/profile/${name}`}>{name}</Link>
         </CardTitle>
         <CardDescription></CardDescription>
       </CardHeader>
       <CardContent>
-        <Link href={`/feed/${post.id}`}>
-          <AspectRatio ratio={16 / 9}>
-            <img
-              className="w-full h-full rounded-md object-cover"
-              src={post?.media !== "" ? post.media : logo.src}
-              alt="Post Image"
-            />
-          </AspectRatio>
-        </Link>
+        <AspectRatio ratio={16 / 9}>
+          <img
+            className="w-full h-full rounded-md object-cover border border-muted"
+            src={post?.media !== "" ? post.media : logo.src}
+            alt="Post Image"
+          />
+        </AspectRatio>
       </CardContent>
       <CardFooter className="flex flex-wrap">
         {post._count?.comments ? (
