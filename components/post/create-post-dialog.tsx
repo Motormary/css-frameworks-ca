@@ -35,6 +35,7 @@ type postDialogProps = {
 
 export function PostDialog(props: postDialogProps) {
   const [open, setOpen] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(false)
   const isDesktop = useMediaQuery("(min-width: 768px)")
 
   const title = props.post ? "Edit Post" : "Create Post"
@@ -54,13 +55,15 @@ export function PostDialog(props: postDialogProps) {
             <DialogDescription>{description}</DialogDescription>
           </DialogHeader>
           <PostForm
+          setIsLoading={setIsLoading}
+          setOpen={setOpen}
             post={props.post}
             footer={
               <DialogFooter className="pt-2">
                 <DialogTrigger asChild>
-                  <Button type="submit">Cancel</Button>
+                  <Button disabled={isLoading} type="submit">Cancel</Button>
                 </DialogTrigger>
-                <Button type="submit">Submit</Button>
+                <Button disabled={isLoading} type="submit">Submit</Button>
               </DialogFooter>
             }
           />
@@ -80,34 +83,20 @@ export function PostDialog(props: postDialogProps) {
           <DrawerDescription>{description}</DrawerDescription>
         </DrawerHeader>
         <PostForm
+        setIsLoading={setIsLoading}
+        setOpen={setOpen}
           post={props.post}
           className="px-4"
           footer={
             <DrawerFooter className="pt-2">
-              <Button type="submit">Submit</Button>
+              <Button disabled={isLoading} type="submit">Submit</Button>
               <DrawerClose asChild>
-                <Button variant="outline">Cancel</Button>
+                <Button disabled={isLoading} variant="outline">Cancel</Button>
               </DrawerClose>
             </DrawerFooter>
           }
         />
       </DrawerContent>
     </Drawer>
-  )
-}
-
-function ProfileForm({ className }: React.ComponentProps<"form">) {
-  return (
-    <form className={cn("grid items-start gap-4", className)}>
-      <div className="grid gap-2">
-        <Label htmlFor="email">Email</Label>
-        <Input type="email" id="email" defaultValue="shadcn@example.com" />
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="username">Username</Label>
-        <Input id="username" defaultValue="@shadcn" />
-      </div>
-      <Button type="submit">Submit</Button>
-    </form>
   )
 }

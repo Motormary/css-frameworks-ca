@@ -12,10 +12,11 @@ import {
 } from "../ui/card"
 import {
   Form,
-  FormControl, FormField,
+  FormControl,
+  FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "../ui/form"
 import { Input } from "../ui/input"
 import { toast } from "sonner"
@@ -23,8 +24,7 @@ import { useForm } from "react-hook-form"
 import Image from "next/image"
 import logo from "../../assets/images/logo.png"
 import { Register } from "@/src/actions/auth/auth"
-import { printErrors, translateErrors } from "@/lib/api-error"
-import { ErrorMessage } from "@/src/actions/auth/types"
+import { handleApiErrors } from "@/lib/api-error"
 
 const FormSchema = z
   .object({
@@ -67,17 +67,10 @@ export default function RegisterCard({
       toast.success("Success!", {
         description: "You have been registered.",
       })
+      setState(true)
     } else {
-      const errors = translateErrors(response.data as ErrorMessage[])
-      errors.forEach((error) => {
-        if (error.path && error.message) {
-          form.setError(error.path as any, {
-            message: error.message,
-          })
-        } else {
-          printErrors(error as ErrorMessage)
-        }
-      })
+      // TODO: TEST THIS
+      handleApiErrors(response.data, form)
     }
   }
 

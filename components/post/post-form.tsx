@@ -17,11 +17,17 @@ import {
 import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
+import createPost from "@/src/actions/posts/create"
+import { useState } from "react"
+import { handleApiErrors, printErrors, translateErrors } from "@/lib/api-error"
+import { redirect } from "next/navigation"
 
 type postFormProps = {
   post?: PostType
   className?: string
   footer: React.ReactNode
+  setOpen: (state: boolean) => void
+  setIsLoading: (state: boolean) => void
 }
 
 const FormSchema = z.object({
@@ -41,17 +47,22 @@ const FormSchema = z.object({
 export function PostForm(props: postFormProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: props.post,
+    defaultValues: {
+      ...props?.post,
+    },
   })
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast("data:", {
-      description: (
-        <pre className="mt-2 w-[320px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    props.setIsLoading(true)
+    const response = await createPost(data)
+    if (response.success) {
+      props.setOpen(false)
+      redirect(`/feed/${response.data.id}`)
+      
+    } else {
+      handleApiErrors(response.data, form)
+    }
+    props.setIsLoading(false)
   }
 
   return (
