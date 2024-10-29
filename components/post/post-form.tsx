@@ -21,6 +21,7 @@ import createPost from "@/src/actions/posts/create"
 import { useState } from "react"
 import { handleApiErrors, printErrors, translateErrors } from "@/lib/api-error"
 import { redirect } from "next/navigation"
+import { Textarea } from "../ui/textarea"
 
 type postFormProps = {
   post?: PostType
@@ -90,7 +91,7 @@ export function PostForm(props: postFormProps) {
             <FormItem>
               <FormLabel>Body</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Textarea {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
