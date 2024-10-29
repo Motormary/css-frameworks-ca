@@ -1,9 +1,7 @@
 import Post from "@/components/post/post"
-import SearchPosts from "@/components/post/search"
-import { Skeleton } from "@/components/ui/skeleton"
+import PostToolbar from "@/components/post/toolbar"
 import checkUser from "@/src/actions/auth/check-cookie"
 import { getPosts } from "@/src/actions/posts/get-all"
-import Link from "next/link"
 import { redirect } from "next/navigation"
 
 type Params = Promise<{ slug: string }>
@@ -15,13 +13,14 @@ export default async function FeedPage(props: {
   const auth = await checkUser()
   if (!auth) redirect("/")
 
-  const { query = "" } = await props.searchParams
+  const { query = "", sort = ""} = await props.searchParams
+  const sortValue = sort.toString().toLowerCase() as string
   const searchValue = query.toString().toLowerCase() as string
   const posts = await getPosts({
     query: searchValue,
     limit: searchValue ? 100 : 20,
   })
-  
+
   const filteredPosts = posts.filter((post) => {
     return (
       post.title.toLowerCase().includes(searchValue) ||
@@ -32,7 +31,7 @@ export default async function FeedPage(props: {
 
   return (
     <div className="flex flex-col">
-      <SearchPosts />
+      <PostToolbar defaultSort={sortValue} />
       {filteredPosts?.length ? (
         filteredPosts.map((post: any) => {
           return <Post post={post} key={post.id} />
