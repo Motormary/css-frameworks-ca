@@ -39,10 +39,10 @@ export default function EmojiCount({
           handleCount()
         })
       }}
-      className="relative rounded-full z-50 hover:shadow-md"
+      className="relative rounded-full z-50 hover:shadow-md hover:bg-white"
       variant="outline">
-      <span>{optimisticCount}</span>
       {reaction.symbol}
+      <span>{optimisticCount}</span>
     </Button>
   )
 }

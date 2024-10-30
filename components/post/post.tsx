@@ -13,7 +13,8 @@ import Link from "next/link"
 import logo from "assets/images/logo.png"
 import EmojiCount from "./emoji-count"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
-import { User } from "lucide-react"
+import { MessageCircle, User } from "lucide-react"
+import { Button } from "../ui/button"
 
 export default function Post({ post }: { post: PostType }) {
   const sortedReactions = post.reactions
@@ -23,7 +24,9 @@ export default function Post({ post }: { post: PostType }) {
   const name = post?.author?.name ?? post.owner
   return (
     <Card className="relative max-w-[800px] border-none hover:bg-muted/80">
-      <Link className="absolute z-10 inset-0" href={`/feed/${post.id}`}></Link>
+      <Link
+        className="absolute z-10 inset-0 cursor-default"
+        href={`/feed/${post.id}`}></Link>
       <CardHeader>
         <CardTitle className="relative flex justify-between items-center">
           {post.title}
@@ -55,10 +58,11 @@ export default function Post({ post }: { post: PostType }) {
           />
         </AspectRatio>
       </CardContent>
-      <CardFooter className="flex flex-wrap">
-        {post._count?.comments ? (
-          <span>Comments: {post._count.comments}</span>
-        ) : null}
+      <CardFooter className="flex flex-wrap gap-2">
+        <Button variant="outline" className="relative rounded-full hover:bg-white hover:shadow-md z-50">
+          <MessageCircle />
+          {post._count?.comments ?? "0"}
+        </Button>
         {sortedReactions.map((int, index) => (
           <EmojiCount key={int.symbol} reaction={int} />
         ))}
