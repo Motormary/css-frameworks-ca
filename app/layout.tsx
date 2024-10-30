@@ -36,6 +36,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased max-h-svh`}>
         <SidebarProvider>
+          
           <AppSidebar />
           <main className="w-full max-h-[calc(100svh-64px)]">
             <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] border-b ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">

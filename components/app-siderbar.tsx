@@ -6,10 +6,12 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
 import SidebarProfile from "./sidebar/user-menu"
@@ -52,6 +54,9 @@ export async function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarTrigger className="md:hidden" />
+      </SidebarFooter>
     </Sidebar>
   )
 }

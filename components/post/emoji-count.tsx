@@ -33,12 +33,14 @@ export default function EmojiCount({
 
   return (
     <Button
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation()
         startTransition(() => {
           handleCount()
         })
       }}
-      variant="ghost">
+      className="relative rounded-full z-50 hover:shadow-md"
+      variant="outline">
       <span>{optimisticCount}</span>
       {reaction.symbol}
     </Button>
