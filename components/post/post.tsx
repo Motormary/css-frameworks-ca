@@ -12,6 +12,8 @@ import { AspectRatio } from "../ui/aspect-ratio"
 import Link from "next/link"
 import logo from "assets/images/logo.png"
 import EmojiCount from "./emoji-count"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { User } from "lucide-react"
 
 export default function Post({ post }: { post: PostType }) {
   const sortedReactions = post.reactions
@@ -25,7 +27,22 @@ export default function Post({ post }: { post: PostType }) {
       <CardHeader>
         <CardTitle className="relative flex justify-between">
           {post.title}
-          <Link className="relative z-50 inset-0 text-sm font-normal hover:text-muted-foreground" href={`/profile/${name}`}>{name}</Link>
+          {!post.owner ? (
+            <Link
+              className="relative flex items-center gap-2 z-50 inset-0 text-base font-normal border rounded-full p-1 px-3 hover:shadow-md hover:bg-white"
+              href={`/profile/${name}`}>
+              <Avatar className="size-6">
+                <AvatarImage
+                  src={post.author.avatar !== "" ? post.author.avatar : "null"}
+                  alt="Avatar"
+                />
+                <AvatarFallback>
+                  <User />
+                </AvatarFallback>
+              </Avatar>
+              {name}
+            </Link>
+          ) : null}
         </CardTitle>
         <CardDescription></CardDescription>
       </CardHeader>

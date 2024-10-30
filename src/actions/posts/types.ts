@@ -11,10 +11,7 @@ export type PostType = {
     name: string
     email: string
     bio: string
-    avatar: {
-      url: string
-      alt: string
-    }
+    avatar: string
     banner: {
       url: string
       alt: string
