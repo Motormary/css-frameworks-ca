@@ -32,7 +32,7 @@ export default function Post({ post }: { post: PostType }) {
           {post.title}
           {!post.owner ? (
             <Link
-              className="relative flex items-center gap-2 z-50 inset-0 text-base font-normal border rounded-full p-1 px-3 hover:shadow-md hover:bg-white"
+              className="relative flex items-center gap-2 z-50 inset-0 text-base font-normal border rounded-full p-2 px-3 bg-background hover:shadow-md hover:bg-primary-foreground"
               href={`/profile/${name}`}>
               <Avatar className="size-6">
                 <AvatarImage
@@ -59,7 +59,7 @@ export default function Post({ post }: { post: PostType }) {
         </AspectRatio>
       </CardContent>
       <CardFooter className="flex flex-wrap gap-2">
-        <Button variant="outline" className="relative rounded-full hover:bg-white hover:shadow-md z-50">
+        <Button variant="outline" className="relative rounded-full hover:bg-primary-foreground hover:shadow-md z-50">
           <MessageCircle />
           {post._count?.comments ?? "0"}
         </Button>
