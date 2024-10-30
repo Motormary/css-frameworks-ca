@@ -8,6 +8,7 @@ import { SearchIcon } from "lucide-react"
 import { useRouter } from "next/navigation"
 import SortPosts from "./sort"
 import { PostDialog } from "./create-post-dialog"
+import Link from "next/link"
 
 type props = {
   defaultSort?: string
@@ -25,21 +26,9 @@ export default function PostToolbar(props: props) {
     router.push("/feed")
   }
 
+  // TODO: FIX Toolbar
   return (
-    <div>
-
-    <Form action="/feed">
-      <SearchPosts value={search} setValue={setSearch} />
-      <SortPosts value={sort} setValue={setSort} />
-      <Button type="submit">
-        <SearchIcon />
-      </Button>
-      {sort || search ? (
-        <Button type="reset" onClick={resetFilters}>
-          Reset filters
-        </Button>
-      ) : null}
-    </Form>
+    <div className="flex flex-col gap-4">
     <PostDialog />
     </div>
   )

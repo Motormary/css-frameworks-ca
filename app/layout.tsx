@@ -7,6 +7,7 @@ import { AppSidebar } from "@/components/app-siderbar"
 import { Separator } from "@/components/ui/separator"
 import Breadcrumbs from "@/components/breadcrumbs"
 import { ThemeProvider } from "@/components/theme-provider"
+import SearchPosts from "@/components/post/search"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -41,12 +42,13 @@ export default function RootLayout({
           <SidebarProvider>
             <AppSidebar />
             <main className="w-full max-h-[calc(100svh-64px)]">
-              <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] border-b ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+              <header className="relative flex h-16 shrink-0 items-center gap-2 transition-[width,height] border-b ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
                 <div className="flex items-center gap-2 px-4">
                   <SidebarTrigger className="-ml-1" />
                   <Separator orientation="vertical" className="mr-2 h-4" />
                   <Breadcrumbs />
                 </div>
+                  <SearchPosts />
               </header>
               <div className="h-[calc(100svh-100px)] flex justify-center overflow-y-auto pb-20 pt-4">
                 {children}
