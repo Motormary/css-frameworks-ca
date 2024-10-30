@@ -16,6 +16,7 @@ import {
 import Link from "next/link"
 import SidebarProfile from "./sidebar/user-menu"
 import Logout from "./auth/logout"
+import { ModeToggle } from "./mode-toggler"
 
 const items = [
   {
@@ -56,6 +57,7 @@ export async function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <SidebarTrigger className="md:hidden" />
+        <ModeToggle />
       </SidebarFooter>
     </Sidebar>
   )
