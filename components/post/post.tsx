@@ -25,7 +25,7 @@ export default function Post({ post }: { post: PostType }) {
     <Card className="relative max-w-[800px] border-none hover:bg-muted/80">
       <Link className="absolute z-10 inset-0" href={`/feed/${post.id}`}></Link>
       <CardHeader>
-        <CardTitle className="relative flex justify-between">
+        <CardTitle className="relative flex justify-between items-center">
           {post.title}
           {!post.owner ? (
             <Link
