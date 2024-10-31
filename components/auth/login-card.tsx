@@ -26,6 +26,7 @@ import { printErrors, translateErrors } from "@/lib/api-error"
 import { ErrorMessage } from "@/src/actions/auth/types"
 import { useRouter } from "next/navigation"
 import { Login } from "@/src/actions/auth/auth"
+import { auth } from "./styles"
 
 const FormSchema = z.object({
   email: z.string().refine((val) => val.includes("@stud.noroff.no"), {
@@ -68,31 +69,21 @@ export default function LoginCard({
     }
   }
   return (
-    <Card>
+    <Card className={auth.card}>
       <CardHeader>
-        <CardTitle>
+        <CardTitle className={auth.title}>
           Log in <Image src={logo} alt="Logo" height="50" />
         </CardTitle>
-        <CardDescription>
-          <Button
-          variant="link"
-            onClick={(e) => {
-              e.preventDefault()
-              setState(false)
-            }}>
-            Register
-          </Button>
-        </CardDescription>
       </CardHeader>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className={auth.form}>
           <CardContent>
             <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>email</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input placeholder="Kari Traa" {...field} />
                   </FormControl>
@@ -114,8 +105,21 @@ export default function LoginCard({
               )}
             />
           </CardContent>
-          <CardFooter>
-            <Button type="submit">Submit</Button>
+          <CardFooter className="flex flex-col gap-4">
+            <Button className="flex w-full" type="submit">
+              Submit
+            </Button>
+            <CardDescription>
+              Not registered yet?{" "}
+              <span
+                className="hover:underline underline-offset-4 hover:text-primary cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault()
+                  setState(false)
+                }}>
+                Sign up!
+              </span>
+            </CardDescription>
           </CardFooter>
         </form>
       </Form>

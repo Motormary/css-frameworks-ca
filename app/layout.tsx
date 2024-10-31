@@ -43,7 +43,7 @@ export default async function RootLayout({
           defaultTheme="dark"
           enableSystem
           disableTransitionOnChange>
-          <SidebarProvider defaultOpen={defaultOpen}>
+          <SidebarProvider className="max-w-screen overflow-hidden" defaultOpen={defaultOpen}>
             <AppSidebar />
             <main className="w-full">
               <header className="relative flex h-16 shrink-0 items-center gap-2 transition-[width,height] border-b ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">

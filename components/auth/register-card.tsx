@@ -25,6 +25,7 @@ import Image from "next/image"
 import logo from "../../assets/images/logo.png"
 import { Register } from "@/src/actions/auth/auth"
 import { handleApiErrors } from "@/lib/api-error"
+import { auth } from "./styles"
 
 const FormSchema = z
   .object({
@@ -75,24 +76,14 @@ export default function RegisterCard({
   }
 
   return (
-    <Card>
+    <Card className={auth.card}>
       <CardHeader>
-        <CardTitle>
+        <CardTitle className={auth.title}>
           Register <Image src={logo} alt="Logo" height="50" />
         </CardTitle>
-        <CardDescription>
-          <Button
-            variant="link"
-            onClick={(e) => {
-              e.preventDefault()
-              setState(true)
-            }}>
-            Login
-          </Button>
-        </CardDescription>
       </CardHeader>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className={auth.form}>
           <CardContent>
             <FormField
               control={form.control}
@@ -147,8 +138,19 @@ export default function RegisterCard({
               )}
             />
           </CardContent>
-          <CardFooter>
-            <Button type="submit">Submit</Button>
+          <CardFooter className="flex flex-col gap-4">
+            <Button className="flex w-full" type="submit">Submit</Button>
+            <CardDescription>
+              Already registered?{" "}
+              <span
+                className="hover:underline underline-offset-4 hover:text-primary cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault()
+                  setState(true)
+                }}>
+                Sign in!
+              </span>
+            </CardDescription>
           </CardFooter>
         </form>
       </Form>
