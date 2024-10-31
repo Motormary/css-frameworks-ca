@@ -21,9 +21,9 @@ export default function Post({ post }: { post: PostType }) {
     ? [...post.reactions].sort((a, b) => a.symbol.localeCompare(b.symbol))
     : []
 
-  const name = post?.author?.name ?? post.owner
+  const name = post?.author?.name ?? post?.owner
   return (
-    <Card className="relative max-w-[800px] border-none hover:bg-muted/80">
+    <Card className="relative max-w-[800px] border-none hover:bg-muted/80 shadow-none">
       <Link
         className="absolute z-10 inset-0 cursor-default"
         href={`/feed/${post.id}`}></Link>
