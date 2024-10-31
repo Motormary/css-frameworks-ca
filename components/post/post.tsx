@@ -34,7 +34,7 @@ export default function Post({ post }: { post: PostType }) {
     ? [...post.reactions].sort((a, b) => a.symbol.localeCompare(b.symbol))
     : []
 
-  const imageSrc = checkImgSrc(post?.media) ? post.media : logo
+  const imageSrc = checkImgSrc(post?.media) ? post.media : logo.src
   
 
   const name = post?.author?.name ?? post?.owner
@@ -52,7 +52,7 @@ export default function Post({ post }: { post: PostType }) {
               href={`/profile/${name}`}>
               <Avatar className="size-6">
                 <AvatarImage
-                  src={post.author.avatar !== "" ? post.author.avatar : "null"}
+                  src={post?.author?.avatar && post.author.avatar !== "" ? post.author.avatar : undefined}
                   alt="Avatar"
                 />
                 <AvatarFallback>
@@ -67,10 +67,7 @@ export default function Post({ post }: { post: PostType }) {
       </CardHeader>
       <CardContent>
         <AspectRatio ratio={16 / 9}>
-          <Image
-            fill
-            quality={70}
-            sizes="50vw"
+          <img
             className="w-full h-full rounded-md object-cover border border-muted"
             src={imageSrc}
             alt="Post Image"

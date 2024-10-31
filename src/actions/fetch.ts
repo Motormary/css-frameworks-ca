@@ -15,8 +15,6 @@ import { CacheOptions } from "./types"
  * @param revalidate - Optional number of seconds to revalidate the cache
  * @param tags - Optional array of cache tags for targeted invalidation
  *
- * @returns A promise of type `SuperFetch<T>` containing the response data
- *
  */
 export default async function superFetch({
   method,
@@ -36,7 +34,7 @@ export default async function superFetch({
   if (!method || !url) throw new Error("Missing params")
   const cookie = await cookies()
   const headers = new Headers()
-
+  
   // Check for token cookie
   const hasToken = cookie.has("token")
   if (hasToken) {
