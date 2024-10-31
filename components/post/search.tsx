@@ -12,6 +12,8 @@ export default function SearchPosts() {
   const searchParams = params.get("query") ?? ""
   const [search, setSearch] = useState<string | undefined>(searchParams)
 
+
+  //TODO: RESPONSIVE
   return (
     <Form
       action="/feed"
