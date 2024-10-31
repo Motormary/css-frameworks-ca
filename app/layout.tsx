@@ -52,7 +52,7 @@ export default async function RootLayout({
                   <Separator orientation="vertical" className="mr-2 h-4" />
                   <Breadcrumbs />
                 </div>
-                <SearchPosts />
+                <SearchPosts className="max-md:hidden" />
               </header>
               <div className="h-[calc(100svh-64px)] flex justify-center overflow-y-auto pb-20 pt-4">
                 {children}

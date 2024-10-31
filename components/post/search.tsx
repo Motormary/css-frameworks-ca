@@ -7,17 +7,22 @@ import { useSearchParams } from "next/navigation"
 import Form from "next/form"
 import { cn } from "@/lib/utils"
 
-export default function SearchPosts() {
+export default function SearchPosts({
+  className,
+}: {
+  className?: string | undefined
+}) {
   const params = useSearchParams()
   const searchParams = params.get("query") ?? ""
   const [search, setSearch] = useState<string | undefined>(searchParams)
 
-
-  //TODO: RESPONSIVE
   return (
     <Form
       action="/feed"
-      className="absolute top-1/2 right-1/2 translate-x-[calc(50%-0.5rem)] -translate-y-1/2 w-full max-w-[770px] flex items-center gap-4 rounded-md border border-input h-8 ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+      className={cn(
+        className,
+        "absolute top-1/2 right-1/2 translate-x-[calc(50%-0.5rem)] -translate-y-1/2 xl:w-full max-w-[770px] flex items-center gap-4 rounded-md border border-input h-8 ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2"
+      )}>
       <Input
         className="border-none h-6 focus-visible:ring-0 focus-visible:ring-offset-0"
         placeholder="Search Posts"
@@ -29,7 +34,10 @@ export default function SearchPosts() {
       <Button
         size="icon"
         variant="outline"
-        className={cn(search ? "" : "text-transparent border-none", "rounded-full h-3 w-3")}
+        className={cn(
+          search ? "" : "text-transparent border-none",
+          "rounded-full h-3 w-3"
+        )}
         type="button"
         onClick={(e) => {
           e.preventDefault()

@@ -4,19 +4,16 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
+  SidebarGroup, SidebarGroupContent, SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
+  SidebarTrigger
 } from "@/components/ui/sidebar"
 import Link from "next/link"
 import SidebarProfile from "./sidebar/user-menu"
-import Logout from "./auth/logout"
 import { ModeToggle } from "./mode-toggler"
+import SearchPosts from "./post/search"
 
 const items = [
   {
@@ -38,6 +35,11 @@ export async function AppSidebar() {
         <SidebarProfile />
       </SidebarHeader>
       <SidebarContent>
+        <SidebarGroup className="py-5 px-0 md:hidden">
+          <SidebarGroupContent>
+            <SearchPosts className="md:hidden w-4/5 [&>*]:bg-sidebar" />
+          </SidebarGroupContent>
+        </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
