@@ -16,10 +16,24 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { MessageCircle, User } from "lucide-react"
 import { Button } from "../ui/button"
 
+// People keep uploading non-direct links from google image search..........
+function isValidImageUrl(url: string): boolean {
+  const forbiddenPattern = /^https:\/\/www\.google\.com\//
+
+  return !forbiddenPattern.test(url)
+}
+
+function checkImgSrc(url: string): boolean {
+  if (url && url !== "" && isValidImageUrl(url)) return true
+  else return false
+}
+
 export default function Post({ post }: { post: PostType }) {
   const sortedReactions = post.reactions
     ? [...post.reactions].sort((a, b) => a.symbol.localeCompare(b.symbol))
     : []
+
+  const imageSrc = checkImgSrc(post.media) ? post.media : logo.src
 
   const name = post?.author?.name ?? post?.owner
   return (
@@ -53,13 +67,15 @@ export default function Post({ post }: { post: PostType }) {
         <AspectRatio ratio={16 / 9}>
           <img
             className="w-full h-full rounded-md object-cover border border-muted"
-            src={post?.media !== "" ? post.media : logo.src}
+            src={imageSrc}
             alt="Post Image"
           />
         </AspectRatio>
       </CardContent>
       <CardFooter className="flex flex-wrap gap-2">
-        <Button variant="outline" className="relative rounded-full hover:bg-primary-foreground hover:shadow-md z-50">
+        <Button
+          variant="outline"
+          className="relative rounded-full hover:bg-primary-foreground hover:shadow-md z-50">
           <MessageCircle />
           {post._count?.comments ?? "0"}
         </Button>

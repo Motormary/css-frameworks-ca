@@ -27,13 +27,13 @@ export default function SearchPosts() {
       <Button
         size="icon"
         variant="outline"
-        className={cn("rounded-full h-3 w-3")}
+        className={cn(search ? "" : "text-transparent border-none", "rounded-full h-3 w-3")}
         type="button"
         onClick={(e) => {
           e.preventDefault()
           setSearch("")
         }}>
-        <X className={cn(search ? "" : "text-transparent")} />
+        <X />
       </Button>
       <Button variant="ghost" size="icon" type="submit" className="h-7 w-8">
         <SearchIcon />
