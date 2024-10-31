@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator"
 import Breadcrumbs from "@/components/breadcrumbs"
 import { ThemeProvider } from "@/components/theme-provider"
 import SearchPosts from "@/components/post/search"
+import { cookies } from "next/headers"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,11 +26,14 @@ export const metadata: Metadata = {
   description: "Media for the people",
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const cookieStore = await cookies()
+  const defaultOpen = cookieStore.get("sidebar:state")?.value === "true"
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -39,7 +43,7 @@ export default function RootLayout({
           defaultTheme="dark"
           enableSystem
           disableTransitionOnChange>
-          <SidebarProvider>
+          <SidebarProvider defaultOpen={defaultOpen}>
             <AppSidebar />
             <main className="w-full">
               <header className="relative flex h-16 shrink-0 items-center gap-2 transition-[width,height] border-b ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
@@ -48,7 +52,7 @@ export default function RootLayout({
                   <Separator orientation="vertical" className="mr-2 h-4" />
                   <Breadcrumbs />
                 </div>
-                  <SearchPosts />
+                <SearchPosts />
               </header>
               <div className="h-[calc(100svh-64px)] flex justify-center overflow-y-auto pb-20 pt-4">
                 {children}
