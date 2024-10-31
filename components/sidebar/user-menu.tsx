@@ -33,7 +33,7 @@ export default async function SidebarProfile() {
     profile = JSON.parse(cookie.get("profile")?.value as string)
   }
 
-  if (!profile) return <>{"( ╯°□° )╯︵ ⛔"}</>
+  if (!profile) return null
 
   return (
     <SidebarMenu>
