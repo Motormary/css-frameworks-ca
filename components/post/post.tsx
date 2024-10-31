@@ -15,6 +15,7 @@ import EmojiCount from "./emoji-count"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { MessageCircle, User } from "lucide-react"
 import { Button } from "../ui/button"
+import Image from "next/image"
 
 // People keep uploading non-direct links from google image search..........
 function isValidImageUrl(url: string): boolean {
@@ -25,7 +26,7 @@ function isValidImageUrl(url: string): boolean {
 
 function checkImgSrc(url: string): boolean {
   if (url && url !== "" && isValidImageUrl(url)) return true
-  else return false
+  return false
 }
 
 export default function Post({ post }: { post: PostType }) {
@@ -33,7 +34,8 @@ export default function Post({ post }: { post: PostType }) {
     ? [...post.reactions].sort((a, b) => a.symbol.localeCompare(b.symbol))
     : []
 
-  const imageSrc = checkImgSrc(post.media) ? post.media : logo.src
+  const imageSrc = checkImgSrc(post?.media) ? post.media : logo
+  
 
   const name = post?.author?.name ?? post?.owner
   return (
@@ -65,7 +67,10 @@ export default function Post({ post }: { post: PostType }) {
       </CardHeader>
       <CardContent>
         <AspectRatio ratio={16 / 9}>
-          <img
+          <Image
+            fill
+            quality={70}
+            sizes="50vw"
             className="w-full h-full rounded-md object-cover border border-muted"
             src={imageSrc}
             alt="Post Image"
