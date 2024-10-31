@@ -1,4 +1,3 @@
-import Post from "@/components/post/post"
 import PostList from "@/components/post/post-list"
 import PostToolbar from "@/components/post/toolbar"
 import { Button } from "@/components/ui/button"
@@ -12,9 +11,6 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import checkUser from "@/src/actions/auth/check-cookie"
-import { getPosts } from "@/src/actions/posts/get-all"
-import filterPosts from "@/src/functions/posts/filter-by-value"
-import sortPostByDate from "@/src/functions/posts/sort-by-date"
 import { AspectRatio } from "@radix-ui/react-aspect-ratio"
 import { MessageCircle } from "lucide-react"
 import { redirect } from "next/navigation"
@@ -35,7 +31,7 @@ export default async function FeedPage(props: {
 
   return (
     <div className="flex flex-col max-xl:w-full xl:w-2/4 max-w-[800px] gap-2 px-4">
-      {/* <PostToolbar defaultSort={sortValue} defaultSearch={searchValue} /> */}
+      <PostToolbar />
       <Suspense fallback={<LoadingPosts />}>
         <PostList sortValue={sortValue} searchValue={searchValue} />
       </Suspense>

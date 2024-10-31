@@ -1,35 +1,41 @@
 "use client"
 
-import Form from "next/form"
-import { useState } from "react"
-import SearchPosts from "./search"
-import { Button } from "../ui/button"
-import { SearchIcon } from "lucide-react"
-import { useRouter } from "next/navigation"
-import SortPosts from "./sort"
+import { useCallback } from "react"
+import { usePathname, useSearchParams } from "next/navigation"
 import { PostDialog } from "./create-post-dialog"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
-type props = {
-  defaultSort?: string
-  defaultSearch?: string
-}
+export default function PostToolbar() {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const sortedBy = searchParams.get("sort") ?? "newest"
 
-export default function PostToolbar(props: props) {
-  const [sort, setSort] = useState<string | undefined>(props.defaultSort)
-  const [search, setSearch] = useState<string | undefined>(props.defaultSearch)
-  const router = useRouter()
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set(name, value)
 
-  function resetFilters() {
-    setSort("")
-    setSearch("")
-    router.push("/feed")
-  }
+      return params.toString()
+    },
+    [searchParams]
+  )
 
-  // TODO: FIX Toolbar
   return (
-    <div className="flex flex-col gap-4">
-    <PostDialog />
+    <div className="flex items-center gap-4 justify-between">
+      <div className="space-x-4">
+        <Link
+          className={cn(sortedBy === "newest" && "underline", "text-sm underline-offset-2")}
+          href={pathname + "?" + createQueryString("sort", "newest")}>
+          Newest
+        </Link>
+        <Link
+          className={cn(sortedBy === "oldest" && "underline", "text-sm underline-offset-2")}
+          href={pathname + "?" + createQueryString("sort", "oldest")}>
+          Oldest
+        </Link>
+      </div>
+      <PostDialog />
     </div>
   )
 }
