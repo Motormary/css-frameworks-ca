@@ -61,7 +61,7 @@ export default async function RootLayout({
                   </>
                 </header>
               ) : null}
-              <div className="h-[calc(100svh-64px)] flex justify-center overflow-y-auto pb-20 pt-4">
+              <div className="h-[calc(100svh-64px)] overflow-x-hidden flex justify-center overflow-y-auto pb-20 pt-4">
                 {children}
               </div>
             </main>

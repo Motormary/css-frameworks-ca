@@ -24,10 +24,15 @@ export default function AuthForms() {
   }
 
   return (
-    <div
-      className={cn(slideAnimation, "flex items-start duration-500 ease-linear transition-transform")}>
-      <LoginCard state={loginAnimation} setState={handleState} />
-      <RegisterCard state={regAnimation} setState={handleState} />
+    <div className="max-w-screen">
+      <div
+        className={cn(
+          slideAnimation,
+          "flex items-start duration-500 ease-linear transition-transform"
+        )}>
+        <LoginCard state={loginAnimation} setState={handleState} />
+        <RegisterCard state={regAnimation} setState={handleState} />
+      </div>
     </div>
   )
 }
