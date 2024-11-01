@@ -50,15 +50,16 @@ export default async function RootLayout({
             {isAuth ? <AppSidebar /> : null}
             <main className="w-full">
               {isAuth ? (
-                <header className="relative flex h-16 shrink-0 items-center gap-2 transition-[width,height] border-b ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-                  <>
-                    <div className="flex items-center gap-2 px-4">
-                      <SidebarTrigger className="-ml-1" />
-                      <Separator orientation="vertical" className="mr-2 h-4" />
-                      <Breadcrumbs />
-                    </div>
-                    <SearchPosts className="max-md:hidden" />
-                  </>
+                <header className="relative flex justify-center border-b px-1 h-14 shrink-0 items-center gap-2 transition-[width,height] ease-linear max-[400px]:pr-4">
+                  <div className="min-[400px]:absolute left-2 flex items-center gap-2 px-4">
+                    <SidebarTrigger className="-ml-1" />
+                    <Separator
+                      orientation="vertical"
+                      className="mr-2 h-4 max-xl:hidden"
+                    />
+                    <Breadcrumbs />
+                  </div>
+                  <SearchPosts className="z-20" />
                 </header>
               ) : null}
               <div className="h-[calc(100svh-64px)] overflow-x-hidden flex justify-center overflow-y-auto pb-20 pt-4">

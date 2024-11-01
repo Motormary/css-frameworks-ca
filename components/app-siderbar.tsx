@@ -35,11 +35,6 @@ export async function AppSidebar() {
         <SidebarProfile />
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup className="py-5 px-0 md:hidden">
-          <SidebarGroupContent>
-            <SearchPosts className="md:hidden w-4/5 [&>*]:bg-sidebar" />
-          </SidebarGroupContent>
-        </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>

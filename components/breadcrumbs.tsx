@@ -6,17 +6,18 @@ import { useSelectedLayoutSegments } from "next/navigation"
 import { ChevronRight } from "lucide-react"
 import {
   Breadcrumb,
-  BreadcrumbItem, BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator
+  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 
 export default function Breadcrumbs() {
   const segments = useSelectedLayoutSegments()
-  const filteredSegments = segments.filter(segment => !/\(.*\)/.test(segment));
+  const filteredSegments = segments.filter((segment) => !/\(.*\)/.test(segment))
 
   return (
-    <Breadcrumb>
+    <Breadcrumb className=" max-xl:hidden shrink-0">
       <BreadcrumbList>
         {filteredSegments.map((segment, index) => {
           const href = `/${filteredSegments.slice(0, index + 1).join("/")}`
@@ -29,9 +30,7 @@ export default function Breadcrumbs() {
                 <BreadcrumbPage>{name}</BreadcrumbPage>
               ) : (
                 <>
-                  <Link href={href}>
-                    {name}
-                  </Link>
+                  <Link href={href}>{name}</Link>
                   <BreadcrumbSeparator>
                     <ChevronRight className="h-4 w-4" />
                   </BreadcrumbSeparator>

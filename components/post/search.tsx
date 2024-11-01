@@ -21,7 +21,7 @@ export default function SearchPosts({
       action="/feed"
       className={cn(
         className,
-        "absolute top-1/2 right-1/2 translate-x-[calc(50%-0.5rem)] -translate-y-1/2 xl:w-full max-w-[770px] flex items-center gap-4 rounded-md border border-input h-8 ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2"
+        "xl:w-fit flex items-center gap-4 rounded-md border border-input h-8 ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2"
       )}>
       <Input
         className="border-none h-6 focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -38,6 +38,7 @@ export default function SearchPosts({
           search ? "" : "text-transparent border-none",
           "rounded-full h-3 w-3"
         )}
+        disabled={!search ? true : false}
         type="button"
         onClick={(e) => {
           e.preventDefault()
