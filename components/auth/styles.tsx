@@ -1,5 +1,5 @@
-export const auth = {
-  card: "w-screen md:w-[calc(100vw-16rem)] border-none flex flex-col justify-center items-center",
+export const authCardStyle = {
+  card: "w-full md:w-fit border-none flex flex-col justify-center items-center",
   title: "flex items-center gap-4 justify-center",
-  form: "w-full md:max-w-[400px]",
+  form: "w-full md:min-w-[400px]",
 }

@@ -25,12 +25,15 @@ import Image from "next/image"
 import logo from "../../assets/images/logo.png"
 import { Register } from "@/src/actions/auth/auth"
 import { handleApiErrors } from "@/lib/api-error"
-import { auth } from "./styles"
+import { authCardStyle } from "./styles"
+import { cn } from "@/lib/utils"
 
 const FormSchema = z
   .object({
     name: z.string().min(2, {
-      message: "name must be at least 2 characters.",
+      message: "Name must be at least 2 characters.",
+    }).max(20, {
+      message: "Name cannot contain more than 20 characters."
     }),
     email: z.string().refine((val) => val.includes("@stud.noroff.no"), {
       message: "Email must be a valid Noroff email.",
@@ -49,8 +52,10 @@ const FormSchema = z
 
 export default function RegisterCard({
   setState,
+  state,
 }: {
   setState: (state: boolean) => void
+  state: string | undefined
 }) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -65,25 +70,31 @@ export default function RegisterCard({
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const response = await Register(data)
     if (response.success) {
-      toast.success("Success!", {
-        description: "You have been registered.",
+      form.reset()
+      toast.success("Welcome! 🎉", {
+        description: (
+          <span>
+            You've been successfully registered as <strong>{data.name}</strong>!
+          </span>
+        ),
       })
       setState(true)
     } else {
-      // TODO: TEST THIS
       handleApiErrors(response.data, form)
     }
   }
 
   return (
-    <Card className={auth.card}>
+    <Card className={cn(authCardStyle.card, state, "opacity-0")}>
       <CardHeader>
-        <CardTitle className={auth.title}>
+        <CardTitle className={authCardStyle.title}>
           Register <Image src={logo} alt="Logo" height="50" />
         </CardTitle>
       </CardHeader>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className={auth.form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className={authCardStyle.form}>
           <CardContent>
             <FormField
               control={form.control}
@@ -139,11 +150,13 @@ export default function RegisterCard({
             />
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
-            <Button className="flex w-full" type="submit">Submit</Button>
+            <Button className="flex w-full" type="submit">
+              Submit
+            </Button>
             <CardDescription>
               Already registered?{" "}
               <span
-                className="hover:underline underline-offset-4 hover:text-primary cursor-pointer"
+                className="underline underline-offset-4 hover:text-primary cursor-pointer"
                 onClick={(e) => {
                   e.preventDefault()
                   setState(true)

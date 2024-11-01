@@ -26,7 +26,8 @@ import { printErrors, translateErrors } from "@/lib/api-error"
 import { ErrorMessage } from "@/src/actions/auth/types"
 import { useRouter } from "next/navigation"
 import { Login } from "@/src/actions/auth/auth"
-import { auth } from "./styles"
+import { authCardStyle } from "./styles"
+import { cn } from "@/lib/utils"
 
 const FormSchema = z.object({
   email: z.string().refine((val) => val.includes("@stud.noroff.no"), {
@@ -39,8 +40,11 @@ const FormSchema = z.object({
 
 export default function LoginCard({
   setState,
+  state,
 }: {
   setState: (state: boolean) => void
+  state: string | undefined
+  className?: string | undefined
 }) {
   const router = useRouter()
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -68,15 +72,16 @@ export default function LoginCard({
       })
     }
   }
+
   return (
-    <Card className={auth.card}>
+    <Card className={cn(authCardStyle.card, state)}>
       <CardHeader>
-        <CardTitle className={auth.title}>
+        <CardTitle className={authCardStyle.title}>
           Log in <Image src={logo} alt="Logo" height="50" />
         </CardTitle>
       </CardHeader>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className={auth.form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className={authCardStyle.form}>
           <CardContent>
             <FormField
               control={form.control}
@@ -112,7 +117,7 @@ export default function LoginCard({
             <CardDescription>
               Not registered yet?{" "}
               <span
-                className="hover:underline underline-offset-4 hover:text-primary cursor-pointer"
+                className="underline underline-offset-4 hover:text-primary cursor-pointer"
                 onClick={(e) => {
                   e.preventDefault()
                   setState(false)
