@@ -22,6 +22,8 @@ export default async function ProfilePage(props: {
 
   const profile = await getProfile(params.name)
 
+  if (!profile) return null
+
   return (
     <div>
       <Avatar>

@@ -15,6 +15,9 @@ export async function getProfile(name: string): Promise<Profile> {
   if (response.success) {
     return response.data
   }
+  if (response.data.errors[0].message) {
+    throw new Error(response.data.errors[0].message)
+  }
 
   throw new Error(response.data.statusText)
 }
