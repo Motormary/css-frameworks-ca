@@ -14,7 +14,7 @@ export default function UserCard({ profile }: { profile: Profile }) {
   return (
     <li
       key={profile.name}
-      className="relative flex max-xs:flex-col max-xs:items-center gap-4 m-auto border p-4 rounded-md min-w-[12rem] w-full hover:bg-muted/60">
+      className="relative w-full  flex max-xs:flex-col max-xs:items-center gap-4 m-auto border p-4 rounded-md min-w-[12rem] hover:bg-muted/60">
       <Link
         className="absolute inset-0 z-20"
         href={`/profile/${profile.name}`}></Link>
@@ -22,7 +22,7 @@ export default function UserCard({ profile }: { profile: Profile }) {
       <span
         title={profile.name}
         className="relative text-lg overflow-hidden max-sm:text-center w-full truncate xs:hidden z-50">
-        {profile.name} asdas babbaab s
+        {profile.name}
       </span>
       {/* Avatar box */}
       <div className="flex flex-col gap-2 items-center">
@@ -53,10 +53,10 @@ export default function UserCard({ profile }: { profile: Profile }) {
       </div>
 
       {/* Name */}
-      <div className="w-full flex flex-col justify-between gap-4 max-sm:text-center overflow-hidden cursor-default">
+      <div className="w-full flex flex-col justify-between gap-4 max-xs:text-center overflow-hidden cursor-default">
         <span
           title={profile.name}
-          className="relative text-lg overflow-hidden max-sm:text-center w-full truncate max-xs:hidden z-50">
+          className="relative text-lg overflow-hidden max-xs:text-center w-full truncate max-xs:hidden z-50">
           {profile.name}
         </span>
         <div className="relative flex z-50">
