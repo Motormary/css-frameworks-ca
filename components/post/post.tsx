@@ -39,7 +39,7 @@ export default function Post({ post }: { post: PostType }) {
 
   const name = post?.author?.name ?? post?.owner
   return (
-    <Card className="relative max-w-[800px] border-none shadow-none hover:bg-muted/80">
+    <Card className="relative h-fit w-full max-w-[800px] border-none shadow-none hover:bg-muted/80">
       <Link
         className="absolute inset-0 z-10 cursor-default"
         href={`/feed/${post.id}`}></Link>
