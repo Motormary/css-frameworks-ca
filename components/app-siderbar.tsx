@@ -4,16 +4,18 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup, SidebarGroupContent, SidebarHeader,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger
+  SidebarTrigger,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
 import SidebarProfile from "./sidebar/user-menu"
 import { ModeToggle } from "./mode-toggler"
-import SearchPosts from "./post/search"
+import MobileTrigger from "./sidebar/button"
 
 const items = [
   {
@@ -40,12 +42,14 @@ export async function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
+                  <MobileTrigger>
+                    <SidebarMenuButton tooltip={item.title} asChild>
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </MobileTrigger>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
