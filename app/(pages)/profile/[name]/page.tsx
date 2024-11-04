@@ -94,12 +94,6 @@ export default async function ProfilePage(props: {
         {profile.posts.map((post) => (
           <Post key={post.id} post={post} />
         ))}
-        {profile.posts.map((post) => (
-          <Post key={post.id} post={post} />
-        ))}
-        {profile.posts.map((post) => (
-          <Post key={post.id} post={post} />
-        ))}
       </div>
     </div>
   )
