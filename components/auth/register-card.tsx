@@ -30,11 +30,14 @@ import { cn } from "@/lib/utils"
 
 const FormSchema = z
   .object({
-    name: z.string().min(2, {
-      message: "Name must be at least 2 characters.",
-    }).max(20, {
-      message: "Name cannot contain more than 20 characters."
-    }),
+    name: z
+      .string()
+      .min(2, {
+        message: "Name must be at least 2 characters.",
+      })
+      .max(20, {
+        message: "Name cannot contain more than 20 characters.",
+      }),
     email: z.string().refine((val) => val.includes("@stud.noroff.no"), {
       message: "Email must be a valid Noroff email.",
     }),
@@ -74,7 +77,8 @@ export default function RegisterCard({
       toast.success("Welcome! 🎉", {
         description: (
           <span>
-            You've been successfully registered as <strong>{data.name}</strong>!
+            You&apos;ve been successfully registered as{" "}
+            <strong>{data.name}</strong>!
           </span>
         ),
       })
@@ -94,7 +98,8 @@ export default function RegisterCard({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className={authCardStyle.form}>
+          className={authCardStyle.form}
+        >
           <CardContent>
             <FormField
               control={form.control}
@@ -156,11 +161,12 @@ export default function RegisterCard({
             <CardDescription>
               Already registered?{" "}
               <span
-                className="underline underline-offset-4 hover:text-primary cursor-pointer"
+                className="cursor-pointer underline underline-offset-4 hover:text-primary"
                 onClick={(e) => {
                   e.preventDefault()
                   setState(true)
-                }}>
+                }}
+              >
                 Sign in!
               </span>
             </CardDescription>

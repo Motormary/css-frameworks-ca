@@ -22,7 +22,7 @@ export default function PostToolbar() {
   )
 
   return (
-    <div className="flex items-center gap-4 justify-between">
+    <div className="flex items-center justify-between gap-4">
       <div className="space-x-4">
         <Link
           className={cn(sortedBy === "newest" && "underline", "text-sm underline-offset-2")}

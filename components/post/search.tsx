@@ -24,7 +24,7 @@ export default function SearchPosts({
         "xl:w-fit flex items-center gap-4 rounded-md border border-input h-8 ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2"
       )}>
       <Input
-        className="border-none h-6 focus-visible:ring-0 focus-visible:ring-offset-0"
+        className="h-6 border-none focus-visible:ring-0 focus-visible:ring-offset-0"
         placeholder="Search Posts"
         value={search}
         onChange={(e) => setSearch(e.target.value)}

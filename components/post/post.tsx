@@ -39,16 +39,16 @@ export default function Post({ post }: { post: PostType }) {
 
   const name = post?.author?.name ?? post?.owner
   return (
-    <Card className="relative max-w-[800px] border-none hover:bg-muted/80 shadow-none">
+    <Card className="relative max-w-[800px] border-none shadow-none hover:bg-muted/80">
       <Link
-        className="absolute z-10 inset-0 cursor-default"
+        className="absolute inset-0 z-10 cursor-default"
         href={`/feed/${post.id}`}></Link>
       <CardHeader>
-        <CardTitle className="relative flex justify-between items-center">
+        <CardTitle className="relative flex items-center justify-between">
           {post.title}
           {!post.owner ? (
             <Link
-              className="relative flex items-center gap-2 z-50 inset-0 text-base font-normal border rounded-full p-2 px-3 bg-background hover:shadow-md hover:bg-primary-foreground"
+              className="relative inset-0 z-50 flex items-center gap-2 rounded-full border bg-background p-2 px-3 text-base font-normal hover:bg-primary-foreground hover:shadow-md"
               href={`/profile/${name}`}>
               <Avatar className="size-6">
                 <AvatarImage
@@ -68,7 +68,7 @@ export default function Post({ post }: { post: PostType }) {
       <CardContent>
         <AspectRatio ratio={16 / 9}>
           <img
-            className="w-full h-full rounded-md object-cover border border-muted"
+            className="h-full w-full rounded-md border border-muted object-cover"
             src={imageSrc}
             alt="Post Image"
           />
@@ -77,7 +77,7 @@ export default function Post({ post }: { post: PostType }) {
       <CardFooter className="flex flex-wrap gap-2">
         <Button
           variant="outline"
-          className="relative rounded-full hover:bg-primary-foreground hover:shadow-md z-50">
+          className="relative z-50 rounded-full hover:bg-primary-foreground hover:shadow-md">
           <MessageCircle />
           {post._count?.comments ?? "0"}
         </Button>

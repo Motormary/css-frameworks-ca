@@ -38,7 +38,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased max-h-svh`}>
+        className={`${geistSans.variable} ${geistMono.variable} max-h-svh antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -50,8 +50,8 @@ export default async function RootLayout({
             {isAuth ? <AppSidebar /> : null}
             <main className="w-full">
               {isAuth ? (
-                <header className="relative flex justify-center border-b px-1 h-14 shrink-0 items-center gap-2 transition-[width,height] ease-linear max-[400px]:pr-4">
-                  <div className="min-[400px]:absolute left-2 flex items-center gap-2 px-4">
+                <header className="relative flex h-14 shrink-0 items-center justify-center gap-2 border-b px-1 transition-[width,height] ease-linear max-[400px]:pr-4">
+                  <div className="left-2 flex items-center gap-2 px-4 min-[400px]:absolute">
                     <SidebarTrigger className="-ml-1" />
                     <Separator
                       orientation="vertical"
@@ -62,7 +62,7 @@ export default async function RootLayout({
                   <SearchPosts className="z-20" />
                 </header>
               ) : null}
-              <div className="h-[calc(100svh-64px)] overflow-x-hidden flex justify-center overflow-y-auto pb-20 pt-4">
+              <div className="flex h-[calc(100svh-64px)] justify-center overflow-y-auto overflow-x-hidden pb-20 pt-4">
                 {children}
               </div>
             </main>

@@ -17,7 +17,7 @@ export default function Breadcrumbs() {
   const filteredSegments = segments.filter((segment) => !/\(.*\)/.test(segment))
 
   return (
-    <Breadcrumb className=" max-xl:hidden shrink-0">
+    <Breadcrumb className=" shrink-0 max-xl:hidden">
       <BreadcrumbList>
         {filteredSegments.map((segment, index) => {
           const href = `/${filteredSegments.slice(0, index + 1).join("/")}`

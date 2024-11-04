@@ -117,7 +117,7 @@ export default function LoginCard({
             <CardDescription>
               Not registered yet?{" "}
               <span
-                className="underline underline-offset-4 hover:text-primary cursor-pointer"
+                className="cursor-pointer underline underline-offset-4 hover:text-primary"
                 onClick={(e) => {
                   e.preventDefault()
                   setState(false)

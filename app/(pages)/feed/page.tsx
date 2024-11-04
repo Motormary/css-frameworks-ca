@@ -30,7 +30,7 @@ export default async function FeedPage(props: {
   const searchValue = query.toString().toLowerCase() as string
 
   return (
-    <div className="flex flex-col max-xl:w-full xl:w-2/4 max-w-[800px] gap-2 px-4">
+    <div className="flex max-w-[800px] flex-col gap-2 px-4 max-xl:w-full xl:w-2/4">
       <PostToolbar />
       <Suspense fallback={<LoadingPosts />}>
         <PostList sortValue={sortValue} searchValue={searchValue} />
@@ -48,9 +48,9 @@ function LoadingPosts() {
             <Separator />
             <Card className="relative max-w-[800px] border-none">
               <CardHeader>
-                <CardTitle className="relative flex justify-between items-center">
+                <CardTitle className="relative flex items-center justify-between">
                   <Skeleton className="h-6 w-32" />
-                  <div className="relative flex items-center gap-2 z-50 inset-0 text-base font-normal border rounded-full p-2 px-3 bg-background">
+                  <div className="relative inset-0 z-50 flex items-center gap-2 rounded-full border bg-background p-2 px-3 text-base font-normal">
                     <Skeleton className="size-6 rounded-full" />
                     <Skeleton className="h-4 w-16" />
                   </div>
@@ -58,13 +58,13 @@ function LoadingPosts() {
               </CardHeader>
               <CardContent>
                 <AspectRatio ratio={16 / 9}>
-                  <Skeleton className="w-full h-full rounded-md object-cover border border-muted mt-1.5" />
+                  <Skeleton className="mt-1.5 h-full w-full rounded-md border border-muted object-cover" />
                 </AspectRatio>
               </CardContent>
               <CardFooter className="flex flex-wrap gap-2">
                 <Button
                   variant="outline"
-                  className="relative rounded-full mt-1.5">
+                  className="relative mt-1.5 rounded-full">
                   <MessageCircle />0
                 </Button>
               </CardFooter>

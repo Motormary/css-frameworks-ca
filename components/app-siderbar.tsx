@@ -53,7 +53,7 @@ export async function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <SidebarTrigger className="md:hidden w-full" />
+        <SidebarTrigger className="w-full md:hidden" />
         <ModeToggle />
       </SidebarFooter>
     </Sidebar>
