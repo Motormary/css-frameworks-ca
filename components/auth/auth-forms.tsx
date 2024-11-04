@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
 export default function AuthForms() {
   const [slideAnimation, setSlideAnimation] = useState("translate-x-1/4")
   const [loginAnimation, setLoginAnimation] = useState("")
-  const [regAnimation, setRegAnimation] = useState("")
+  const [regAnimation, setRegAnimation] = useState("opacity-0")
 
   function handleState(state: boolean) {
     if (state) {

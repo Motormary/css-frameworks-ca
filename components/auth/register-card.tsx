@@ -89,7 +89,7 @@ export default function RegisterCard({
   }
 
   return (
-    <Card className={cn(authCardStyle.card, state, "opacity-0")}>
+    <Card className={cn(authCardStyle.card, state)}>
       <CardHeader>
         <CardTitle className={authCardStyle.title}>
           Register <Image src={logo} alt="Logo" height="50" />
