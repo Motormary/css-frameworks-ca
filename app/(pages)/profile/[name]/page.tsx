@@ -20,6 +20,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { DialogTitle } from "@radix-ui/react-dialog"
+import Pill from "@/components/profile/pill"
 
 type Params = Promise<{ name: string }>
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
@@ -95,14 +96,6 @@ export default async function ProfilePage(props: {
           <Post key={post.id} post={post} />
         ))}
       </div>
-    </div>
-  )
-}
-
-export function Pill({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="inline-flex select-none items-center rounded-full border border-transparent bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-      {children}
     </div>
   )
 }
