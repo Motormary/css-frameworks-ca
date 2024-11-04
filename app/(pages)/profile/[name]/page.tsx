@@ -52,7 +52,7 @@ export default async function ProfilePage(props: {
                   src={profile?.avatar !== "" ? profile?.avatar : "null"}
                   alt="Avatar"
                 />
-                <AvatarFallback>
+                <AvatarFallback className="w-[80vw]">
                   <User className="h-full w-full" />
                 </AvatarFallback>
               </Avatar>
@@ -92,9 +92,11 @@ export default async function ProfilePage(props: {
       </Card>
 
       <div className="grid h-fit w-full md:grid-cols-2 md:justify-center">
-        {profile.posts.map((post) => (
+        {profile.posts.length ? profile.posts.map((post) => (
           <Post key={post.id} post={post} />
-        ))}
+        )): (
+          <div className="max-md:w-full max-md:text-center">No posts to display.</div>
+        )}
       </div>
     </div>
   )
