@@ -1,5 +1,4 @@
 import { getPosts } from "@/src/actions/posts/get-all"
-import { PostType } from "@/src/actions/posts/types"
 import filterPosts from "@/src/functions/posts/filter-by-value"
 import sortPostByDate from "@/src/functions/posts/sort-by-date"
 import { Separator } from "../ui/separator"
@@ -17,8 +16,7 @@ export default async function PostList({
     limit: searchValue ? 100 : 20,
   })
 
-  const filteredPosts = filterPosts(posts, searchValue)
-  const sortedPosts = sortPostByDate(filteredPosts, sortValue)
+  const sortedPosts = sortPostByDate(posts, sortValue)
   return (
     <>
       {sortedPosts?.length ? (
