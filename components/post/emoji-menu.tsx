@@ -24,7 +24,7 @@ export default function EmojiMenu({ id }: { id: number }) {
         <Button
           size="icon"
           variant="outline"
-          className="relative z-50 shrink-0 rounded-full text-lg"
+          className="relative z-50 mt-2 shrink-0 rounded-full text-lg"
         >
           <span className="absolute right-1 top-2 -translate-y-1/2 translate-x-1/2">
             +

@@ -16,6 +16,7 @@ import { Button } from "../ui/button"
 import EmojiMenu from "./emoji-menu"
 import { cn } from "@/lib/utils"
 import Img from "./image"
+import Pill from "../profile/pill"
 
 // People keep uploading non-direct links from google image search..........
 export function isValidImageUrl(url: string): boolean {
@@ -59,9 +60,7 @@ export default function Post({
       )}
       <CardHeader>
         <CardTitle className="relative flex items-center justify-between">
-          <span className="overflow-hidden truncate">
-          {post.title}
-          </span>
+          <span className="overflow-hidden truncate">{post.title}</span>
           {!post.owner ? (
             <Link
               className="relative inset-0 z-50 flex items-center gap-2 rounded-full border bg-background p-2 px-3 text-base font-normal hover:bg-primary-foreground hover:shadow-md"
@@ -85,10 +84,15 @@ export default function Post({
           ) : null}
         </CardTitle>
         <CardDescription className="overflow-hidden truncate text-nowrap text-muted-foreground">
-        {post.body ? post.body : null}
+          {post.body ? post.body : null}
         </CardDescription>
+        <div className="flex flex-wrap gap-2 pt-2">
+          {post.tags.map((tag, index) => (
+            <Pill key={tag + index + post.id}>{tag}</Pill>
+          ))}
+        </div>
       </CardHeader>
-      <CardContent className="relative">
+      <CardContent className="relative pb-2">
         {viewing && post.media?.url ? (
           <Link
             className="absolute inset-0 z-10"
@@ -106,15 +110,15 @@ export default function Post({
       </CardContent>
       {profile ? null : (
         <CardFooter className="flex items-start gap-2">
-          <div className="flex flex-wrap gap-2 overflow-y-auto max-md:max-h-[200px]">
+          <div className="flex h-max w-full flex-wrap gap-2 overflow-y-auto py-2 max-md:max-h-[200px]">
             <Button
               variant="outline"
               className="relative z-50 w-[69.2px] rounded-full hover:bg-primary-foreground hover:shadow-md"
               asChild
             >
               <Link href={`/feed/${post.id}?comment=true`}>
-              <MessageCircle />
-              {post._count?.comments ?? "0"}
+                <MessageCircle />
+                {post._count?.comments ?? "0"}
               </Link>
             </Button>
             {sortedReactions.map((int, index) => (
