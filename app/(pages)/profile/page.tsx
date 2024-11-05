@@ -10,7 +10,7 @@ export default async function ProfilesPage() {
 
   const profiles = await getAllProfiles()
   return (
-    <ol className="container grid grid-cols-1 gap-4 p-4 md:grid-cols-[repeat(auto-fit,minmax(270px,1fr))] lg:grid-cols-2">
+    <ol className="container h-fit grid grid-cols-1 gap-4 p-4 md:grid-cols-[repeat(auto-fit,minmax(270px,1fr))] lg:grid-cols-2">
       {profiles.map((profile, index) => {
         return <UserCard key={profile.name} profile={profile} />
       })}
