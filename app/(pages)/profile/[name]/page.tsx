@@ -44,8 +44,8 @@ export default async function ProfilePage(props: {
   if (!profile) return null
 
   return (
-    <div className="container mx-4 flex w-full gap-4 max-md:flex-col">
-      <Card className="flex h-fit flex-col items-center max-md:border-none max-md:shadow-none md:w-fit">
+    <div className="container mx-4 flex w-full gap-4 max-lg:flex-col">
+      <Card className="flex h-fit flex-col items-center max-xl:border-none max-sm:shadow-none lg:w-fit">
         <CardHeader>
           <CardTitle>{profile.name}</CardTitle>
         </CardHeader>
@@ -100,9 +100,9 @@ export default async function ProfilePage(props: {
                 href={`/feed/${post.id}`}
                 className="absolute inset-0 z-10"
               ></Link>
-              <CardContent className="flex gap-4 p-4">
+              <CardContent className="flex gap-4 p-4 max-lg:flex-col">
                 {post.media?.url ? (
-                  <div className="h-full w-full max-w-48">
+                  <div className="h-full min-w-48 lg:max-w-48">
                     <Img
                       className="h-full w-full rounded-md border border-muted object-cover"
                       src={post.media?.url}
@@ -112,6 +112,11 @@ export default async function ProfilePage(props: {
                 ) : null}
                 <div>
                   <CardTitle>{post.title}</CardTitle>
+                  <div className="my-2 flex flex-wrap gap-2">
+                    {post.tags.map((tag, index) => (
+                      <Pill key={tag + index + post.id}>{tag}</Pill>
+                    ))}
+                  </div>
                   <CardDescription>{post.body}</CardDescription>
                 </div>
               </CardContent>
