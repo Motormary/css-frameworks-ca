@@ -16,6 +16,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { MessageCircle, User } from "lucide-react"
 import { Button } from "../ui/button"
 import EmojiMenu from "./emoji-menu"
+import { cn } from "@/lib/utils"
 
 // People keep uploading non-direct links from google image search..........
 export function isValidImageUrl(url: string): boolean {
@@ -32,9 +33,11 @@ export function checkImgSrc(url: string): boolean {
 export default function Post({
   post,
   profile,
+  viewing,
 }: {
   post: PostType
   profile?: boolean
+  viewing?: boolean
 }) {
   const sortedReactions = post.reactions
     ? [...post.reactions].sort((a, b) => a.symbol.localeCompare(b.symbol))
@@ -45,11 +48,13 @@ export default function Post({
   const name = post?.author?.name ?? post?.owner
 
   return (
-    <Card className="relative h-fit w-full min-w-[270px] max-w-[800px] border-none shadow-none hover:bg-muted/80">
-      <Link
-        className="absolute inset-0 z-10 cursor-default"
-        href={`/feed/${post.id}`}
-      ></Link>
+    <Card className={cn(!viewing && "hover:bg-muted/80", "relative h-fit w-full min-w-[270px] max-w-[800px] border-none shadow-none")}>
+      {viewing ? null : (
+        <Link
+          className="absolute inset-0 z-10 cursor-default"
+          href={`/feed/${post.id}`}
+        ></Link>
+      )}
       <CardHeader>
         <CardTitle className="relative flex items-center justify-between">
           {post.title}
