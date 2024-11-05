@@ -24,7 +24,7 @@ export default function Breadcrumbs() {
           const isLast = index === filteredSegments.length - 1
           let name = segment.charAt(0).toUpperCase() + segment.slice(1)
 
-          if (filteredSegments.some(seg => seg === "feed") && filteredSegments.length > 0 && isLast) name = "View Post"
+          if (filteredSegments.some(seg => seg === "feed") && filteredSegments.length > 1 && isLast) name = "View Post"
           
 
           return (
