@@ -22,7 +22,10 @@ export default function Breadcrumbs() {
         {filteredSegments.map((segment, index) => {
           const href = `/${filteredSegments.slice(0, index + 1).join("/")}`
           const isLast = index === filteredSegments.length - 1
-          const name = segment.charAt(0).toUpperCase() + segment.slice(1)
+          let name = segment.charAt(0).toUpperCase() + segment.slice(1)
+
+          if (filteredSegments.some(seg => seg === "feed") && filteredSegments.length > 0 && isLast) name = "View Post"
+          
 
           return (
             <BreadcrumbItem key={segment}>
