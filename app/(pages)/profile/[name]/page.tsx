@@ -3,12 +3,13 @@ import checkUser from "@/src/actions/auth/check-cookie"
 import { getProfile } from "@/src/actions/profile/get-profile"
 import { redirect } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import Post from "@/components/post/post"
+import { checkImgSrc } from "@/components/post/post"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { User } from "lucide-react"
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -21,6 +22,8 @@ import {
 } from "@/components/ui/dialog"
 import { DialogTitle } from "@radix-ui/react-dialog"
 import Pill from "@/components/profile/pill"
+import { AspectRatio } from "@radix-ui/react-aspect-ratio"
+import logo from "assets/images/logo.png"
 
 type Params = Promise<{ name: string }>
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
@@ -62,7 +65,7 @@ export default async function ProfilePage(props: {
                 <DialogTitle className="sr-only">{profile.name}</DialogTitle>
               </DialogHeader>
               <img
-              className="h-full w-full object-fill"
+                className="h-full w-full object-fill"
                 src={
                   profile.avatar && profile.avatar !== ""
                     ? profile.avatar
@@ -74,16 +77,10 @@ export default async function ProfilePage(props: {
           </Dialog>
         </CardContent>
         <CardFooter className="flex flex-col gap-6">
-          <div className="flex justify-center gap-2 max-md:flex-wrap">
-            <Pill>
-              <span>Followers:</span> {profile.followers.length}
-            </Pill>
-            <Pill>
-              <span>Following:</span> {profile.following.length}
-            </Pill>
-            <Pill>
-              <span>Posts:</span> {profile.posts.length}
-            </Pill>
+          <div className="flex justify-center gap-2 text-nowrap max-md:flex-wrap">
+            <Pill>Followers: {profile.followers.length}</Pill>
+            <Pill>Following: {profile.following.length}</Pill>
+            <Pill>Posts: {profile.posts.length}</Pill>
           </div>
           <Button variant="outline" className="flex w-full rounded-full">
             Follow
@@ -91,11 +88,31 @@ export default async function ProfilePage(props: {
         </CardFooter>
       </Card>
 
-      <div className="grid h-fit w-full md:grid-cols-2 md:justify-center">
-        {profile.posts.length ? profile.posts.map((post) => (
-          <Post key={post.id} post={post} />
-        )): (
-          <div className="max-md:w-full max-md:text-center">No posts to display.</div>
+      <div className="flex h-fit w-full flex-col gap-4">
+        {profile.posts.length ? (
+          profile.posts.map((post) => (
+            <Card key={post.id}>
+              <CardContent className="flex gap-4 p-4">
+                <div className="h-full w-full max-w-48">
+                  <AspectRatio ratio={16 / 9}>
+                    <img
+                      className="h-full w-full rounded-md border border-muted object-cover"
+                      src={checkImgSrc(post?.media) ? post.media : logo.src}
+                      alt="Post Image"
+                    />
+                  </AspectRatio>
+                </div>
+                <div>
+                  <CardTitle>{post.title}</CardTitle>
+                  <CardDescription>{post.body}</CardDescription>
+                </div>
+              </CardContent>
+            </Card>
+          ))
+        ) : (
+          <div className="max-md:w-full max-md:text-center">
+            No posts to display.
+          </div>
         )}
       </div>
     </div>
