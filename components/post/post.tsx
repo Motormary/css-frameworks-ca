@@ -7,16 +7,30 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card"
-import { AspectRatio } from "../ui/aspect-ratio"
 import Link from "next/link"
 import EmojiCount from "./emoji-count"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
-import { MessageCircle, User } from "lucide-react"
+import { MessageCircle, Trash, User } from "lucide-react"
 import { Button } from "../ui/button"
 import EmojiMenu from "./emoji-menu"
 import { cn } from "@/lib/utils"
 import Img from "./image"
 import Pill from "../profile/pill"
+import { cookies } from "next/headers"
+import { UserData } from "@/src/actions/auth/types"
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog"
+
+import { deletePost } from "@/src/actions/posts/delete"
+import Form from "next/form"
+import { redirect } from "next/navigation"
 
 // People keep uploading non-direct links from google image search..........
 export function isValidImageUrl(url: string): boolean {
@@ -30,15 +44,21 @@ export function checkImgSrc(url: string): boolean {
   return false
 }
 
-export default function Post({
+export default async function Post({
   post,
   profile,
   viewing,
+  owner,
 }: {
   post: PostType
   profile?: boolean
   viewing?: boolean
+  owner?: boolean
 }) {
+  const cookieStore = await cookies()
+  const currentUser: UserData = JSON.parse(
+    cookieStore.get("profile")?.value as string,
+  )
   const sortedReactions = post.reactions
     ? [...post.reactions].sort((a, b) => a.symbol.localeCompare(b.symbol))
     : []
@@ -60,10 +80,12 @@ export default function Post({
       )}
       <CardHeader>
         <CardTitle className="relative flex items-center justify-between">
-          <span className="overflow-hidden truncate">{post.title}</span>
+          <span className="max-w-96 overflow-hidden truncate">
+            {post.title}
+          </span>
           {!post.owner ? (
             <Link
-              className="relative inset-0 z-50 flex items-center gap-2 rounded-full border bg-background p-2 px-3 text-base font-normal hover:bg-primary-foreground hover:shadow-md"
+              className="relative inset-0 z-50 flex items-center gap-2 rounded-full border bg-background p-2 px-3 text-base hover:bg-primary-foreground hover:shadow-md"
               href={`/profile/${name}`}
             >
               <Avatar className="size-6">
@@ -91,6 +113,41 @@ export default function Post({
             <Pill key={tag + index + post.id}>{tag}</Pill>
           ))}
         </div>
+        {currentUser.name === name ? (
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button
+                title="Delete post"
+                variant="ghost"
+                className="size-6 p-0 text-muted-foreground hover:text-destructive"
+              >
+                <Trash />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete post</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Are you sure you want to delete this post?
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogTrigger asChild>
+                  <Button>Cancel</Button>
+                </AlertDialogTrigger>
+                <Form
+                  action={async () => {
+                    "use server"
+                    deletePost(post.id)
+                    redirect("/")
+                  }}
+                >
+                  <Button variant="destructive">Delete</Button>
+                </Form>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        ) : null}
       </CardHeader>
       <CardContent className="relative pb-2">
         {viewing && post.media?.url ? (
@@ -122,7 +179,7 @@ export default function Post({
               </Link>
             </Button>
             {sortedReactions.map((int, index) => (
-              <EmojiCount key={int.symbol} reaction={int} />
+              <EmojiCount key={int.symbol} postId={post.id} currentUser={currentUser.name} reaction={int} />
             ))}
           </div>
           <EmojiMenu id={post.id} />

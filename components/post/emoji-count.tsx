@@ -3,14 +3,18 @@ import { useOptimistic, useTransition } from "react"
 import { Button } from "../ui/button"
 import reactToPost from "@/src/actions/posts/react"
 import { useRouter } from "next/navigation"
+import { cn } from "@/lib/utils"
 
 export default function EmojiCount({
   reaction,
+  postId,
+  currentUser,
 }: {
+  postId: number
+  currentUser: string
   reaction: {
     count: number
     symbol: string
-    postId: number
     reactors: string[]
   }
 }) {
@@ -18,15 +22,22 @@ export default function EmojiCount({
   const [isPending, startTransition] = useTransition()
   const [optimisticCount, addOptimisticCount] = useOptimistic(
     reaction.count,
-    (count: number, newCount: number) => count + newCount
+    (count: number, newCount: number) => count + newCount,
   )
 
   async function handleCount() {
     const data = {
-      id: reaction.postId,
+      id: postId,
       symbol: reaction.symbol,
     }
-    addOptimisticCount(1)
+    if (
+      reaction.count > 0 &&
+      reaction.reactors.some((reactor) => reactor !== currentUser)
+    ) {
+      addOptimisticCount(1)
+    } if (reaction.reactors.some((reactor) => reactor === currentUser)) {
+      addOptimisticCount(-1)
+    }
     await reactToPost(data)
     router.refresh()
   }
@@ -39,8 +50,13 @@ export default function EmojiCount({
           handleCount()
         })
       }}
-      className="relative z-50 rounded-full hover:bg-primary-foreground hover:shadow-md"
-      variant="outline">
+      className={cn(
+        reaction.reactors.some((reactor) => reactor == currentUser) &&
+          "bg-muted",
+        "relative z-50 rounded-full hover:bg-primary-foreground hover:shadow-md",
+      )}
+      variant="outline"
+    >
       {reaction.symbol}
       <span>{optimisticCount}</span>
     </Button>

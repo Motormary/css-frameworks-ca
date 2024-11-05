@@ -32,13 +32,14 @@ import {
   useRouter,
   useSearchParams,
 } from "next/navigation"
+import { revalidatePath } from "next/cache"
 
 export const commentSchema = z.object({
   body: z.string(),
   replyToId: z.number().optional(),
 })
 
-export default function Comment({
+export default function CommentEditor({
   children,
   postId,
   replyToId,
@@ -50,7 +51,7 @@ export default function Comment({
   const path = useSearchParams()
   const commentRequested = path.get("comment") ?? false
   const router = useRouter()
-  const [open, setOpen] = useState(commentRequested ? true : false)
+  const [open, setOpen] = useState(commentRequested && !replyToId ? true : false)
   const [openAlert, setOpenAlert] = useState(false)
   const editorRef = useRef<HTMLTextAreaElement | null>(null)
   const containerRef = useRef<HTMLDivElement | null>(null)
@@ -80,6 +81,7 @@ export default function Comment({
   }
 
   async function onSubmit(data: z.infer<typeof commentSchema>) {
+    setOpen(false)
     if (!data.body.length) {
       containerRef.current?.classList.replace(
         "focus-within:ring-ring",
@@ -95,7 +97,7 @@ export default function Comment({
 
       const response = await commentOnPost(request)
 
-      router.refresh()
+      revalidatePath("/feed")
 
       if (!response.id) {
         toast.error("Error", {

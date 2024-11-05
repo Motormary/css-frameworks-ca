@@ -1,4 +1,5 @@
-import Comment from "@/components/post/comment"
+import CommentEditor from "@/components/post/comment"
+import CommentList from "@/components/post/comment-list"
 import Post from "@/components/post/post"
 import checkUser from "@/src/actions/auth/check-cookie"
 import { getPost } from "@/src/actions/posts/get"
@@ -16,14 +17,14 @@ export default async function PostPage({
   const post = await getPost(id)
 
   return (
-    <div className="container flex h-fit flex-col items-center">
+    <div className="container flex h-fit flex-col items-center px-4">
       <Post viewing post={post} />
-      <div>{post.comments.map((comment) => comment.body)}</div>
-      <Comment postId={post.id}>
-        <button className="h-10 w-full cursor-text rounded-md border px-3 text-left text-sm text-muted-foreground">
-          Leave a comment
-        </button>
-      </Comment>
+        <CommentEditor postId={post.id}>
+          <button className="h-10 w-full cursor-text rounded-md border px-3 text-left text-sm text-muted-foreground">
+            Leave a comment
+          </button>
+        </CommentEditor>
+        <CommentList comments={post.comments} />
     </div>
   )
 }

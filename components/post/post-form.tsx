@@ -40,7 +40,6 @@ const FormSchema = z.object({
   media: z.object({
     url: z
       .string()
-      .optional()
       .refine((value) => !value || z.string().url().safeParse(value).success, {
         message: "Invalid URL format",
       }),
