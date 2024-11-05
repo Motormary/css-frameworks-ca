@@ -11,7 +11,10 @@ export type Profile = {
     url: string
     alt: string
   }
-  avatar: string
+  avatar: {
+    url: string
+    alt: string
+  }
   _count: {
     posts: number
     followers: number

@@ -38,6 +38,10 @@ const FormSchema = z
       .max(20, {
         message: "Name cannot contain more than 20 characters.",
       }),
+    avatar: z.object({
+      url: z.string().optional(),
+      alt: z.string().optional()
+    }),
     email: z.string().refine((val) => val.includes("@stud.noroff.no"), {
       message: "Email must be a valid Noroff email.",
     }),
@@ -64,6 +68,10 @@ export default function RegisterCard({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       name: "",
+      avatar: {
+        url: "",
+        alt: "",
+      },
       email: "",
       password: "",
       confirm: "",
@@ -109,6 +117,19 @@ export default function RegisterCard({
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input placeholder="Kari Traa" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="avatar.url"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Avatar URL</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

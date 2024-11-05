@@ -24,6 +24,8 @@ import { DialogTitle } from "@radix-ui/react-dialog"
 import Pill from "@/components/profile/pill"
 import { AspectRatio } from "@radix-ui/react-aspect-ratio"
 import logo from "assets/images/logo.png"
+import Img from "@/components/post/image"
+import Link from "next/link"
 
 type Params = Promise<{ name: string }>
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
@@ -52,7 +54,9 @@ export default async function ProfilePage(props: {
             <DialogTrigger asChild>
               <Avatar className="h-full w-full sm:h-52 sm:w-52">
                 <AvatarImage
-                  src={profile?.avatar !== "" ? profile?.avatar : "null"}
+                  src={
+                    profile?.avatar?.url !== "" ? profile?.avatar?.url : "null"
+                  }
                   alt="Avatar"
                 />
                 <AvatarFallback className="w-[80vw]">
@@ -67,8 +71,8 @@ export default async function ProfilePage(props: {
               <img
                 className="h-full w-full object-fill"
                 src={
-                  profile.avatar && profile.avatar !== ""
-                    ? profile.avatar
+                  profile.avatar?.url && profile.avatar?.url !== ""
+                    ? profile.avatar?.url
                     : undefined
                 }
                 alt="Profile Avatar"
@@ -91,17 +95,21 @@ export default async function ProfilePage(props: {
       <div className="flex h-fit w-full flex-col gap-4">
         {profile.posts.length ? (
           profile.posts.map((post) => (
-            <Card key={post.id}>
+            <Card key={post.id} className="relative hover:bg-muted/80">
+              <Link
+                href={`/feed/${post.id}`}
+                className="absolute inset-0 z-10"
+              ></Link>
               <CardContent className="flex gap-4 p-4">
-                <div className="h-full w-full max-w-48">
-                  <AspectRatio ratio={16 / 9}>
-                    <img
+                {post.media?.url ? (
+                  <div className="h-full w-full max-w-48">
+                    <Img
                       className="h-full w-full rounded-md border border-muted object-cover"
-                      src={checkImgSrc(post?.media) ? post.media : logo.src}
+                      src={post.media?.url}
                       alt="Post Image"
                     />
-                  </AspectRatio>
-                </div>
+                  </div>
+                ) : null}
                 <div>
                   <CardTitle>{post.title}</CardTitle>
                   <CardDescription>{post.body}</CardDescription>

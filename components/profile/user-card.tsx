@@ -1,6 +1,5 @@
 "use client"
 
-import { UserData } from "@/src/actions/auth/types"
 import { Profile } from "@/src/actions/profile/types"
 import Link from "next/link"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
@@ -29,8 +28,8 @@ export default function UserCard({ profile }: { profile: Profile }) {
         <Avatar className="size-24 min-w-fit border border-border">
           <AvatarImage
             src={
-              profile?.avatar && profile?.avatar !== ""
-                ? profile.avatar
+              profile?.avatar?.url && profile?.avatar?.url !== ""
+                ? profile.avatar?.url
                 : undefined
             }
             alt="Avatar"

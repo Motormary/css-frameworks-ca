@@ -42,7 +42,7 @@ export default async function SidebarProfile() {
                   <AvatarImage
                     src={
                       profile
-                        ? profile?.avatar
+                        ? profile?.avatar.url
                         : "https://github.com/shadcn.png"
                     }
                     alt="Avatar"

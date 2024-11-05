@@ -3,6 +3,7 @@
 import { cookies } from "next/headers"
 import { translateErrors } from "@/lib/api-error"
 import { CacheOptions } from "./types"
+import { API_KEY } from "@/lib/consts"
 
 /**
  * A helper function for making server-side API calls with headers, token handling,
@@ -34,13 +35,14 @@ export default async function superFetch({
   if (!method || !url) throw new Error("Missing params")
   const cookie = await cookies()
   const headers = new Headers()
-  
+
   // Check for token cookie
   const hasToken = cookie.has("token")
   if (hasToken) {
     // Add accessToken to headers from cookies
     const token = cookie.get("token")
     headers.append("Authorization", `Bearer ${token?.value as string}`)
+    headers.append("X-Noroff-API-Key", API_KEY)
   }
 
   /* Initial a next request */
@@ -69,7 +71,7 @@ export default async function superFetch({
       const data = await response.json()
       responseData = {
         success: true,
-        data: data,
+        data: data.data,
       }
     } else {
       const data = await response.json()

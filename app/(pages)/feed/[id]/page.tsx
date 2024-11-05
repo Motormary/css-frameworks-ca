@@ -1,8 +1,5 @@
 import Comment from "@/components/post/comment"
 import Post from "@/components/post/post"
-import { Button } from "@/components/ui/button"
-import { DialogTrigger } from "@/components/ui/dialog"
-import { Textarea } from "@/components/ui/textarea"
 import checkUser from "@/src/actions/auth/check-cookie"
 import { getPost } from "@/src/actions/posts/get"
 import { redirect } from "next/navigation"

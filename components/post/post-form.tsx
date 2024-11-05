@@ -37,12 +37,15 @@ const FormSchema = z.object({
   }),
   body: z.string().optional(),
   tags: z.array(z.string()).optional(),
-  media: z
-    .string()
-    .optional()
-    .refine((value) => !value || z.string().url().safeParse(value).success, {
-      message: "Invalid URL format",
-    }),
+  media: z.object({
+    url: z
+      .string()
+      .optional()
+      .refine((value) => !value || z.string().url().safeParse(value).success, {
+        message: "Invalid URL format",
+      }),
+      alt: z.string().optional()
+  }),
 })
 
 export function PostForm(props: postFormProps) {
@@ -69,7 +72,8 @@ export function PostForm(props: postFormProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={cn("", props.className)}>
+        className={cn("", props.className)}
+      >
         <FormField
           control={form.control}
           name="title"
@@ -98,7 +102,7 @@ export function PostForm(props: postFormProps) {
         />
         <FormField
           control={form.control}
-          name="media"
+          name="media.url"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Media URL</FormLabel>

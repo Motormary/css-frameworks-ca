@@ -26,7 +26,12 @@ import {
 } from "../ui/form"
 import commentOnPost from "@/src/actions/posts/comment"
 import { handleApiErrors, printErrors } from "@/lib/api-error"
-import { useRouter } from "next/navigation"
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation"
 
 export const commentSchema = z.object({
   body: z.string(),
@@ -42,8 +47,10 @@ export default function Comment({
   postId: number
   replyToId?: number
 }) {
+  const path = useSearchParams()
+  const commentRequested = path.get("comment") ?? false
   const router = useRouter()
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(commentRequested ? true : false)
   const [openAlert, setOpenAlert] = useState(false)
   const editorRef = useRef<HTMLTextAreaElement | null>(null)
   const containerRef = useRef<HTMLDivElement | null>(null)
@@ -71,10 +78,6 @@ export default function Comment({
     setOpen(false)
     form.resetField("body")
   }
-
-  useEffect(() => {
-    if (editorRef) editorRef.current?.focus()
-  }, [open])
 
   async function onSubmit(data: z.infer<typeof commentSchema>) {
     if (!data.body.length) {
@@ -118,7 +121,8 @@ export default function Comment({
                 <FormItem>
                   <FormControl>
                     <Textarea
-                      onChangeCapture={(e) => {
+                      autoFocus
+                      onChangeCapture={() => {
                         containerRef.current?.classList.replace(
                           "focus-within:ring-destructive",
                           "focus-within:ring-ring",

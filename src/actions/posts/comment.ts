@@ -1,5 +1,5 @@
 "use server"
-import { apiPath } from "@/lib/consts"
+import { API_SOCIAL_POSTS, apiPath } from "@/lib/consts"
 import { PostType } from "./types"
 import superFetch from "../fetch"
 import { z } from "zod"
@@ -17,7 +17,7 @@ export default async function commentOnPost({
 }): Promise<CommentType & { errors: ErrorMessage[] }> {
   if (!id || !body) throw new Error("Missing params")
   const method = "POST"
-  const url = `${apiPath}/social/posts/${id}/comment`
+  const url = `${API_SOCIAL_POSTS}/${id}/comment`
   const request = {
     method: method,
     url: url,

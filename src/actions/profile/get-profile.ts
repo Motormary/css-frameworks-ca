@@ -1,9 +1,9 @@
-import { apiPath } from "@/lib/consts"
+import { API_SOCIAL_PROFILES, apiPath } from "@/lib/consts"
 import superFetch from "../fetch"
 import { Profile } from "./types"
 
 export async function getProfile(name: string): Promise<Profile> {
-  const url = `${apiPath}/social/profiles/${name}?&_followers=true&_posts=true&_following=true`
+  const url = `${API_SOCIAL_PROFILES}/${name}?_followers=true&_posts=true&_following=true`
   const method = "GET"
   const request = {
     url: url,
@@ -11,7 +11,6 @@ export async function getProfile(name: string): Promise<Profile> {
   }
 
   const response = await superFetch(request)
-
   if (response.success) {
     return response.data
   }
