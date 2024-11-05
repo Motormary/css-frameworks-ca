@@ -37,7 +37,7 @@ export default function Loading() {
 
 function PostSkeleton() {
   return (
-    <Card className="relative hover:bg-muted/80">
+    <Card className="relative">
       <CardContent className="flex gap-4 p-4 max-lg:flex-col">
         <div className="h-24 min-w-48 lg:max-w-48">
           <Skeleton className="h-full w-full rounded-md" />
