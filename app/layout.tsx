@@ -9,6 +9,7 @@ import Breadcrumbs from "@/components/breadcrumbs"
 import { ThemeProvider } from "@/components/theme-provider"
 import SearchPosts from "@/components/post/search"
 import { cookies } from "next/headers"
+import { cn } from "@/lib/utils"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -62,7 +63,7 @@ export default async function RootLayout({
                   <SearchPosts className="z-20" />
                 </header>
               ) : null}
-              <div className="flex h-[calc(100svh-64px)] justify-center overflow-y-auto overflow-x-hidden pb-20 pt-4">
+              <div className={cn(isAuth ? "h-[calc(100svh-64px)]" : "h-svh", "flex justify-center overflow-y-auto overflow-x-hidden pb-20 pt-4")}>
                 {children}
               </div>
             </main>

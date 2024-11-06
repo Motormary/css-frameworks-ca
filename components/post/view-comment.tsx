@@ -89,7 +89,7 @@ export default function Comment({
           <TooltipProvider>
             <Tooltip delayDuration={200}>
               <TooltipTrigger asChild>
-                <Button variant="ghost" className="size-8 rounded-full p-1">
+                <Button variant="outline" className="size-8 rounded-full p-1">
                   <MessageCircleIcon />
                 </Button>
               </TooltipTrigger>
