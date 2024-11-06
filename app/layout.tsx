@@ -30,7 +30,11 @@ export const metadata: Metadata = {
   },
   openGraph: {
     images: {
-      url: "assets/images/logo.png"
+      url: "assets/images/logo.png",
+      alt: "About us",
+      type: "image/png",
+      width: 1200,
+      height: 630
     }
   }
 }
