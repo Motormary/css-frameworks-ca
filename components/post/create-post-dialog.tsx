@@ -52,7 +52,9 @@ export function PostDialog(props: postDialogProps) {
           {props.children ? (
             props.children
           ) : (
-            <Button className="z-20" variant="outline">{title}</Button>
+            <Button className="z-20" variant="outline">
+              {title}
+            </Button>
           )}
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px] lg:max-w-[700]">
@@ -83,7 +85,13 @@ export function PostDialog(props: postDialogProps) {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="outline">{title}</Button>
+        {props.children ? (
+          props.children
+        ) : (
+          <Button className="z-20" variant="outline">
+            {title}
+          </Button>
+        )}
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="text-left">

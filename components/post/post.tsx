@@ -52,7 +52,7 @@ export default async function Post({
     ? [...post.reactions].sort((a, b) => a.symbol.localeCompare(b.symbol))
     : []
 
-  const name = post?.author?.name ?? post?.owner
+  const name = post?.author?.name ?? "Anon"
 
   return (
     <Card
@@ -68,31 +68,27 @@ export default async function Post({
         ></Link>
       )}
       <CardHeader>
-        <CardTitle className="relative flex items-center justify-between">
-          <span className="max-w-96 overflow-hidden truncate">
-            {post.title}
-          </span>
-          {!post.owner ? (
-            <Link
-              className="relative inset-0 z-50 flex items-center gap-2 rounded-full border bg-background p-2 px-3 text-base hover:bg-primary-foreground hover:shadow-md"
-              href={`/profile/${name}`}
-            >
-              <Avatar className="size-6">
-                <AvatarImage
-                  src={
-                    post?.author?.avatar.url && post.author.avatar.url !== ""
-                      ? post.author.avatar.url
-                      : undefined
-                  }
-                  alt="Avatar"
-                />
-                <AvatarFallback>
-                  <User />
-                </AvatarFallback>
-              </Avatar>
-              {name}
-            </Link>
-          ) : null}
+        <CardTitle className="relative flex items-start justify-between gap-4 max-md:flex-wrap-reverse">
+          <span className="text-pretty">{post.title}</span>
+          <Link
+            className="group relative inset-0 z-50 flex items-center gap-2 rounded-full text-base"
+            href={`/profile/${name}`}
+          >
+            <Avatar className="size-6">
+              <AvatarImage
+                src={
+                  post?.author?.avatar.url && post.author.avatar.url !== ""
+                    ? post.author.avatar.url
+                    : undefined
+                }
+                alt="Avatar"
+              />
+              <AvatarFallback>
+                <User />
+              </AvatarFallback>
+            </Avatar>
+            <span className="">{name}</span>
+          </Link>
         </CardTitle>
         <CardDescription className="overflow-hidden truncate text-nowrap text-muted-foreground">
           {post.body ? post.body : null}
@@ -103,7 +99,7 @@ export default async function Post({
           ))}
         </div>
         {currentUser.name === name ? (
-          <div className="relative z-20 flex items-center gap-2 w-fit">
+          <div className="relative z-20 flex w-fit items-center gap-2">
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button title="Delete post" variant="ghost" size="icon">

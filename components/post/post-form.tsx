@@ -44,7 +44,7 @@ const FormSchema = z.object({
       .refine((value) => !value || z.string().url().safeParse(value).success, {
         message: "Invalid URL format",
       }),
-      alt: z.string().optional()
+    alt: z.string().optional(),
   }),
 })
 
@@ -62,19 +62,20 @@ export function PostForm(props: postFormProps) {
     if (props.post) {
       const request = {
         id: props.post.id,
-        data: data
+        data: data,
       }
       response = await patchPost(request)
     } else {
       response = await createPost(data)
     }
     if (response.success) {
+      props.setIsLoading(false)
       props.setOpen(false)
       redirect(`/feed/${response.data.id}`)
     } else {
+      props.setIsLoading(false)
       handleApiErrors(response.data, form)
     }
-    props.setIsLoading(false)
   }
 
   return (
