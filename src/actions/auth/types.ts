@@ -12,7 +12,7 @@ export type ErrorMessage = {
 }
 
 export type Fetch<T> = {
-  success: boolean
+  success?: boolean
   data: T & ResponseType & ErrorMessage[]
 }
 

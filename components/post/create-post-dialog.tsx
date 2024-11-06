@@ -48,15 +48,7 @@ export function PostDialog(props: postDialogProps) {
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          {props.children ? (
-            props.children
-          ) : (
-            <Button className="z-20" variant="outline">
-              {title}
-            </Button>
-          )}
-        </DialogTrigger>
+        {props.children}
         <DialogContent className="sm:max-w-[425px] lg:max-w-[700]">
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
@@ -84,15 +76,7 @@ export function PostDialog(props: postDialogProps) {
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerTrigger asChild>
-        {props.children ? (
-          props.children
-        ) : (
-          <Button className="z-20" variant="outline">
-            {title}
-          </Button>
-        )}
-      </DrawerTrigger>
+      {props.children}
       <DrawerContent>
         <DrawerHeader className="text-left">
           <DrawerTitle>{title}</DrawerTitle>

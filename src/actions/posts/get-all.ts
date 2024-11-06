@@ -21,9 +21,9 @@ export async function getPosts({
   }
   const response = await superFetch(request)
 
-  if (response.success) {
-    return response.data
+  if (response?.success) {
+    return response?.data
   }
 
-  throw new Error(response.data.status)
+  throw new Error(response?.data.status)
 }

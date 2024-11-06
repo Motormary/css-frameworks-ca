@@ -18,9 +18,9 @@ export default async function createPost(
   }
 
   const response = await superFetch(request)
-  if (response.success) revalidatePath("/feed")
+  if (response?.success) revalidatePath("/feed")
   return {
-    success: response.success,
-    data: response.success ? response.data : response.data.errors,
+    success: response?.success,
+    data: response?.success ? response?.data : response?.data.errors,
   }
 }

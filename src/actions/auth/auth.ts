@@ -20,16 +20,16 @@ async function authRequest<T>(login: boolean, data: object) {
   }
 
   const response = await superFetch(request)
-  if (response.success && login) {
+  if (response?.success && login) {
     const cookie = await cookies()
-    cookie.set("token", response.data.accessToken)
-    delete response.data.accessToken
-    cookie.set("profile", JSON.stringify(response.data))
+    cookie.set("token", response?.data.accessToken)
+    delete response?.data.accessToken
+    cookie.set("profile", JSON.stringify(response?.data))
   }
 
   return {
-    success: response.success,
-    data: response.success ? response.data : response.data.errors,
+    success: response?.success,
+    data: response?.success ? response?.data : response?.data.errors,
   }
 }
 

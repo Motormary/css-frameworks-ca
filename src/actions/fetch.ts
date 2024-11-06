@@ -67,6 +67,8 @@ export default async function superFetch({
 
   try {
     const response = await fetch(url, requestOptions)
+
+    if (method === "DELETE") return
     if (response.ok) {
       const data = await response.json()
       responseData = {

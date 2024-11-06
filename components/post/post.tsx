@@ -10,7 +10,7 @@ import {
 import Link from "next/link"
 import EmojiCount from "./emoji-count"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
-import { EditIcon, MessageCircle, Trash, User } from "lucide-react"
+import { MessageCircle, User } from "lucide-react"
 import { Button } from "../ui/button"
 import EmojiMenu from "./emoji-menu"
 import { cn } from "@/lib/utils"
@@ -18,20 +18,8 @@ import Img from "./image"
 import Pill from "../profile/pill"
 import { cookies } from "next/headers"
 import { UserData } from "@/src/actions/auth/types"
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "../ui/alert-dialog"
 
-import { deletePost } from "@/src/actions/posts/delete"
-import Form from "next/form"
-import { redirect } from "next/navigation"
-import { PostDialog } from "./create-post-dialog"
+import PostDropdown from "./post-dropdown-menu"
 
 export default async function Post({
   post,
@@ -61,6 +49,11 @@ export default async function Post({
         "relative h-fit w-full min-w-[270px] max-w-[800px] border-none shadow-none",
       )}
     >
+      {currentUser.name === name ? (
+        <div className="relative z-20 flex w-full justify-end p-2 px-5">
+          <PostDropdown post={post} />
+        </div>
+      ) : null}
       {viewing ? null : (
         <Link
           className="absolute inset-0 z-10 cursor-default"
@@ -98,44 +91,6 @@ export default async function Post({
             <Pill key={tag + index + post.id}>{tag}</Pill>
           ))}
         </div>
-        {currentUser.name === name ? (
-          <div className="relative z-20 flex w-fit items-center gap-2">
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button title="Delete post" variant="ghost" size="icon">
-                  <Trash />
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Delete post</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Are you sure you want to delete this post?
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogTrigger asChild>
-                    <Button>Cancel</Button>
-                  </AlertDialogTrigger>
-                  <Form
-                    action={async () => {
-                      "use server"
-                      deletePost(post.id)
-                      redirect("/")
-                    }}
-                  >
-                    <Button variant="destructive">Delete</Button>
-                  </Form>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-            <PostDialog post={post}>
-              <Button title="Edit Post" variant="ghost" size="icon">
-                <EditIcon />
-              </Button>
-            </PostDialog>
-          </div>
-        ) : null}
       </CardHeader>
       <CardContent className="relative pb-2">
         {viewing && post.media?.url ? (

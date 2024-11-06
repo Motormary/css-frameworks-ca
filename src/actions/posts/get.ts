@@ -13,5 +13,5 @@ export async function getPost(id: string | number): Promise<PostType> {
   }
   const response = await superFetch(request)
 
-  return response.data
+  return response?.data
 }

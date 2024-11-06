@@ -26,11 +26,11 @@ export default async function commentOnPost({
 
   const response = await superFetch(request)
 
-  if (response.data.errors) {
+  if (response?.data.errors) {
     throw new Error(
-      `Error creating comment: ${JSON.stringify(translateErrors(response.data.errors))} `,
+      `Error creating comment: ${JSON.stringify(translateErrors(response?.data.errors))} `,
     )
   }
 
-  return response.data
+  return response?.data
 }

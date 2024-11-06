@@ -21,9 +21,9 @@ export default async function reactToPost({
 
   const response = await superFetch(request)
 
-  if (response.success) {
-    return response.data
+  if (response?.success) {
+    return response?.data
   }
 
-  throw new Error(response.data.status)
+  throw new Error(response?.data.status)
 }

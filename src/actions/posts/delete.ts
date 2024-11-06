@@ -11,8 +11,6 @@ export async function deletePost(id: string | number) {
     method: method,
     url: url,
   }
-  const response = await superFetch(request)
-  if (response.data) {
-    if (response.data.errors) throw new Error("Something went wrong")
-  }
+  await superFetch(request)
+
 }

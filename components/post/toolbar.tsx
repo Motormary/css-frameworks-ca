@@ -5,6 +5,8 @@ import { usePathname, useSearchParams } from "next/navigation"
 import { PostDialog } from "./create-post-dialog"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { DialogTrigger } from "../ui/dialog"
+import { Button } from "../ui/button"
 
 export default function PostToolbar() {
   const pathname = usePathname()
@@ -35,7 +37,11 @@ export default function PostToolbar() {
           Oldest
         </Link>
       </div>
-      <PostDialog />
+      <PostDialog>
+        <DialogTrigger asChild>
+          <Button variant="outline">Create post</Button>
+        </DialogTrigger>
+      </PostDialog>
     </div>
   )
 }

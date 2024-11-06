@@ -11,12 +11,12 @@ export async function getProfile(name: string): Promise<Profile> {
   }
 
   const response = await superFetch(request)
-  if (response.success) {
-    return response.data
+  if (response?.success) {
+    return response?.data
   }
-  if (response.data.errors[0].message) {
-    throw new Error(response.data.errors[0].message)
+  if (response?.data.errors[0].message) {
+    throw new Error(response?.data.errors[0].message)
   }
 
-  throw new Error(response.data.statusText)
+  throw new Error(response?.data.statusText)
 }
