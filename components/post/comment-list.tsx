@@ -9,7 +9,7 @@ export default async function CommentList({
 }) {
   function renderComments(parentComment: CommentType) {
     return (
-      <Comment className={cn(parentComment.replyToId && "border-b-0 border-r-0 rounded-none")} key={parentComment.id} comment={parentComment}>
+      <Comment className={cn(parentComment.replyToId && "border-r-0 rounded-tr-none rounded-br-none", "relative")} key={parentComment.id} comment={parentComment}>
         {comments
           .filter((comment) => comment.replyToId === parentComment.id)
           .map((reply) => renderComments(reply))}

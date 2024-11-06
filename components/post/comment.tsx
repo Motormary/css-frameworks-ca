@@ -3,7 +3,7 @@
 import { toast } from "sonner"
 import { Button } from "../ui/button"
 import { Textarea } from "../ui/textarea"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import {
   AlertDialog,
   AlertDialogContent,
@@ -16,23 +16,9 @@ import {
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form"
+import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form"
 import commentOnPost from "@/src/actions/posts/comment"
-import { handleApiErrors, printErrors } from "@/lib/api-error"
-import {
-  useParams,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation"
-import { revalidatePath } from "next/cache"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 export const commentSchema = z.object({
   body: z.string(),
@@ -48,10 +34,13 @@ export default function CommentEditor({
   postId: number
   replyToId?: number
 }) {
-  const path = useSearchParams()
-  const commentRequested = path.get("comment") ?? false
+  const params = useSearchParams()
+  const path = usePathname()
+  const commentRequested = params.get("comment") ?? false
   const router = useRouter()
-  const [open, setOpen] = useState(commentRequested && !replyToId ? true : false)
+  const [open, setOpen] = useState(
+    commentRequested && !replyToId ? true : false,
+  )
   const [openAlert, setOpenAlert] = useState(false)
   const editorRef = useRef<HTMLTextAreaElement | null>(null)
   const containerRef = useRef<HTMLDivElement | null>(null)
@@ -80,15 +69,20 @@ export default function CommentEditor({
     form.resetField("body")
   }
 
-  async function onSubmit(data: z.infer<typeof commentSchema>) {
-    setOpen(false)
-    if (!data.body.length) {
-      containerRef.current?.classList.replace(
-        "focus-within:ring-ring",
-        "focus-within:ring-destructive",
-      )
+  function setTextAreaError() {
+    containerRef.current?.classList.replace(
+      "focus-within:ring-ring",
+      "focus-within:ring-destructive",
+    )
+  }
 
+  async function onSubmit(data: z.infer<typeof commentSchema>) {
+    if (!data.body.length) {
+      setTextAreaError()
       form.setError("body", { message: "Comment cannot be empty" })
+    } else if (data.body.length > 280) {
+      setTextAreaError()
+      form.setError("body", { message: "Maximum 280 characters" })
     } else {
       const request = {
         id: postId,
@@ -96,14 +90,21 @@ export default function CommentEditor({
       }
 
       const response = await commentOnPost(request)
-
-      revalidatePath("/feed")
+      form.resetField("body")
+      router.prefetch(path)
+      
+      if (data.replyToId) {
+        router.push(path, { scroll: false })
+      } else {
+        router.push(path + `#Comment-${response.id}`)
+      }
 
       if (!response.id) {
         toast.error("Error", {
           description: "Something went wrong, contact support or try again.",
         })
       }
+      setOpen(false)
     }
   }
 
