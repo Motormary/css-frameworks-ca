@@ -3,7 +3,6 @@ import checkUser from "@/src/actions/auth/check-cookie"
 import { getProfile } from "@/src/actions/profile/get-profile"
 import { redirect } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { checkImgSrc } from "@/components/post/post"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { User } from "lucide-react"
 import {
@@ -22,8 +21,6 @@ import {
 } from "@/components/ui/dialog"
 import { DialogTitle } from "@radix-ui/react-dialog"
 import Pill from "@/components/profile/pill"
-import { AspectRatio } from "@radix-ui/react-aspect-ratio"
-import logo from "assets/images/logo.png"
 import Img from "@/components/post/image"
 import Link from "next/link"
 
