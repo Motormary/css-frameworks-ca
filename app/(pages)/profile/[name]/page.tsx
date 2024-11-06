@@ -129,7 +129,7 @@ export default async function ProfilePage(props: {
                 </div>
                 <div className="absolute right-[10px] top-[10px] z-20">
                   <PostDropdown
-                    className="opacity-0 group-hover:visible group-hover:opacity-100"
+                    className="group-hover:visible group-hover:opacity-100 lg:opacity-0"
                     post={post}
                   />
                 </div>

@@ -20,6 +20,7 @@ import { cookies } from "next/headers"
 import { UserData } from "@/src/actions/auth/types"
 
 import PostDropdown from "./post-dropdown-menu"
+import { format } from "date-fns"
 
 export default async function Post({
   post,
@@ -60,7 +61,7 @@ export default async function Post({
           href={`/feed/${post.id}`}
         ></Link>
       )}
-      <CardHeader>
+      <CardHeader className="pb-1">
         <CardTitle className="relative flex items-start justify-between gap-4 max-md:flex-wrap-reverse">
           <span className="text-pretty">{post.title}</span>
           <Link
@@ -80,10 +81,15 @@ export default async function Post({
                 <User />
               </AvatarFallback>
             </Avatar>
-            <span className="">{name}</span>
+            <span>{name}</span>
           </Link>
         </CardTitle>
-        <CardDescription className="overflow-hidden truncate text-nowrap text-muted-foreground">
+        <CardDescription
+          className={cn(
+            !viewing && "overflow-hidden truncate text-nowrap",
+            "text-muted-foreground",
+          )}
+        >
           {post.body ? post.body : null}
         </CardDescription>
         <div className="flex flex-wrap gap-2 pt-2">
@@ -91,6 +97,10 @@ export default async function Post({
             <Pill key={tag + index + post.id}>{tag}</Pill>
           ))}
         </div>
+        <span className="text-right text-xs text-muted-foreground">
+          {post.updated !== post.created ? "Updated: " : ""}
+          {format(post?.updated, "PP - p")}
+        </span>
       </CardHeader>
       <CardContent className="relative pb-2">
         {viewing && post.media?.url ? (
