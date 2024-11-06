@@ -10,7 +10,7 @@ import {
 import Link from "next/link"
 import EmojiCount from "./emoji-count"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
-import { MessageCircle, Trash, User } from "lucide-react"
+import { EditIcon, MessageCircle, Trash, User } from "lucide-react"
 import { Button } from "../ui/button"
 import EmojiMenu from "./emoji-menu"
 import { cn } from "@/lib/utils"
@@ -31,18 +31,7 @@ import {
 import { deletePost } from "@/src/actions/posts/delete"
 import Form from "next/form"
 import { redirect } from "next/navigation"
-
-// People keep uploading non-direct links from google image search..........
-export function isValidImageUrl(url: string): boolean {
-  const forbiddenPattern = /^https:\/\/www\.google\.com\//
-
-  return !forbiddenPattern.test(url)
-}
-
-export function checkImgSrc(url: string): boolean {
-  if (url && url !== "" && isValidImageUrl(url)) return true
-  return false
-}
+import { PostDialog } from "./create-post-dialog"
 
 export default async function Post({
   post,
@@ -114,39 +103,42 @@ export default async function Post({
           ))}
         </div>
         {currentUser.name === name ? (
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button
-                title="Delete post"
-                variant="ghost"
-                className="size-6 p-0 text-muted-foreground hover:text-destructive"
-              >
-                <Trash />
+          <div className="relative z-20 flex items-center gap-2 w-fit">
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button title="Delete post" variant="ghost" size="icon">
+                  <Trash />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete post</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to delete this post?
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogTrigger asChild>
+                    <Button>Cancel</Button>
+                  </AlertDialogTrigger>
+                  <Form
+                    action={async () => {
+                      "use server"
+                      deletePost(post.id)
+                      redirect("/")
+                    }}
+                  >
+                    <Button variant="destructive">Delete</Button>
+                  </Form>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+            <PostDialog post={post}>
+              <Button title="Edit Post" variant="ghost" size="icon">
+                <EditIcon />
               </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Delete post</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Are you sure you want to delete this post?
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogTrigger asChild>
-                  <Button>Cancel</Button>
-                </AlertDialogTrigger>
-                <Form
-                  action={async () => {
-                    "use server"
-                    deletePost(post.id)
-                    redirect("/")
-                  }}
-                >
-                  <Button variant="destructive">Delete</Button>
-                </Form>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+            </PostDialog>
+          </div>
         ) : null}
       </CardHeader>
       <CardContent className="relative pb-2">
@@ -179,7 +171,12 @@ export default async function Post({
               </Link>
             </Button>
             {sortedReactions.map((int, index) => (
-              <EmojiCount key={int.symbol} postId={post.id} currentUser={currentUser.name} reaction={int} />
+              <EmojiCount
+                key={int.symbol}
+                postId={post.id}
+                currentUser={currentUser.name}
+                reaction={int}
+              />
             ))}
           </div>
           <EmojiMenu id={post.id} />

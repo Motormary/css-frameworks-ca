@@ -2,6 +2,8 @@
 import { API_SOCIAL_POSTS, apiPath } from "@/lib/consts"
 import { PostType } from "./types"
 import superFetch from "../fetch"
+import { ErrorMessage, Fetch } from "../auth/types"
+import { revalidatePath } from "next/cache"
 
 export default async function patchPost({
   id,
@@ -9,20 +11,22 @@ export default async function patchPost({
 }: {
   id: number
   data: Partial<PostType>
-}): Promise<PostType> {
+}): Promise<Fetch<PostType & ErrorMessage[]>> {
   if (!id || !data) throw new Error("Missing params")
-  const method = "PATCH"
+  const method = "PUT"
   const url = `${API_SOCIAL_POSTS}/${id}`
   const request = {
     method: method,
     url: url,
-    body: data
+    body: data,
   }
+
   const response = await superFetch(request)
 
-  if (response.success) {
-    return response.data
+  if (response.success) revalidatePath("/feed")
+    
+  return {
+    success: response.success,
+    data: response.success ? response.data : response.data.errors,
   }
-
-  throw new Error(response.data.status)
 }

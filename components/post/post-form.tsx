@@ -22,6 +22,7 @@ import { useState } from "react"
 import { handleApiErrors, printErrors, translateErrors } from "@/lib/api-error"
 import { redirect } from "next/navigation"
 import { Textarea } from "../ui/textarea"
+import patchPost from "@/src/actions/posts/patch"
 
 type postFormProps = {
   post?: PostType
@@ -57,7 +58,16 @@ export function PostForm(props: postFormProps) {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     props.setIsLoading(true)
-    const response = await createPost(data)
+    let response
+    if (props.post) {
+      const request = {
+        id: props.post.id,
+        data: data
+      }
+      response = await patchPost(request)
+    } else {
+      response = await createPost(data)
+    }
     if (response.success) {
       props.setOpen(false)
       redirect(`/feed/${response.data.id}`)
@@ -71,7 +81,7 @@ export function PostForm(props: postFormProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={cn("", props.className)}
+        className={cn("space-y-4", props.className)}
       >
         <FormField
           control={form.control}

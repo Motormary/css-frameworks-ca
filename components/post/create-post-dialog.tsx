@@ -31,6 +31,7 @@ import { PostForm } from "./post-form"
 
 type postDialogProps = {
   post?: PostType
+  children?: React.ReactNode
 }
 
 export function PostDialog(props: postDialogProps) {
@@ -39,15 +40,20 @@ export function PostDialog(props: postDialogProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)")
 
   const title = props.post ? "Edit Post" : "Create Post"
-  const description = props.post ?? undefined
-    ? "Make changes to your post here. Click submit when you're done"
-    : ""
+  const description =
+    (props.post ?? undefined)
+      ? "Make changes to your post here. Click submit when you're done"
+      : ""
 
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline">{title}</Button>
+          {props.children ? (
+            props.children
+          ) : (
+            <Button className="z-20" variant="outline">{title}</Button>
+          )}
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px] lg:max-w-[700]">
           <DialogHeader>
@@ -55,15 +61,17 @@ export function PostDialog(props: postDialogProps) {
             <DialogDescription>{description}</DialogDescription>
           </DialogHeader>
           <PostForm
-          setIsLoading={setIsLoading}
-          setOpen={setOpen}
+            setIsLoading={setIsLoading}
+            setOpen={setOpen}
             post={props.post}
             footer={
               <DialogFooter className="pt-2">
                 <DialogTrigger asChild>
                   <Button disabled={isLoading}>Cancel</Button>
                 </DialogTrigger>
-                <Button disabled={isLoading} type="submit">Submit</Button>
+                <Button disabled={isLoading} type="submit">
+                  Submit
+                </Button>
               </DialogFooter>
             }
           />
@@ -83,15 +91,19 @@ export function PostDialog(props: postDialogProps) {
           <DrawerDescription>{description}</DrawerDescription>
         </DrawerHeader>
         <PostForm
-        setIsLoading={setIsLoading}
-        setOpen={setOpen}
+          setIsLoading={setIsLoading}
+          setOpen={setOpen}
           post={props.post}
           className="px-4"
           footer={
             <DrawerFooter className="pt-2">
-              <Button disabled={isLoading} type="submit">Submit</Button>
+              <Button disabled={isLoading} type="submit">
+                Submit
+              </Button>
               <DrawerClose asChild>
-                <Button disabled={isLoading} variant="outline">Cancel</Button>
+                <Button disabled={isLoading} variant="outline">
+                  Cancel
+                </Button>
               </DrawerClose>
             </DrawerFooter>
           }
