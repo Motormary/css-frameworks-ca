@@ -43,7 +43,7 @@ const FormSchema = z
       url: z.string(),
       alt: z.string().optional(),
     }),
-    email: z.string().refine((val) => val.includes("@stud.noroff.no"), {
+    email: z.string().refine((val) => val.includes("@stud.noroff.no") || val.includes("@noroff.no"), {
       message: "Email must be a valid Noroff email.",
     }),
     password: z.string().min(8, {

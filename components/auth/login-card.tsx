@@ -31,7 +31,7 @@ import { authCardStyle } from "./styles"
 import { cn } from "@/lib/utils"
 
 const FormSchema = z.object({
-  email: z.string().refine((val) => val.includes("@stud.noroff.no"), {
+  email: z.string().refine((val) => val.includes("@stud.noroff.no") || val.includes("@noroff.no"), {
     message: "Email must be a valid Noroff email",
   }),
   password: z.string().min(8, {
