@@ -3,8 +3,8 @@ import { User } from "lucide-react"
 
 export default function Loading() {
   return (
-    <div className="h-screen container">
-      <div className="w-full grid h-fit grid-cols-1 gap-4 p-4 md:grid-cols-[repeat(auto-fit,minmax(270px,1fr))] lg:grid-cols-2">
+    <div className="container h-screen">
+      <div className="grid h-fit w-full grid-cols-1 gap-4 p-4 md:grid-cols-[repeat(auto-fit,minmax(270px,1fr))] lg:grid-cols-2">
         <li className="relative m-auto flex w-full min-w-[12rem] gap-4 rounded-md border p-4 max-xs:flex-col max-xs:items-center">
           {/* Mobile Name Skeleton */}
           <Skeleton className="relative z-50 h-7 w-full max-w-28 xs:hidden" />

@@ -11,16 +11,16 @@ import { followProfile } from "@/src/actions/profile/follow"
 import { handleApiErrors, printErrors, translateErrors } from "@/lib/api-error"
 import { revalidatePath } from "next/cache"
 import { useRouter } from "next/navigation"
+import { FollowButton } from "./follow-button"
 
 export default function UserCard({
   profile,
   following,
 }: {
   profile: Profile
-  following?: boolean
+  following: boolean
 }) {
-  const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
+
   return (
     <li
       key={profile.name}
@@ -74,34 +74,7 @@ export default function UserCard({
           {profile.name}
         </span>
         <div className="relative z-50 flex">
-          <Button
-            disabled={isLoading}
-            onClick={async (e) => {
-              setIsLoading(true)
-              const response = await followProfile(
-                profile.name,
-                following ? false : true,
-              )
-              if (response.errors) {
-                handleApiErrors(response.errors)
-              } else {
-                const message = !following ? `You're now following ${profile.name}` : `You've unfollowed ${profile.name}`
-                router.refresh()
-                toast.success(message)
-              }
-              setIsLoading(false)
-            }}
-            variant={!following ? "secondary" : "outline"}
-            className="h-8 w-full rounded-full"
-          >
-            {isLoading ? (
-              <LoaderIcon className="animate-spin duration-2000" />
-            ) : following ? (
-              "Unfollow"
-            ) : (
-              "Follow"
-            )}
-          </Button>
+         <FollowButton profile={profile} following={following} />
         </div>
       </div>
     </li>
