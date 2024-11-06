@@ -29,7 +29,7 @@ export default async function PostList({
           )
         })
       ) : (
-        <p>No posts</p>
+        <p className="m-auto">No results.</p>
       )}
     </>
   )
