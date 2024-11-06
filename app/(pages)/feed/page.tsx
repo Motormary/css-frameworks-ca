@@ -25,15 +25,16 @@ export default async function FeedPage(props: {
   const auth = await checkUser()
   if (!auth) redirect("/")
 
-  const { query = "", sort = "" } = await props.searchParams
-  const sortValue = sort.toString().toLowerCase() as string
+  const { query = "", sortOrder = "", limit = "" } = await props.searchParams
+  const sortValue = sortOrder.toString().toLowerCase() as string
   const searchValue = query.toString().toLowerCase() as string
+  const limitValue = limit.toString()
 
   return (
     <div className="flex max-w-[800px] flex-col gap-2 px-4 max-xl:w-full xl:w-2/4">
       <PostToolbar />
       <Suspense fallback={<LoadingPosts />}>
-        <PostList sortValue={sortValue} searchValue={searchValue} />
+        <PostList sortValue={sortValue} searchValue={searchValue} limitValue={limitValue}/>
       </Suspense>
     </div>
   )

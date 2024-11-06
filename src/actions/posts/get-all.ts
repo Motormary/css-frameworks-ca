@@ -8,13 +8,21 @@ export async function getPosts({
   limit = 20,
   offset = 0,
   query,
+  page = 1,
+  sort = "desc"
 }: {
   limit?: number
   offset?: number
   query?: string
-}): Promise<PostType[]> {
+  page?: number
+  sort?: string
+}): Promise<{
+  data: PostType[],
+  meta: any
+}> {
   const method = "GET"
-  const url = `${API_SOCIAL_POSTS}/${query ? `search?q=${query}&` : "?"}limit=${limit}&offset=${offset}&_reactions=true&_author=true`
+  const url = `${API_SOCIAL_POSTS}/${query ? `search?q=${query}&` : "?"}limit=${limit}&sortOrder=${sort}&offset=${offset}&_reactions=true&_author=true`
+  console.log("🚀 ~ url:", url)
   const request = {
     method: method,
     url: url,
@@ -22,7 +30,10 @@ export async function getPosts({
   const response = await superFetch(request)
 
   if (response?.success) {
-    return response?.data
+    return {
+      data: response?.data,
+      meta: response?.meta,
+    }
   }
 
   throw new Error(response?.data.status)

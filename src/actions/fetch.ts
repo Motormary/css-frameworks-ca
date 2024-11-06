@@ -74,6 +74,7 @@ export default async function superFetch({
       responseData = {
         success: true,
         data: data.data,
+        meta: data.meta
       }
     } else {
       const data = await response.json()
@@ -85,6 +86,7 @@ export default async function superFetch({
       responseData = {
         success: false,
         data: data,
+        meta: data.meta
       }
     }
   } catch (e) {

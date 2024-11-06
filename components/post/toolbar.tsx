@@ -28,12 +28,12 @@ export default function PostToolbar() {
       <div className="space-x-4">
         <Link
           className={cn(sortedBy === "newest" && "underline", "text-sm underline-offset-2")}
-          href={pathname + "?" + createQueryString("sort", "newest")}>
+          href={pathname + "?" + createQueryString("sortOrder", "desc")}>
           Newest
         </Link>
         <Link
           className={cn(sortedBy === "oldest" && "underline", "text-sm underline-offset-2")}
-          href={pathname + "?" + createQueryString("sort", "oldest")}>
+          href={pathname + "?" + createQueryString("sortOrder", "asc")}>
           Oldest
         </Link>
       </div>
