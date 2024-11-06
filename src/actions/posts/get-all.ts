@@ -22,7 +22,6 @@ export async function getPosts({
 }> {
   const method = "GET"
   const url = `${API_SOCIAL_POSTS}/${query ? `search?q=${query}&` : "?"}limit=${limit}&sortOrder=${sort}&offset=${offset}&_reactions=true&_author=true`
-  console.log("🚀 ~ url:", url)
   const request = {
     method: method,
     url: url,

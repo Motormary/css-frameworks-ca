@@ -2,12 +2,12 @@
 "use client"
 
 import { metaType } from "@/src/actions/types"
+import { LoaderIcon } from "lucide-react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useRef, useState } from "react"
 
 const useInfiniteScroll = (targetRef: React.RefObject<HTMLElement>) => {
   const [isIntersecting, setIsIntersecting] = useState(false)
-  console.log("SCROLL")
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -53,14 +53,23 @@ export default function BottomDweller({
     [searchParams],
   )
 
+  // TODO: Fix pagination
   useEffect(() => {
     if (isBottom && pagination.nextPage) {
       setLimit(limit + 10)
-      router.push(pathname + "?" + createQueryString("limit", limit + 10 as any), {
-        scroll: false,
-      })
+      router.push(
+        pathname + "?" + createQueryString("limit", (limit + 10) as any),
+        {
+          scroll: false,
+        },
+      )
     }
   }, [isBottom])
+  
 
-  return <div ref={bottomRef}>Hallo</div>
+  return (
+    <div ref={bottomRef} className="w-full">
+      <LoaderIcon className="m-auto animate-spin duration-2000" />
+    </div>
+  )
 }

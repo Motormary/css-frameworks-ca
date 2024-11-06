@@ -22,9 +22,6 @@ export default async function PostList({
     sort: sortValue ? sortValue : "desc",
   })
 
-  console.log("🚀 SORTVALUE --------------------:", sortValue)
-
-
   return (
     <>
       {posts.data?.length ? (

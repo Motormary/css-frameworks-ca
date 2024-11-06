@@ -24,7 +24,10 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Y",
-  description: "Media for the people",
+  description: "Media for the people, don't sue me.",
+  authors: {
+    name: "Motormary",
+  },
 }
 
 export default async function RootLayout({
@@ -39,15 +42,18 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} max-h-svh antialiased`}>
+        className={`${geistSans.variable} ${geistMono.variable} max-h-svh antialiased`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           enableSystem
-          disableTransitionOnChange>
+          disableTransitionOnChange
+        >
           <SidebarProvider
             className="max-w-screen overflow-hidden"
-            defaultOpen={defaultOpen}>
+            defaultOpen={defaultOpen}
+          >
             {isAuth ? <AppSidebar /> : null}
             <main className="w-full">
               {isAuth ? (
@@ -63,7 +69,12 @@ export default async function RootLayout({
                   <SearchPosts className="z-20" />
                 </header>
               ) : null}
-              <div className={cn(isAuth ? "h-[calc(100svh-64px)]" : "h-svh", "flex justify-center overflow-y-auto overflow-x-hidden pb-20 pt-4")}>
+              <div
+                className={cn(
+                  isAuth ? "h-[calc(100svh-64px)]" : "h-svh",
+                  "flex justify-center overflow-y-auto overflow-x-hidden pb-20 pt-4",
+                )}
+              >
                 {children}
               </div>
             </main>
