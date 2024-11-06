@@ -24,13 +24,13 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Y",
-  description: "Media for the people, don't sue me.",
+  description: "Media for the people, don't sue me. Testing og",
   authors: {
     name: "Motormary",
   },
   openGraph: {
     images: {
-      url: "assets/images/logo.png",
+      url: "/assets/images/logo.png",
       alt: "About us",
       type: "image/png",
       width: 1200,
