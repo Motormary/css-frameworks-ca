@@ -91,7 +91,7 @@ export function PostForm(props: postFormProps) {
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input placeholder="Hello there" {...field} />
+                <Input placeholder="Title" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

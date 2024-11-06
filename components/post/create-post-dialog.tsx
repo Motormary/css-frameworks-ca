@@ -61,7 +61,7 @@ export function PostDialog(props: postDialogProps) {
             footer={
               <DialogFooter className="pt-2">
                 <DialogTrigger asChild>
-                  <Button disabled={isLoading}>Cancel</Button>
+                  <Button variant="outline" disabled={isLoading}>Cancel</Button>
                 </DialogTrigger>
                 <Button disabled={isLoading} type="submit">
                   Submit
@@ -88,7 +88,7 @@ export function PostDialog(props: postDialogProps) {
           post={props.post}
           className="px-4"
           footer={
-            <DrawerFooter className="pt-2">
+            <DrawerFooter className="px-0 pt-2">
               <Button disabled={isLoading} type="submit">
                 Submit
               </Button>
