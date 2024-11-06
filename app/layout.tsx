@@ -28,6 +28,11 @@ export const metadata: Metadata = {
   authors: {
     name: "Motormary",
   },
+  openGraph: {
+    images: {
+      url: "assets/images/logo.png"
+    }
+  }
 }
 
 export default async function RootLayout({
