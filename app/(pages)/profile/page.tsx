@@ -16,7 +16,6 @@ export default async function ProfilesPage() {
   return (
     <ol className="container grid h-fit grid-cols-1 gap-4 p-4 md:grid-cols-[repeat(auto-fit,minmax(270px,1fr))] lg:grid-cols-2">
       {profiles.map((profile, index) => {
-        console.log(profile.followers, currentUserProfile.name)
         return (
           <UserCard
             following={profile.followers.some(

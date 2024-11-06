@@ -9,6 +9,8 @@ import { toast } from "sonner"
 import { useState } from "react"
 import { followProfile } from "@/src/actions/profile/follow"
 import { handleApiErrors, printErrors, translateErrors } from "@/lib/api-error"
+import { revalidatePath } from "next/cache"
+import { useRouter } from "next/navigation"
 
 export default function UserCard({
   profile,
@@ -18,6 +20,7 @@ export default function UserCard({
   following?: boolean
 }) {
   const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
   return (
     <li
       key={profile.name}
@@ -75,15 +78,20 @@ export default function UserCard({
             disabled={isLoading}
             onClick={async (e) => {
               setIsLoading(true)
-              const response = await followProfile(profile.name, true)
+              const response = await followProfile(
+                profile.name,
+                following ? false : true,
+              )
               if (response.errors) {
                 handleApiErrors(response.errors)
               } else {
-                toast.success(`You're now following ${profile.name}`)
+                const message = !following ? `You're now following ${profile.name}` : `You've unfollowed ${profile.name}`
+                router.refresh()
+                toast.success(message)
               }
               setIsLoading(false)
             }}
-            variant="outline"
+            variant={!following ? "secondary" : "outline"}
             className="h-8 w-full rounded-full"
           >
             {isLoading ? (

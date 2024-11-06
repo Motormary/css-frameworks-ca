@@ -11,7 +11,7 @@ import { Button } from "../ui/button"
 export default function PostToolbar() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const sortedBy = searchParams.get("sort") ?? "newest"
+  const sortedBy = searchParams.get("sortOrder") ?? "desc"
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -27,12 +27,12 @@ export default function PostToolbar() {
     <div className="flex items-center justify-between gap-4">
       <div className="space-x-4">
         <Link
-          className={cn(sortedBy === "newest" && "underline", "text-sm underline-offset-2")}
+          className={cn(sortedBy === "desc" && "underline", "text-sm underline-offset-2")}
           href={pathname + "?" + createQueryString("sortOrder", "desc")}>
           Newest
         </Link>
         <Link
-          className={cn(sortedBy === "oldest" && "underline", "text-sm underline-offset-2")}
+          className={cn(sortedBy === "asc" && "underline", "text-sm underline-offset-2")}
           href={pathname + "?" + createQueryString("sortOrder", "asc")}>
           Oldest
         </Link>
