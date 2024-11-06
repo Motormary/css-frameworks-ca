@@ -13,6 +13,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -31,7 +32,7 @@ import { cn } from "@/lib/utils"
 
 const FormSchema = z.object({
   email: z.string().refine((val) => val.includes("@stud.noroff.no"), {
-    message: "Email must be a valid Noroff email.",
+    message: "Email must be a valid Noroff email",
   }),
   password: z.string().min(8, {
     message: "Password must be at least 8 characters.",
@@ -81,8 +82,11 @@ export default function LoginCard({
         </CardTitle>
       </CardHeader>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className={authCardStyle.form}>
-          <CardContent>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className={authCardStyle.form}
+        >
+          <CardContent className="space-y-4">
             <FormField
               control={form.control}
               name="email"
@@ -90,8 +94,11 @@ export default function LoginCard({
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Kari Traa" {...field} />
+                    <Input placeholder="karitraa@stud.noroff.no" {...field} />
                   </FormControl>
+                  <FormDescription className="text-xs">
+                    Email is case sensitive
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -121,7 +128,8 @@ export default function LoginCard({
                 onClick={(e) => {
                   e.preventDefault()
                   setState(false)
-                }}>
+                }}
+              >
                 Sign up!
               </span>
             </CardDescription>

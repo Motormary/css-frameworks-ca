@@ -13,6 +13,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -39,8 +40,8 @@ const FormSchema = z
         message: "Name cannot contain more than 20 characters.",
       }),
     avatar: z.object({
-      url: z.string().optional(),
-      alt: z.string().optional()
+      url: z.string(),
+      alt: z.string().optional(),
     }),
     email: z.string().refine((val) => val.includes("@stud.noroff.no"), {
       message: "Email must be a valid Noroff email.",
@@ -108,7 +109,7 @@ export default function RegisterCard({
           onSubmit={form.handleSubmit(onSubmit)}
           className={authCardStyle.form}
         >
-          <CardContent>
+          <CardContent className="space-y-4">
             <FormField
               control={form.control}
               name="name"
@@ -142,8 +143,11 @@ export default function RegisterCard({
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Kari Traa" {...field} />
+                    <Input placeholder="karitraa@stud.noroff.no" {...field} />
                   </FormControl>
+                  <FormDescription className="text-xs">
+                    Email is case sensitive
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
