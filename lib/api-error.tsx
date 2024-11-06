@@ -48,10 +48,10 @@ export function printErrors(
   })
 }
 
-export function handleApiErrors(errors: ErrorMessage[], form: any) {
+export function handleApiErrors(errors: ErrorMessage[], form?: any) {
   const translatedErrors = translateErrors(errors)
   translatedErrors.forEach((error) => {
-    if (error.path && error.message) {
+    if (error.path && error.message && form) {
       form.setError(error.path as any, {
         message: error.message,
       })

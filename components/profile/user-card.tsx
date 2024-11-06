@@ -7,20 +7,31 @@ import { LoaderIcon, User } from "lucide-react"
 import { Button } from "../ui/button"
 import { toast } from "sonner"
 import { useState } from "react"
+import { followProfile } from "@/src/actions/profile/follow"
+import { handleApiErrors, printErrors, translateErrors } from "@/lib/api-error"
 
-export default function UserCard({ profile }: { profile: Profile }) {
+export default function UserCard({
+  profile,
+  following,
+}: {
+  profile: Profile
+  following?: boolean
+}) {
   const [isLoading, setIsLoading] = useState(false)
   return (
     <li
       key={profile.name}
-      className="relative m-auto  flex w-full min-w-[12rem] gap-4 rounded-md border p-4 hover:bg-muted/60 max-xs:flex-col max-xs:items-center">
+      className="relative m-auto flex w-full min-w-[12rem] gap-4 rounded-md border p-4 hover:bg-muted/60 max-xs:flex-col max-xs:items-center"
+    >
       <Link
         className="absolute inset-0 z-20"
-        href={`/profile/${profile.name}`}></Link>
+        href={`/profile/${profile.name}`}
+      ></Link>
 
       <span
         title={profile.name}
-        className="relative z-50 w-full overflow-hidden truncate text-lg max-sm:text-center xs:hidden">
+        className="relative z-50 w-full overflow-hidden truncate text-lg max-sm:text-center xs:hidden"
+      >
         {profile.name}
       </span>
       {/* Avatar box */}
@@ -55,21 +66,30 @@ export default function UserCard({ profile }: { profile: Profile }) {
       <div className="flex w-full cursor-default flex-col justify-between gap-4 overflow-hidden max-xs:text-center">
         <span
           title={profile.name}
-          className="relative z-50 w-full overflow-hidden truncate text-lg max-xs:hidden max-xs:text-center">
+          className="relative z-50 w-full overflow-hidden truncate text-lg max-xs:hidden max-xs:text-center"
+        >
           {profile.name}
         </span>
         <div className="relative z-50 flex">
           <Button
             disabled={isLoading}
-            onClick={(e) => {
+            onClick={async (e) => {
               setIsLoading(true)
-              toast.success(`You're now following ${profile.name}`)
-              setTimeout(() => setIsLoading(false), 500)
+              const response = await followProfile(profile.name, true)
+              if (response.errors) {
+                handleApiErrors(response.errors)
+              } else {
+                toast.success(`You're now following ${profile.name}`)
+              }
+              setIsLoading(false)
             }}
             variant="outline"
-            className="h-8 w-full rounded-full">
+            className="h-8 w-full rounded-full"
+          >
             {isLoading ? (
               <LoaderIcon className="animate-spin duration-2000" />
+            ) : following ? (
+              "Unfollow"
             ) : (
               "Follow"
             )}
