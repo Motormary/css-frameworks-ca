@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import SearchPosts from "@/components/post/search"
 import { cookies } from "next/headers"
 import { cn } from "@/lib/utils"
+import logo from "assets/images/logo.png"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -24,13 +25,13 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Y",
-  description: "Media for the people, don't sue me. Testing og",
+  description: "Media for the people, don't sue me",
   authors: {
     name: "Motormary",
   },
   openGraph: {
     images: {
-      url: "/assets/images/logo.png",
+      url: logo.src,
       alt: "About us",
       type: "image/png",
       width: 1200,
