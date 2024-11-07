@@ -1,7 +1,4 @@
-import {
-  Activity,
-  ChevronRight, Users
-} from "lucide-react"
+import { Activity, ChevronRight, Users } from "lucide-react"
 
 import {
   Sidebar,
@@ -19,7 +16,6 @@ import {
   SidebarMenuSubItem,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import Link from "next/link"
 import SidebarProfile from "./sidebar/user-menu"
 import { ModeToggle } from "./mode-toggler"
 import MobileTrigger from "./sidebar/button"
@@ -33,6 +29,7 @@ import {
 import { Profile } from "@/src/actions/profile/types"
 import { UserData } from "@/src/actions/auth/types"
 import { Fragment } from "react"
+import Link from "next/link"
 
 const items = [
   {
@@ -131,10 +128,14 @@ function CollapsibleMenu({
     <Collapsible defaultOpen className="group/collapsible">
       <SidebarMenuItem>
         <CollapsibleTrigger asChild>
-          <SidebarMenuButton tooltip={item.title}>
-            {item.icon ? <item.icon /> : null}
+          <SidebarMenuButton className="relative" tooltip={item.title}>
+            <Link
+              className="absolute hidden group-data-[collapsible=icon]:inset-0 group-data-[collapsible=icon]:block"
+              href="/profile"
+            ></Link>
+            <item.icon />
             <span>{item.title}</span>
-          <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+            <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
           </SidebarMenuButton>
         </CollapsibleTrigger>
         <CollapsibleContent>
@@ -143,18 +144,20 @@ function CollapsibleMenu({
               return (
                 <Fragment key={sub.title}>
                   <SidebarMenuSubItem>
-                    <SidebarMenuSubButton asChild>
-                      <Link className="flex justify-between" href={url(sub)}>
-                        {sub.title}
-                        <span className="text-xs text-muted-foreground">
-                          {sub.title === "Following"
-                            ? profile._count.following
-                            : sub.title === "Followers"
-                              ? profile._count.followers
-                              : ""}
-                        </span>
-                      </Link>
-                    </SidebarMenuSubButton>
+                    <MobileTrigger>
+                      <SidebarMenuSubButton asChild>
+                        <Link className="flex justify-between" href={url(sub)}>
+                          {sub.title}
+                          <span className="text-xs text-muted-foreground">
+                            {sub.title === "Following"
+                              ? profile._count.following
+                              : sub.title === "Followers"
+                                ? profile._count.followers
+                                : ""}
+                          </span>
+                        </Link>
+                      </SidebarMenuSubButton>
+                    </MobileTrigger>
                   </SidebarMenuSubItem>
                   <SidebarMenuBadge></SidebarMenuBadge>
                 </Fragment>

@@ -35,7 +35,7 @@ export default async function SidebarProfile() {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-muted-foreground"
             >
               <div className="flex items-center gap-2 py-1.5 text-left text-sm">
                 <Avatar className="size-8">
