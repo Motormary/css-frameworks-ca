@@ -38,7 +38,7 @@ export function LoadingProfileCard() {
 
 export default function Loading() {
   return (
-    <div className="container mx-4 flex w-full gap-4 max-lg:flex-col">
+    <div className="container mx-auto mt-[7rem] flex w-full gap-4 px-4 max-lg:flex-col">
       <Card className="flex h-fit flex-col items-center border-none max-sm:shadow-none lg:w-fit">
         <CardHeader>
           <CardTitle>
