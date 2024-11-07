@@ -93,9 +93,12 @@ export default async function Post({
           {post.body ? post.body : null}
         </CardDescription>
         <div className="flex flex-wrap gap-2 pt-2">
-          {post.tags.map((tag, index) => (
+          {post.tags.map((tag, index) => {
+            if (!tag) return null
+            return (
             <Pill key={tag + index + post.id}>{tag}</Pill>
-          ))}
+            )
+          })}
         </div>
         <span className="text-right text-xs text-muted-foreground">
           {post.updated !== post.created ? "Updated: " : ""}
