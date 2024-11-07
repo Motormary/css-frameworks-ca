@@ -10,6 +10,7 @@ import UserPosts from "@/components/profile/user-posts"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { UserCard } from "@/components/profile/following-list"
 import Img from "@/components/post/image"
+import Link from "next/link"
 
 type Params = Promise<{ name: string }>
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
@@ -22,6 +23,7 @@ export default async function ProfilePage(props: {
   if (!auth) redirect("/")
 
   const params = await props.params
+  const { tab = "posts" } = await props.searchParams
   const name = params.name
   const profile = await getProfile(params.name)
 
@@ -44,11 +46,17 @@ export default async function ProfilePage(props: {
           className="max-lg:hidden"
         />
         <div className="flex h-fit w-full flex-col gap-4">
-          <Tabs defaultValue="posts">
+          <Tabs value={tab.toString()}>
             <TabsList>
-              <TabsTrigger value="posts">Posts</TabsTrigger>
-              <TabsTrigger value="following">Following</TabsTrigger>
-              <TabsTrigger value="followers">Followers</TabsTrigger>
+              <TabsTrigger value="posts">
+              <Link href={`?tab=posts`}>Posts</Link>
+              </TabsTrigger>
+              <TabsTrigger value="following" asChild>
+                <Link href={`?tab=following`}>Following</Link>
+              </TabsTrigger>
+              <TabsTrigger value="followers">
+              <Link href={`?tab=followers`}>Followers</Link>
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="posts">
               <Suspense fallback={<PostSkeleton />}>
