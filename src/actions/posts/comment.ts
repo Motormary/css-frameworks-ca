@@ -7,6 +7,7 @@ import { commentSchema } from "@/components/post/comment"
 import { CommentType } from "../types"
 import { ErrorMessage } from "../auth/types"
 import { translateErrors } from "@/lib/api-error"
+import { revalidateTag } from "next/cache"
 
 export default async function commentOnPost({
   id,
@@ -25,6 +26,7 @@ export default async function commentOnPost({
   }
 
   const response = await superFetch(request)
+
 
   if (response?.data.errors) {
     throw new Error(

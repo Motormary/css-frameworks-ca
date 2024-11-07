@@ -1,7 +1,9 @@
+"use server"
 import { API_SOCIAL_PROFILES, apiPath } from "@/lib/consts"
 import superFetch from "../fetch"
 import { Profile } from "./types"
 import { ErrorMessage } from "../auth/types"
+import { revalidateTag } from "next/cache"
 
 export async function followProfile(
   name: string,
@@ -13,6 +15,8 @@ export async function followProfile(
     url: url,
     method: method,
   }
+
+  revalidateTag("profile")
 
   const response = await superFetch(request)
   return response?.data

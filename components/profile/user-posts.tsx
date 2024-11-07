@@ -9,6 +9,7 @@ import Link from "next/link"
 import Img from "@/components/post/image"
 import PostDropdown from "@/components/post/post-dropdown-menu"
 import Pill from "@/components/profile/pill"
+import { format } from "date-fns"
 
 export default async function UserPosts({ params }: { params: string }) {
   const profile = await getProfile(params)
@@ -33,6 +34,9 @@ export default async function UserPosts({ params }: { params: string }) {
                     src={post.media?.url}
                     alt="Post Image"
                   />
+                  <span className="text-xs text-muted-foreground">
+                    {format(post.created, "P - p")}
+                  </span>
                 </div>
               ) : null}
               <div>

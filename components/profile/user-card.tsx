@@ -3,14 +3,7 @@
 import { Profile } from "@/src/actions/profile/types"
 import Link from "next/link"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
-import { LoaderIcon, User } from "lucide-react"
-import { Button } from "../ui/button"
-import { toast } from "sonner"
-import { useState } from "react"
-import { followProfile } from "@/src/actions/profile/follow"
-import { handleApiErrors, printErrors, translateErrors } from "@/lib/api-error"
-import { revalidatePath } from "next/cache"
-import { useRouter } from "next/navigation"
+import { User } from "lucide-react"
 import { FollowButton } from "./follow-button"
 
 export default function UserCard({

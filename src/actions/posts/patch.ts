@@ -1,9 +1,9 @@
 "use server"
-import { API_SOCIAL_POSTS, apiPath } from "@/lib/consts"
+import { API_SOCIAL_POSTS } from "@/lib/consts"
 import { PostType } from "./types"
 import superFetch from "../fetch"
 import { ErrorMessage, Fetch } from "../auth/types"
-import { revalidatePath } from "next/cache"
+import { revalidatePath, revalidateTag } from "next/cache"
 
 export default async function patchPost({
   id,
@@ -23,8 +23,11 @@ export default async function patchPost({
 
   const response = await superFetch(request)
 
-  if (response?.success) revalidatePath("/feed")
-    
+  if (response?.success) {
+    revalidatePath("/feed")
+    revalidateTag("profile")
+  }
+
   return {
     success: response?.success,
     data: response?.success ? response?.data : response?.data.errors,

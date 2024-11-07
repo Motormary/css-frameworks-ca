@@ -37,6 +37,7 @@ export default async function ProfileCard({ params }: { params: string }) {
           <DialogTrigger asChild>
             <Avatar className="h-full w-full bg-background sm:h-52 sm:w-52">
               <AvatarImage
+                className="object-cover"
                 src={
                   profile?.avatar?.url !== "" ? profile?.avatar?.url : "null"
                 }

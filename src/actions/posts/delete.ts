@@ -3,6 +3,7 @@
 import { API_SOCIAL_POSTS } from "@/lib/consts"
 import superFetch from "@/src/actions/fetch"
 import { PostType } from "./types"
+import { revalidateTag } from "next/cache"
 
 export async function deletePost(id: string | number) {
   const method = "DELETE"
@@ -12,5 +13,7 @@ export async function deletePost(id: string | number) {
     url: url,
   }
   await superFetch(request)
+  revalidateTag("profile")
+
 
 }

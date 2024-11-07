@@ -8,7 +8,8 @@ import { Suspense } from "react"
 import { LoadingProfileCard, PostSkeleton } from "./loading"
 import UserPosts from "@/components/profile/user-posts"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { FollowingList } from "@/components/profile/following-list"
+import { UserCard } from "@/components/profile/following-list"
+import Img from "@/components/post/image"
 
 type Params = Promise<{ name: string }>
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
@@ -27,37 +28,59 @@ export default async function ProfilePage(props: {
   if (!profile) return null
 
   return (
-    <div className="container mx-4 flex w-full gap-4 max-lg:flex-col">
-      <Suspense fallback={<LoadingProfileCard />}>
-        <ProfileCard params={name} />
-      </Suspense>
-      <Separator orientation="vertical" className="max-lg:hidden" />
-      <div className="flex h-fit w-full flex-col gap-4">
-        <Tabs defaultValue="posts">
-          <TabsList>
-            <TabsTrigger value="posts">Posts</TabsTrigger>
-            <TabsTrigger value="following">Following</TabsTrigger>
-            <TabsTrigger value="followers">Followers</TabsTrigger>
-          </TabsList>
-          <TabsContent value="posts">
-            <Suspense fallback={<PostSkeleton />}>
-              <UserPosts params={name} />
-            </Suspense>
-          </TabsContent>
-          <TabsContent value="following">
-            <div className="mx-auto px-2 py-8">
-              <h1 className="mb-6 text-2xl font-bold">Following</h1>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {profile.following.map((follower) => (
-                  <FollowingList key={follower.name} follower={follower} />
-                ))}
+    <div className="flex w-full flex-col">
+      <img
+        src={profile.banner.url}
+        alt={profile.banner.alt}
+        className="max-h-32 w-full -translate-y-4 object-cover"
+      />
+      <div className="container mx-auto flex w-full gap-4 px-4 max-lg:flex-col">
+        <Suspense fallback={<LoadingProfileCard />}>
+          <ProfileCard params={name} />
+        </Suspense>
+        <Separator
+          decorative
+          orientation="vertical"
+          className="max-lg:hidden"
+        />
+        <div className="flex h-fit w-full flex-col gap-4">
+          <Tabs defaultValue="posts">
+            <TabsList>
+              <TabsTrigger value="posts">Posts</TabsTrigger>
+              <TabsTrigger value="following">Following</TabsTrigger>
+              <TabsTrigger value="followers">Followers</TabsTrigger>
+            </TabsList>
+            <TabsContent value="posts">
+              <Suspense fallback={<PostSkeleton />}>
+                <UserPosts params={name} />
+              </Suspense>
+            </TabsContent>
+            <TabsContent value="following">
+              <div className="mx-auto px-2 py-8">
+                <h1 className="mb-6 text-2xl font-bold">Following</h1>
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {profile.following.map((follower) => (
+                    <Suspense key={follower.name}>
+                      <UserCard user={follower} />
+                    </Suspense>
+                  ))}
+                </div>
               </div>
-            </div>
-          </TabsContent>
-          <TabsContent value="followers">
-            Followers
-          </TabsContent>
-        </Tabs>
+            </TabsContent>
+            <TabsContent value="followers">
+              <div className="mx-auto px-2 py-8">
+                <h1 className="mb-6 text-2xl font-bold">Followers</h1>
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {profile.followers.map((follower) => (
+                    <Suspense key={follower.name}>
+                      <UserCard user={follower} />
+                    </Suspense>
+                  ))}
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
     </div>
   )
