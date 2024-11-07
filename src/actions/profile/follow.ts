@@ -1,5 +1,5 @@
 "use server"
-import { API_SOCIAL_PROFILES, apiPath } from "@/lib/consts"
+import { API_SOCIAL_PROFILES } from "@/lib/consts"
 import superFetch from "../fetch"
 import { Profile } from "./types"
 import { ErrorMessage } from "../auth/types"

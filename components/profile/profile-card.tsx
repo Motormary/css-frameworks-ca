@@ -19,12 +19,17 @@ import { User } from "lucide-react"
 import { cookies } from "next/headers"
 import { getProfile } from "../../src/actions/profile/get-profile"
 import Pill from "@/components/profile/pill"
+import { FollowButton } from "./follow-button"
 
 export default async function ProfileCard({ params }: { params: string }) {
   const cookie = await cookies()
-  const userCookie = JSON.parse(cookie.get("profile")?.value as string)
-  const isUser = userCookie.name.toLowerCase() === params.toLowerCase()
+  const localUser = JSON.parse(cookie.get("profile")?.value as string)
+  const isUser = localUser.name.toLowerCase() === params.toLowerCase()
+  const currentUserProfile = await getProfile(localUser.name)
   const profile = await getProfile(params)
+  const isFollowing = currentUserProfile.following.some(
+    (followee) => followee.name === profile.name,
+  )
 
   if (!profile) return null
   return (
@@ -71,9 +76,7 @@ export default async function ProfileCard({ params }: { params: string }) {
           <Pill>Posts: {profile.posts.length}</Pill>
         </div>
         {!isUser ? (
-          <Button variant="outline" className="flex w-full rounded-full">
-            Follow
-          </Button>
+          <FollowButton profile={profile} following={isFollowing} />
         ) : null}
       </CardFooter>
     </Card>

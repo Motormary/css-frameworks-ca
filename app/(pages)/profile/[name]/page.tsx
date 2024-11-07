@@ -5,11 +5,10 @@ import { redirect } from "next/navigation"
 import { Separator } from "@/components/ui/separator"
 import ProfileCard from "@/components/profile/profile-card"
 import { Suspense } from "react"
-import { LoadingProfileCard, PostSkeleton } from "./loading"
+import { LoadingProfileCard, PostSkeleton, UserCardSkeleton } from "./loading"
 import UserPosts from "@/components/profile/user-posts"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { UserCard } from "@/components/profile/following-list"
-import Img from "@/components/post/image"
 import Link from "next/link"
 
 type Params = Promise<{ name: string }>
@@ -48,13 +47,13 @@ export default async function ProfilePage(props: {
         <div className="flex h-fit w-full flex-col gap-4">
           <Tabs value={tab.toString()}>
             <TabsList>
-              <TabsTrigger value="posts">
+              <TabsTrigger value="posts" asChild>
               <Link href={`?tab=posts`}>Posts</Link>
               </TabsTrigger>
               <TabsTrigger value="following" asChild>
                 <Link href={`?tab=following`}>Following</Link>
               </TabsTrigger>
-              <TabsTrigger value="followers">
+              <TabsTrigger value="followers" asChild>
               <Link href={`?tab=followers`}>Followers</Link>
               </TabsTrigger>
             </TabsList>
@@ -67,11 +66,11 @@ export default async function ProfilePage(props: {
               <div className="mx-auto px-2 py-8">
                 <h1 className="mb-6 text-2xl font-bold">Following</h1>
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  <Suspense fallback={<UserCardSkeleton />} >
                   {profile.following.map((follower) => (
-                    <Suspense key={follower.name}>
-                      <UserCard user={follower} />
+                      <UserCard key={follower.name} user={follower} />
+                    ))}
                     </Suspense>
-                  ))}
                 </div>
               </div>
             </TabsContent>
@@ -79,11 +78,11 @@ export default async function ProfilePage(props: {
               <div className="mx-auto px-2 py-8">
                 <h1 className="mb-6 text-2xl font-bold">Followers</h1>
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  <Suspense fallback={<UserCardSkeleton />} >
                   {profile.followers.map((follower) => (
-                    <Suspense key={follower.name}>
-                      <UserCard user={follower} />
+                      <UserCard key={follower.name} user={follower} />
+                    ))}
                     </Suspense>
-                  ))}
                 </div>
               </div>
             </TabsContent>

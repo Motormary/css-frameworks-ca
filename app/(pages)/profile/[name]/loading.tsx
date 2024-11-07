@@ -1,66 +1,32 @@
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import { User } from "lucide-react"
 
-export function LoadingProfileCard() {
-  return (
-    <Card className="flex h-fit flex-col items-center border-none max-sm:shadow-none lg:w-fit">
-      <CardHeader>
-        <CardTitle>
-          <Skeleton className="h-6 w-40" />
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="relative h-[80vw] w-[80vw] overflow-hidden rounded-full sm:h-52 sm:w-52">
-          <div className="flex h-full w-full items-center justify-center bg-muted">
-            <User className="h-full w-full text-muted-foreground/30" />
-          </div>
-        </div>
-      </CardContent>
-      <CardFooter className="flex flex-col gap-6">
-        <div className="flex justify-center gap-2 text-nowrap max-md:flex-wrap">
-          <Skeleton className="h-6 w-[90px] rounded-full" />
-          <Skeleton className="h-6 w-[76px] rounded-full" />
-          <Skeleton className="h-6 w-[80px] rounded-full" />
-        </div>
-        <Skeleton className="h-10 w-full rounded-full" />
-      </CardFooter>
-    </Card>
-  )
-}
-
 export default function Loading() {
   return (
     <div className="container mx-auto mt-[7rem] flex w-full gap-4 px-4 max-lg:flex-col">
-      <Card className="flex h-fit flex-col items-center border-none max-sm:shadow-none lg:w-fit">
-        <CardHeader>
-          <CardTitle>
+      <div className="flex h-fit flex-col items-center rounded-lg border border-none bg-card text-card-foreground shadow-sm max-sm:shadow-none lg:w-fit">
+        <div className="flex flex-col space-y-1.5 p-6">
+          <div>
             <Skeleton className="h-6 w-40" />
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+          </div>
+        </div>
+        <div className="p-6 pt-0">
           <div className="relative h-[80vw] w-[80vw] overflow-hidden rounded-full sm:h-52 sm:w-52">
             <div className="flex h-full w-full items-center justify-center bg-muted">
               <User className="h-full w-full text-muted-foreground/30" />
             </div>
           </div>
-        </CardContent>
-        <CardFooter className="flex flex-col gap-6">
+        </div>
+        <div className="flex flex-col items-center gap-6 p-6 pt-0">
           <div className="flex justify-center gap-2 text-nowrap max-md:flex-wrap">
             <Skeleton className="h-6 w-[90px] rounded-full" />
             <Skeleton className="h-6 w-[76px] rounded-full" />
             <Skeleton className="h-6 w-[80px] rounded-full" />
           </div>
           <Skeleton className="h-10 w-full rounded-full" />
-        </CardFooter>
-      </Card>
+        </div>
+      </div>
 
       <Separator orientation="vertical" className="max-lg:hidden" />
 
@@ -78,10 +44,37 @@ export default function Loading() {
   )
 }
 
+export function LoadingProfileCard() {
+  return (
+    <div className="flex h-fit flex-col items-center rounded-lg border border-none bg-card text-card-foreground shadow-sm max-sm:shadow-none lg:w-fit">
+      <div className="flex flex-col space-y-1.5 p-6">
+        <div>
+          <Skeleton className="h-6 w-40" />
+        </div>
+      </div>
+      <div className="flex items-center p-6 pt-0">
+        <div className="relative h-[80vw] w-[80vw] overflow-hidden rounded-full sm:h-52 sm:w-52">
+          <div className="flex h-full w-full items-center justify-center bg-muted">
+            <User className="h-full w-full text-muted-foreground/30" />
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-col items-center gap-6 p-6 pt-0">
+        <div className="flex justify-center gap-2 text-nowrap max-md:flex-wrap">
+          <Skeleton className="h-6 w-[90px] rounded-full" />
+          <Skeleton className="h-6 w-[76px] rounded-full" />
+          <Skeleton className="h-6 w-[80px] rounded-full" />
+        </div>
+        <Skeleton className="h-10 w-full rounded-full" />
+      </div>
+    </div>
+  )
+}
+
 export function PostSkeleton() {
   return (
-    <Card className="relative border-none pt-5">
-      <CardContent className="flex gap-4 p-4 max-lg:flex-col">
+    <div className="relative rounded-lg border border-none bg-card pt-5 text-card-foreground shadow-sm">
+      <div className="flex gap-4 p-4 pt-0 max-lg:flex-col">
         <div className="h-24 min-w-48 lg:max-w-48">
           <Skeleton className="h-full w-full rounded-md" />
         </div>
@@ -94,7 +87,40 @@ export function PostSkeleton() {
           <Skeleton className="h-4 w-full" />
           <Skeleton className="mt-2 h-4 w-5/6" />
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
+  )
+}
+
+export function UserCardSkeleton() {
+  return (
+    <>
+      {[...Array(3)].map((_, index) => (
+        <div
+          key={index}
+          className="relative overflow-hidden rounded-lg border bg-card text-card-foreground shadow-sm"
+          aria-busy="true"
+          aria-live="polite"
+        >
+          <div className="flex flex-col space-y-1.5 p-0">
+            <div className="relative h-32">
+              <Skeleton className="h-full w-full" />
+              <Skeleton className="absolute bottom-0 left-4 h-20 w-20 translate-y-1/2 transform rounded-full border-4 border-background" />
+            </div>
+          </div>
+          <div className="p-6 pb-4 pt-12">
+            <div className="flex items-start justify-between">
+              <div className="w-full space-y-2">
+                <Skeleton className="h-6 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center p-6 pt-0">
+            <Skeleton className="h-8 w-full rounded-full" />
+          </div>
+        </div>
+      ))}
+    </>
   )
 }
