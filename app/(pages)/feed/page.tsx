@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -34,7 +35,11 @@ export default async function FeedPage(props: {
     <div className="flex max-w-[800px] flex-col gap-2 px-4 max-xl:w-full xl:w-2/4">
       <PostToolbar />
       <Suspense fallback={<LoadingPosts />}>
-        <PostList sortValue={sortValue} searchValue={searchValue} limitValue={limitValue}/>
+        <PostList
+          sortValue={sortValue}
+          searchValue={searchValue}
+          limitValue={limitValue}
+        />
       </Suspense>
     </div>
   )
@@ -48,24 +53,36 @@ function LoadingPosts() {
           <Fragment key={skelly}>
             <Separator />
             <Card className="relative max-w-[800px] border-none">
-              <CardHeader>
+              <CardHeader className="pb-1">
                 <CardTitle className="relative flex items-center justify-between">
                   <Skeleton className="h-6 w-32" />
-                  <div className="relative inset-0 z-50 flex items-center gap-2 rounded-full border bg-background p-2 px-3 text-base font-normal">
+                  <div className="relative flex items-center gap-2 rounded-full bg-background p-2 px-3 pb-0">
                     <Skeleton className="size-6 rounded-full" />
                     <Skeleton className="h-4 w-16" />
                   </div>
                 </CardTitle>
+                <div>
+                  <Skeleton className="h-4 w-52" />
+                </div>
+                <div className="flex gap-2 pt-2">
+                  <Skeleton className="h-5 w-12 rounded-full" />
+                  <Skeleton className="h-5 w-12 rounded-full" />
+                  <Skeleton className="h-5 w-12 rounded-full" />
+                </div>
+                <div className="flex justify-end">
+                  <Skeleton className="h-3 w-28" />
+                </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pb-4">
                 <AspectRatio ratio={16 / 9}>
-                  <Skeleton className="mt-1.5 h-full w-full rounded-md border border-muted object-cover" />
+                  <Skeleton className=" h-full w-full rounded-md border border-muted object-cover" />
                 </AspectRatio>
               </CardContent>
               <CardFooter className="flex flex-wrap gap-2">
                 <Button
                   variant="outline"
-                  className="relative mt-1.5 rounded-full">
+                  className="relative rounded-full"
+                >
                   <MessageCircle />0
                 </Button>
               </CardFooter>
