@@ -126,7 +126,7 @@ export default async function Post({
           <div className="flex h-max w-full flex-wrap gap-2 overflow-y-auto py-2 max-md:max-h-[200px]">
             <Button
               variant="outline"
-              className="relative z-50 w-[69.2px] rounded-full hover:bg-primary-foreground hover:shadow-md"
+              className="relative z-50 h-fit border-none p-2 leading-none hover:bg-primary-foreground hover:shadow-md"
               asChild
             >
               <Link href={`/feed/${post.id}?comment=true`}>

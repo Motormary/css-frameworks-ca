@@ -81,7 +81,7 @@ function LoadingPosts() {
               <CardFooter className="flex flex-wrap gap-2">
                 <Button
                   variant="outline"
-                  className="relative rounded-full"
+                  className="relative h-fit p-2 leading-none"
                 >
                   <MessageCircle />0
                 </Button>
