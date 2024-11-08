@@ -4,14 +4,20 @@ export type PostType = {
   title: string
   body: string
   tags: string[]
-  media: string
+  media: {
+    url?: string
+    alt?: string
+  }
   created: string // ISO date string
   updated: string // ISO date string
   author: {
     name: string
     email: string
     bio: string
-    avatar: string
+    avatar: {
+      url?: string
+      alt?: string
+    }
     banner: {
       url: string
       alt: string

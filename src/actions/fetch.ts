@@ -3,6 +3,7 @@
 import { cookies } from "next/headers"
 import { translateErrors } from "@/lib/api-error"
 import { CacheOptions } from "./types"
+import { API_KEY } from "@/lib/consts"
 
 /**
  * A helper function for making server-side API calls with headers, token handling,
@@ -14,8 +15,6 @@ import { CacheOptions } from "./types"
  * @param disableCache - Flag to disable caching (default: true)
  * @param revalidate - Optional number of seconds to revalidate the cache
  * @param tags - Optional array of cache tags for targeted invalidation
- *
- * @returns A promise of type `SuperFetch<T>` containing the response data
  *
  */
 export default async function superFetch({
@@ -43,6 +42,7 @@ export default async function superFetch({
     // Add accessToken to headers from cookies
     const token = cookie.get("token")
     headers.append("Authorization", `Bearer ${token?.value as string}`)
+    headers.append("X-Noroff-API-Key", API_KEY)
   }
 
   /* Initial a next request */
@@ -67,11 +67,14 @@ export default async function superFetch({
 
   try {
     const response = await fetch(url, requestOptions)
+
+    if (method === "DELETE") return
     if (response.ok) {
       const data = await response.json()
       responseData = {
         success: true,
-        data: data,
+        data: data.data,
+        meta: data.meta
       }
     } else {
       const data = await response.json()
@@ -83,6 +86,7 @@ export default async function superFetch({
       responseData = {
         success: false,
         data: data,
+        meta: data.meta
       }
     }
   } catch (e) {

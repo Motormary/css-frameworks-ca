@@ -22,6 +22,7 @@ import { useState } from "react"
 import { handleApiErrors, printErrors, translateErrors } from "@/lib/api-error"
 import { redirect } from "next/navigation"
 import { Textarea } from "../ui/textarea"
+import patchPost from "@/src/actions/posts/patch"
 
 type postFormProps = {
   post?: PostType
@@ -37,12 +38,14 @@ const FormSchema = z.object({
   }),
   body: z.string().optional(),
   tags: z.array(z.string()).optional(),
-  media: z
-    .string()
-    .optional()
-    .refine((value) => !value || z.string().url().safeParse(value).success, {
-      message: "Invalid URL format",
-    }),
+  media: z.object({
+    url: z
+      .string()
+      .refine((value) => !value || z.string().url().safeParse(value).success, {
+        message: "Invalid URL format",
+      }),
+    alt: z.string().optional(),
+  }),
 })
 
 export function PostForm(props: postFormProps) {
@@ -55,21 +58,32 @@ export function PostForm(props: postFormProps) {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     props.setIsLoading(true)
-    const response = await createPost(data)
+    let response
+    if (props.post) {
+      const request = {
+        id: props.post.id,
+        data: data,
+      }
+      response = await patchPost(request)
+    } else {
+      response = await createPost(data)
+    }
     if (response.success) {
+      props.setIsLoading(false)
       props.setOpen(false)
       redirect(`/feed/${response.data.id}`)
     } else {
+      props.setIsLoading(false)
       handleApiErrors(response.data, form)
     }
-    props.setIsLoading(false)
   }
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={cn("", props.className)}>
+        className={cn("space-y-4", props.className)}
+      >
         <FormField
           control={form.control}
           name="title"
@@ -77,7 +91,7 @@ export function PostForm(props: postFormProps) {
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input placeholder="Hello there" {...field} />
+                <Input placeholder="Title" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -98,7 +112,7 @@ export function PostForm(props: postFormProps) {
         />
         <FormField
           control={form.control}
-          name="media"
+          name="media.url"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Media URL</FormLabel>

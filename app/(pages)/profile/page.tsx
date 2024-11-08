@@ -1,35 +1,29 @@
-/* eslint-disable @next/next/no-img-element */
 import checkUser from "@/src/actions/auth/check-cookie"
 import { getAllProfiles } from "@/src/actions/profile/get-all-profiles"
-import Link from "next/link"
 import { redirect } from "next/navigation"
-import avatar from "assets/images/avatar.jpg"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { User } from "lucide-react"
+import UserCard from "@/components/profile/user-card"
+import { cookies } from "next/headers"
+import { Profile } from "@/src/actions/profile/types"
 
 export default async function ProfilesPage() {
   const auth = await checkUser()
   if (!auth) redirect("/")
 
-  const profiles = await getAllProfiles()
+  const cookie = await cookies()
+  const currentUserProfile = JSON.parse(cookie.get("profile")?.value as string)
+  const profiles = await getAllProfiles({ followers: true })
+
   return (
-    <ol className="space-y-1">
+    <ol className="container grid h-fit grid-cols-1 gap-4 p-4 md:grid-cols-[repeat(auto-fit,minmax(270px,1fr))] lg:grid-cols-2">
       {profiles.map((profile, index) => {
         return (
-          <li key={profile.name}>
-            <Link href={`/profile/${profile.name}`}>{profile.name}</Link>
-            <Avatar>
-              <AvatarImage
-                src={profile.avatar !== "" ? profile.avatar : "null"}
-                alt="Avatar"
-              />
-              <AvatarFallback>
-                <User />
-              </AvatarFallback>
-            </Avatar>
-            <span>{profile._count.followers}</span>
-            <span>{profile._count.posts}</span>
-          </li>
+          <UserCard
+            following={profile.followers.some(
+              (follower) => follower.name === currentUserProfile.name,
+            )}
+            key={profile.name}
+            profile={profile}
+          />
         )
       })}
     </ol>

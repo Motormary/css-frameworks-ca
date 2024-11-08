@@ -2,15 +2,15 @@ import type { Metadata } from "next"
 import localFont from "next/font/local"
 import "./globals.css"
 import { Toaster } from "sonner"
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-siderbar"
 import { Separator } from "@/components/ui/separator"
 import Breadcrumbs from "@/components/breadcrumbs"
-import favicon from "../assets/images/logo.png"
+import { ThemeProvider } from "@/components/theme-provider"
+import SearchPosts from "@/components/post/search"
+import { cookies } from "next/headers"
+import { cn } from "@/lib/utils"
+import logo from "assets/images/logo.png"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -24,35 +24,73 @@ const geistMono = localFont({
 })
 
 export const metadata: Metadata = {
-  title: "Y",
-  description: "Media for the people",
+  title: "Y not X",
+  description: "Media for the people, don't sue me",
+  authors: {
+    name: "Motormary",
+  },
+  openGraph: {
+    images: {
+      url: logo.src,
+      alt: "About us",
+      type: "image/png",
+      width: 1200,
+      height: 630
+    }
+  }
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const cookieStore = await cookies()
+  const isAuth = cookieStore.has("token")
+  const defaultOpen = cookieStore.get("sidebar:state")?.value === "true"
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <SidebarProvider>
-          <AppSidebar />
-          <main className="w-full">
-            <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-              <div className="flex items-center gap-2 px-4">
-                <SidebarTrigger className="-ml-1" />
-                <Separator orientation="vertical" className="mr-2 h-4" />
-                <Breadcrumbs />
+        className={`${geistSans.variable} ${geistMono.variable} max-h-svh antialiased`}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SidebarProvider
+            className="max-w-screen overflow-hidden"
+            defaultOpen={defaultOpen}
+          >
+            {isAuth ? <AppSidebar /> : null}
+            <main className="w-full">
+              {isAuth ? (
+                <header className="relative flex h-14 shrink-0 items-center justify-center gap-2 border-b px-1 transition-[width,height] ease-linear max-[400px]:pr-4">
+                  <div className="left-2 flex items-center gap-2 px-4 min-[400px]:absolute">
+                    <SidebarTrigger className="-ml-1" />
+                    <Separator
+                      orientation="vertical"
+                      className="mr-2 h-4 max-xl:hidden"
+                    />
+                    <Breadcrumbs />
+                  </div>
+                  <SearchPosts className="z-20" />
+                </header>
+              ) : null}
+              <div
+                className={cn(
+                  isAuth ? "h-[calc(100svh-64px)]" : "h-svh",
+                  "flex justify-center overflow-y-auto overflow-x-hidden pb-20 pt-4",
+                )}
+              >
+                {children}
               </div>
-            </header>
-            <div className="flex flex-1 flex-col gap-4 p-4 pt-0"> {/* // TODO: Make scrollable etc */}
-              {children}
-            </div>
-          </main>
-        </SidebarProvider>
-        <Toaster richColors />
+            </main>
+          </SidebarProvider>
+          <Toaster richColors />
+        </ThemeProvider>
       </body>
     </html>
   )

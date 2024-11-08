@@ -13,6 +13,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,10 +27,12 @@ import { printErrors, translateErrors } from "@/lib/api-error"
 import { ErrorMessage } from "@/src/actions/auth/types"
 import { useRouter } from "next/navigation"
 import { Login } from "@/src/actions/auth/auth"
+import { authCardStyle } from "./styles"
+import { cn } from "@/lib/utils"
 
 const FormSchema = z.object({
-  email: z.string().refine((val) => val.includes("@stud.noroff.no"), {
-    message: "Email must be a valid Noroff email.",
+  email: z.string().refine((val) => val.includes("@stud.noroff.no") || val.includes("@noroff.no"), {
+    message: "Email must be a valid Noroff email",
   }),
   password: z.string().min(8, {
     message: "Password must be at least 8 characters.",
@@ -38,8 +41,11 @@ const FormSchema = z.object({
 
 export default function LoginCard({
   setState,
+  state,
 }: {
   setState: (state: boolean) => void
+  state: string | undefined
+  className?: string | undefined
 }) {
   const router = useRouter()
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -67,35 +73,32 @@ export default function LoginCard({
       })
     }
   }
+
   return (
-    <Card>
+    <Card className={cn(authCardStyle.card, state)}>
       <CardHeader>
-        <CardTitle>
+        <CardTitle className={authCardStyle.title}>
           Log in <Image src={logo} alt="Logo" height="50" />
         </CardTitle>
-        <CardDescription>
-          <Button
-          variant="link"
-            onClick={(e) => {
-              e.preventDefault()
-              setState(false)
-            }}>
-            Register
-          </Button>
-        </CardDescription>
       </CardHeader>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <CardContent>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className={authCardStyle.form}
+        >
+          <CardContent className="space-y-4">
             <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>email</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Kari Traa" {...field} />
+                    <Input placeholder="karitraa@stud.noroff.no" {...field} />
                   </FormControl>
+                  <FormDescription className="text-xs">
+                    Email is case sensitive
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -114,8 +117,22 @@ export default function LoginCard({
               )}
             />
           </CardContent>
-          <CardFooter>
-            <Button type="submit">Submit</Button>
+          <CardFooter className="flex flex-col gap-4">
+            <Button className="flex w-full" type="submit">
+              Submit
+            </Button>
+            <CardDescription>
+              Not registered yet?{" "}
+              <span
+                className="cursor-pointer underline underline-offset-4 hover:text-primary"
+                onClick={(e) => {
+                  e.preventDefault()
+                  setState(false)
+                }}
+              >
+                Sign up!
+              </span>
+            </CardDescription>
           </CardFooter>
         </form>
       </Form>

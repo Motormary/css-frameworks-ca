@@ -1,46 +1,47 @@
 "use client"
 
-import Form from "next/form"
-import { useState } from "react"
-import SearchPosts from "./search"
-import { Button } from "../ui/button"
-import { SearchIcon } from "lucide-react"
-import { useRouter } from "next/navigation"
-import SortPosts from "./sort"
+import { useCallback } from "react"
+import { usePathname, useSearchParams } from "next/navigation"
 import { PostDialog } from "./create-post-dialog"
+import Link from "next/link"
+import { cn } from "@/lib/utils"
+import { DialogTrigger } from "../ui/dialog"
+import { Button } from "../ui/button"
 
-type props = {
-  defaultSort?: string
-  defaultSearch?: string
-}
+export default function PostToolbar() {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const sortedBy = searchParams.get("sortOrder") ?? "desc"
 
-export default function PostToolbar(props: props) {
-  const [sort, setSort] = useState<string | undefined>(props.defaultSort)
-  const [search, setSearch] = useState<string | undefined>(props.defaultSearch)
-  const router = useRouter()
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set(name, value)
 
-  function resetFilters() {
-    setSort("")
-    setSearch("")
-    router.push("/feed")
-  }
+      return params.toString()
+    },
+    [searchParams]
+  )
 
   return (
-    <div>
-
-    <Form action="/feed">
-      <SearchPosts value={search} setValue={setSearch} />
-      <SortPosts value={sort} setValue={setSort} />
-      <Button type="submit">
-        <SearchIcon />
-      </Button>
-      {sort || search ? (
-        <Button type="reset" onClick={resetFilters}>
-          Reset filters
-        </Button>
-      ) : null}
-    </Form>
-    <PostDialog />
+    <div className="flex items-center justify-between gap-4">
+      <div className="space-x-4">
+        <Link
+          className={cn(sortedBy === "desc" && "underline", "text-sm underline-offset-2")}
+          href={pathname + "?" + createQueryString("sortOrder", "desc")}>
+          Newest
+        </Link>
+        <Link
+          className={cn(sortedBy === "asc" && "underline", "text-sm underline-offset-2")}
+          href={pathname + "?" + createQueryString("sortOrder", "asc")}>
+          Oldest
+        </Link>
+      </div>
+      <PostDialog>
+        <DialogTrigger asChild>
+          <Button variant="outline">Create post</Button>
+        </DialogTrigger>
+      </PostDialog>
     </div>
   )
 }
