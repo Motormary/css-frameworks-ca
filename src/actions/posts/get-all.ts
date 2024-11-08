@@ -3,13 +3,14 @@
 import { API_SOCIAL_POSTS, apiPath } from "@/lib/consts"
 import superFetch from "@/src/actions/fetch"
 import { PostType } from "./types"
+import { ErrorMessage } from "../auth/types"
 
 export async function getPosts({
   limit = 20,
   offset = 0,
   query,
   page = 1,
-  sort = "desc"
+  sort = "desc",
 }: {
   limit?: number
   offset?: number
@@ -17,7 +18,7 @@ export async function getPosts({
   page?: number
   sort?: string
 }): Promise<{
-  data: PostType[],
+  data: PostType[] & { errors: ErrorMessage[] }
   meta: any
 }> {
   const method = "GET"
@@ -28,12 +29,8 @@ export async function getPosts({
   }
   const response = await superFetch(request)
 
-  if (response?.success) {
-    return {
-      data: response?.data,
-      meta: response?.meta,
-    }
+  return {
+    data: response?.data,
+    meta: response?.meta,
   }
-
-  throw new Error(response?.data.status)
 }

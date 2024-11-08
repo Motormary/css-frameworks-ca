@@ -26,7 +26,7 @@ export default function EmojiMenu({ id }: { id: number }) {
           variant="outline"
           className="relative z-50 mt-2 h-fit shrink-0 border-none p-2 leading-none"
         >
-          <span className="absolute right-1 top-2 -translate-y-1/2 translate-x-1/2">
+          <span className="absolute right-2 top-2 -translate-y-1/2 translate-x-1/2">
             +
           </span>
           🙂

@@ -3,6 +3,8 @@ import sortPostByDate from "@/src/functions/posts/sort-by-date"
 import { Separator } from "../ui/separator"
 import Post from "./post"
 import BottomDweller from "./bottom-dweller"
+import { printErrors, translateErrors } from "@/lib/api-error"
+import { redirect, RedirectType } from "next/navigation"
 
 export default async function PostList({
   searchValue,
@@ -21,6 +23,8 @@ export default async function PostList({
     page: pageValue ? Number(pageValue) : 1,
     sort: sortValue ? sortValue : "desc",
   })
+
+  if (posts?.data?.errors) throw new Error(posts.data.errors[0].message)
 
   return (
     <>
