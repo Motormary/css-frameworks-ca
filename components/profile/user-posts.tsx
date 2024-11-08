@@ -20,13 +20,13 @@ export default async function UserPosts({ params }: { params: string }) {
         profile.posts.map((post) => (
           <Card
             key={post.id}
-            className="group relative border-none pt-5 hover:bg-muted/80"
+            className="group relative border-none pt-5 hover:bg-muted/80 max-md:w-full"
           >
             <Link
               href={`/feed/${post.id}`}
               className="absolute inset-0 z-10 cursor-default"
             ></Link>
-            <CardContent className="flex gap-4 p-4 max-lg:flex-col">
+            <CardContent className="p-4">
               {post.media?.url ? (
                 <div className="h-full min-w-48 lg:max-w-48">
                   <Img
@@ -34,20 +34,12 @@ export default async function UserPosts({ params }: { params: string }) {
                     src={post.media?.url}
                     alt="Post Image"
                   />
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-xs text-muted-foreground group-hover:visible group-hover:opacity-100 lg:opacity-0">
                     {format(post.created, "P - p")}
                   </span>
                 </div>
               ) : null}
-              <div>
-                <CardTitle>{post.title}</CardTitle>
-                <div className="my-2 flex flex-wrap gap-2">
-                  {post.tags.map((tag, index) => (
-                    <Pill key={tag + index + post.id}>{tag}</Pill>
-                  ))}
-                </div>
-                <CardDescription>{post.body}</CardDescription>
-              </div>
+
               <div className="absolute right-[10px] top-[10px] z-20">
                 <PostDropdown
                   className="group-hover:visible group-hover:opacity-100 lg:opacity-0"

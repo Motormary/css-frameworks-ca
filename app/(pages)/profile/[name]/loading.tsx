@@ -36,9 +36,12 @@ export default function Loading() {
           <Skeleton className="h-7 w-14" />
           <Skeleton className="h-7 w-14" />
         </div>
-        {[...Array(3)].map((_, index) => (
-          <PostSkeleton key={index} />
-        ))}
+        <Skeleton className="ml-3 h-8 w-24" />
+        <div className="m-4 mt-10 flex flex-wrap">
+          {[...Array(3)].map((_, index) => (
+            <PostSkeleton key={index} />
+          ))}
+        </div>
       </div>
     </div>
   )
@@ -73,19 +76,10 @@ export function LoadingProfileCard() {
 
 export function PostSkeleton() {
   return (
-    <div className="relative rounded-lg border border-none bg-card pt-5 text-card-foreground shadow-sm">
-      <div className="flex gap-4 p-4 pt-0 max-lg:flex-col">
-        <div className="h-24 min-w-48 lg:max-w-48">
+    <div className="relative items-center gap-4 rounded-lg border border-none bg-card pt-2 text-card-foreground shadow-sm max-md:w-full">
+      <div className="flex gap-4 p-4 pt-0">
+        <div className="aspect-square h-28 w-full min-w-48 lg:max-w-48">
           <Skeleton className="h-full w-full rounded-md" />
-        </div>
-        <div className="w-full">
-          <Skeleton className="mb-2 h-6 w-3/4" />
-          <div className="my-2 flex flex-wrap gap-2">
-            <Skeleton className="h-6 w-16 rounded-full" />
-            <Skeleton className="h-6 w-16 rounded-full" />
-          </div>
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="mt-2 h-4 w-5/6" />
         </div>
       </div>
     </div>

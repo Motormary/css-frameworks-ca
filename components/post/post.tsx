@@ -63,7 +63,9 @@ export default async function Post({
       )}
       <CardHeader className="pb-1">
         <CardTitle className="relative flex items-start justify-between gap-4 max-md:flex-wrap-reverse">
-          <span className="text-pretty">{post.title}</span>
+          <span className="overflow-hidden text-pretty break-words">
+            {post.title}
+          </span>
           <Link
             className="group relative inset-0 z-50 flex items-center gap-2 rounded-full text-base"
             href={`/profile/${name}`}
@@ -81,13 +83,13 @@ export default async function Post({
                 <User />
               </AvatarFallback>
             </Avatar>
-            <span>{name}</span>
+            <span className="text-nowrap">{name}</span>
           </Link>
         </CardTitle>
         <CardDescription
           className={cn(
             !viewing && "overflow-hidden truncate text-nowrap",
-            "text-muted-foreground",
+            "overflow-hidden text-pretty break-words text-muted-foreground",
           )}
         >
           {post.body ? post.body : null}
@@ -95,9 +97,7 @@ export default async function Post({
         <div className="flex flex-wrap gap-2 pt-2">
           {post.tags.map((tag, index) => {
             if (!tag) return null
-            return (
-            <Pill key={tag + index + post.id}>{tag}</Pill>
-            )
+            return <Pill key={tag + index + post.id}>{tag}</Pill>
           })}
         </div>
         <span className="text-right text-xs text-muted-foreground">
