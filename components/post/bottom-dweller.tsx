@@ -53,8 +53,9 @@ export default function BottomDweller({
     [searchParams],
   )
 
-  // TODO: Fix pagination
+  // todo: pagination, reset limit push to page=nextPage.
   useEffect(() => {
+    if (limit === 100) return
     if (isBottom && pagination.nextPage) {
       setLimit(limit + 10)
       router.push(
@@ -65,11 +66,16 @@ export default function BottomDweller({
       )
     }
   }, [isBottom])
-  
 
   return (
     <div ref={bottomRef} className="w-full">
-      <LoaderIcon className="m-auto animate-spin duration-2000" />
+      {limit < 100 ? (
+        <LoaderIcon className="m-auto animate-spin duration-2000" />
+      ) : (
+        <p className="animate-pulse text-center text-xl font-bold">
+          You have scrolled enough for today, go touch some grass 🟩
+        </p>
+      )}
     </div>
   )
 }
